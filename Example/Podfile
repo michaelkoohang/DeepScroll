@@ -1,0 +1,11 @@
+use_frameworks!
+
+target 'DeepScroll_Example' do
+  pod 'DeepScroll', :path => '../'
+
+  target 'DeepScroll_Tests' do
+    inherit! :search_paths
+
+    
+  end
+end
