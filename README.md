@@ -23,7 +23,7 @@ pod 'DeepScroll'
 
 ## Author
 
-parthv21, ptamane3@gatech.edu
+parthv21, ptamane3@gatech.edu <br/>
 mkoohang, koohang@gatech.edu
 ## License
 
