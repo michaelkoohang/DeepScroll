@@ -1,0 +1,6 @@
+framework module DeepScroll {
+  umbrella header "DeepScroll-umbrella.h"
+
+  export *
+  module * { export * }
+}

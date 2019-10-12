@@ -1,0 +1,6 @@
+framework module Pods_DeepScroll_Tests {
+  umbrella header "Pods-DeepScroll_Tests-umbrella.h"
+
+  export *
+  module * { export * }
+}

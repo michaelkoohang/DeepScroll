@@ -1,0 +1,16 @@
+PODS:
+  - DeepScroll (0.1.0)
+
+DEPENDENCIES:
+  - DeepScroll (from `../`)
+
+EXTERNAL SOURCES:
+  DeepScroll:
+    :path: ../
+
+SPEC CHECKSUMS:
+  DeepScroll: 484d272dfca20404a9fc403cc5ea1d5c4d3d4295
+
+PODFILE CHECKSUM: ffa1338bc2fc76af6f1a021110db6bc4fb31bdfb
+
+COCOAPODS: 1.4.0

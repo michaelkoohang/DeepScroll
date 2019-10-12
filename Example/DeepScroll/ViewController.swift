@@ -7,17 +7,26 @@
 //
 
 import UIKit
+import DeepScroll
 
 class ViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib.
+        view.backgroundColor = .white
+        
+        let laneScroller = LaneScroller(size: 100)
+        let dummyView = laneScroller.makeView()
+        dummyView.backgroundColor = .black
+        dummyView.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(dummyView)
+
+//        let tableView = laneScroller.makeTable()
+
     }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
     }
 
 }
