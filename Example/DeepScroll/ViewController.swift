@@ -12,7 +12,9 @@ import DeepScroll
 class ViewController: UIViewController {
 
     private var tableView: UITableView!
-    
+    private var dataSource = LanedScrollerDataSource()
+    private var delegate = LanedScrollerDelegate()
+
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
@@ -21,31 +23,46 @@ class ViewController: UIViewController {
     override func loadView() {
         super.loadView()
         addTableView()
-//        tableView.layoutIfNeeded()
     }
     
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(true)
-//        tableView.layoutIfNeeded()
-//        tableView.reloadData()
-    }
     
     func addTableView() {
-       let laneScroller = LaneScroller(size: UIScreen.main.bounds.size)
-        tableView = laneScroller.makeTable()
-        tableView.translatesAutoresizingMaskIntoConstraints = false
+
+        tableView = UITableView()
         view.addSubview(tableView)
-        tableView.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
-        tableView.leftAnchor.constraint(equalTo: view.leftAnchor).isActive = true
-        tableView.rightAnchor.constraint(equalTo: view.rightAnchor).isActive = true
-        tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
-        print("Content Size: ",tableView.contentSize)
-        print("Table View Size: ",tableView.bounds.size)
+        tableView.dataSource = dataSource
+        tableView.delegate = delegate
+        tableView.register(UITableViewCell.self, forCellReuseIdentifier: dataSource.cellId)
+        
+        tableView.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            tableView.topAnchor.constraint(equalTo: view.topAnchor, constant: 0),
+            tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: 0),
+            tableView.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 0),
+            tableView.rightAnchor.constraint(equalTo: view.rightAnchor, constant: 0)
+        ])
+        
     }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
     }
+}
 
+extension ViewController: UITableViewDelegate {
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        50
+    }
+}
+
+extension ViewController: UITableViewDataSource {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return 10
+    }
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "CellID", for: indexPath)
+        cell.textLabel!.text = "Cell"
+        return cell
+    }
 }
 
