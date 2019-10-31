@@ -16,6 +16,7 @@
 		6BAF31BA5F6F8B42F18F61E20FF69E92 /* Pods-DeepScroll_Example-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 202486B6E9467CD3253EDCFB9FAB47CF /* Pods-DeepScroll_Example-dummy.m */; };
 		78D825F1FA2661FCA6935953112B73E5 /* Pods-DeepScroll_Example-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 76BFC29D05C30FA642E980277C058496 /* Pods-DeepScroll_Example-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		AB93090C44A33494FE42AAA7140B7F38 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6604A7D69453B4569E4E4827FB9155A9 /* Foundation.framework */; };
+		B29DF4D6236B350B00F85E08 /* Enums.swift in Sources */ = {isa = PBXBuildFile; fileRef = B29DF4D5236B350B00F85E08 /* Enums.swift */; };
 		B2E5A84123514F5B0085CA69 /* DeepScroll.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2E5A84023514F5B0085CA69 /* DeepScroll.swift */; };
 /* End PBXBuildFile section */
 
@@ -51,6 +52,7 @@
 		90BD255E6FD6B941AD5592CA541F0956 /* Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		93A4A3777CF96A4AAC1D13BA6DCCEA73 /* Podfile */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; includeInIndex = 1; name = Podfile; path = ../Podfile; sourceTree = SOURCE_ROOT; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
 		942D4C05748897F34BE2321C3E7C42C9 /* README.md */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
+		B29DF4D5236B350B00F85E08 /* Enums.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Enums.swift; sourceTree = "<group>"; };
 		B2E5A83F23514F5B0085CA69 /* .gitkeep */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = .gitkeep; sourceTree = "<group>"; };
 		B2E5A84023514F5B0085CA69 /* DeepScroll.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DeepScroll.swift; sourceTree = "<group>"; };
 		B4135F3C1AB5C0630F3C970FA9DCE345 /* Pods-DeepScroll_Tests-acknowledgements.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-DeepScroll_Tests-acknowledgements.plist"; sourceTree = "<group>"; };
@@ -168,9 +170,18 @@
 			path = "Example/Pods/Target Support Files/DeepScroll";
 			sourceTree = "<group>";
 		};
+		B29DF4D4236B34F900F85E08 /* Constants */ = {
+			isa = PBXGroup;
+			children = (
+				B29DF4D5236B350B00F85E08 /* Enums.swift */,
+			);
+			path = Constants;
+			sourceTree = "<group>";
+		};
 		B2E5A83E23514F5B0085CA69 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				B29DF4D4236B34F900F85E08 /* Constants */,
 				B2E5A83F23514F5B0085CA69 /* .gitkeep */,
 				B2E5A84023514F5B0085CA69 /* DeepScroll.swift */,
 			);
@@ -364,6 +375,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				B2E5A84123514F5B0085CA69 /* DeepScroll.swift in Sources */,
+				B29DF4D6236B350B00F85E08 /* Enums.swift in Sources */,
 				3FBB41E3B77C36341ECD75BB4B1DC8F2 /* DeepScroll-dummy.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

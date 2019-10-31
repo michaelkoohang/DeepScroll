@@ -33,7 +33,7 @@ class ViewController: UIViewController {
         tableView.dataSource = dataSource
         tableView.delegate = delegate
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: dataSource.cellId)
-        
+                
         tableView.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
             tableView.topAnchor.constraint(equalTo: view.topAnchor, constant: 0),
@@ -49,20 +49,20 @@ class ViewController: UIViewController {
     }
 }
 
-extension ViewController: UITableViewDelegate {
-    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        50
-    }
-}
-
-extension ViewController: UITableViewDataSource {
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 10
-    }
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "CellID", for: indexPath)
-        cell.textLabel!.text = "Cell"
-        return cell
-    }
-}
+//extension ViewController: UITableViewDelegate {
+//    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+//        50
+//    }
+//}
+//
+//extension ViewController: UITableViewDataSource {
+//    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+//        return 10
+//    }
+//    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+//        let cell = tableView.dequeueReusableCell(withIdentifier: "CellID", for: indexPath)
+//        cell.textLabel!.text = "Cell"
+//        return cell
+//    }
+//}
 
