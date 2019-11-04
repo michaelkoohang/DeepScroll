@@ -29,7 +29,10 @@ class ViewController: UIViewController {
     
     @objc
     func listenScrollState(notifcation: Notification) {
-        tableView.reloadData()
+        tableView.beginUpdates()
+        tableView.setNeedsLayout()
+        tableView.endUpdates()
+        //        tableView.reloadData()
     }
     
     func addTableView() {
