@@ -18,6 +18,8 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
+        NotificationCenter.default.addObserver(self,
+                                               selector:#selector(listenScrollState), name: NSNotification.Name(rawValue: "scrollState"), object: nil)
     }
     
     override func loadView() {
@@ -25,6 +27,10 @@ class ViewController: UIViewController {
         addTableView()
     }
     
+    @objc
+    func listenScrollState(notifcation: Notification) {
+        tableView.reloadData()
+    }
     
     func addTableView() {
 
