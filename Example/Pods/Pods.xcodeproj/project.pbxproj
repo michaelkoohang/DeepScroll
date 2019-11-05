@@ -13,6 +13,7 @@
 		379616889F7CB6E8793A4841534E58FA /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6604A7D69453B4569E4E4827FB9155A9 /* Foundation.framework */; };
 		3FBB41E3B77C36341ECD75BB4B1DC8F2 /* DeepScroll-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 7F234B06D8269473A4FCEA0170AB372E /* DeepScroll-dummy.m */; };
 		40AF0945D036677E047C53B5710CD6ED /* Pods-DeepScroll_Tests-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 43E1FF0A4021789C0E0F91137CD80F29 /* Pods-DeepScroll_Tests-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		4C02A2C823710BC10096F94C /* DeepScrollCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C02A2C723710BC10096F94C /* DeepScrollCell.swift */; };
 		6BAF31BA5F6F8B42F18F61E20FF69E92 /* Pods-DeepScroll_Example-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 202486B6E9467CD3253EDCFB9FAB47CF /* Pods-DeepScroll_Example-dummy.m */; };
 		78D825F1FA2661FCA6935953112B73E5 /* Pods-DeepScroll_Example-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 76BFC29D05C30FA642E980277C058496 /* Pods-DeepScroll_Example-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		AB93090C44A33494FE42AAA7140B7F38 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6604A7D69453B4569E4E4827FB9155A9 /* Foundation.framework */; };
@@ -40,6 +41,7 @@
 		3988C5D2A674F3E83514CC5516DEF49F /* Pods-DeepScroll_Tests-frameworks.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-DeepScroll_Tests-frameworks.sh"; sourceTree = "<group>"; };
 		4048F659CB5B1BCDDD794E7698378A28 /* Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		43E1FF0A4021789C0E0F91137CD80F29 /* Pods-DeepScroll_Tests-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Pods-DeepScroll_Tests-umbrella.h"; sourceTree = "<group>"; };
+		4C02A2C723710BC10096F94C /* DeepScrollCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeepScrollCell.swift; sourceTree = "<group>"; };
 		630510F01DABA3C16963F53FEDD7DA90 /* Pods-DeepScroll_Example-acknowledgements.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-DeepScroll_Example-acknowledgements.plist"; sourceTree = "<group>"; };
 		6604A7D69453B4569E4E4827FB9155A9 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS10.3.sdk/System/Library/Frameworks/Foundation.framework; sourceTree = DEVELOPER_DIR; };
 		6D202529679E3B23074178EC4684A5E0 /* DeepScroll-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "DeepScroll-umbrella.h"; sourceTree = "<group>"; };
@@ -184,6 +186,7 @@
 				B29DF4D4236B34F900F85E08 /* Constants */,
 				B2E5A83F23514F5B0085CA69 /* .gitkeep */,
 				B2E5A84023514F5B0085CA69 /* DeepScroll.swift */,
+				4C02A2C723710BC10096F94C /* DeepScrollCell.swift */,
 			);
 			name = Classes;
 			path = DeepScroll/Classes;
@@ -374,6 +377,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4C02A2C823710BC10096F94C /* DeepScrollCell.swift in Sources */,
 				B2E5A84123514F5B0085CA69 /* DeepScroll.swift in Sources */,
 				B29DF4D6236B350B00F85E08 /* Enums.swift in Sources */,
 				3FBB41E3B77C36341ECD75BB4B1DC8F2 /* DeepScroll-dummy.m in Sources */,

@@ -34,7 +34,9 @@ public class LanedScrollerDelegate: NSObject, UITableViewDelegate {
     }
     
     public func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        
         resetTimer.invalidate()
+        let hapticfeedback = UIImpactFeedbackGenerator()
         let containerView = UIApplication.shared.windows.first!.rootViewController?.view
         let width = (containerView?.bounds.width)!
         let touchLocation = scrollView.panGestureRecognizer.location(in: containerView)
@@ -61,6 +63,7 @@ public class LanedScrollerDelegate: NSObject, UITableViewDelegate {
         }
         
         if scrollLaneChanged {
+            hapticfeedback.impactOccurred()
             sendScrollStateNotification()
         }
 
