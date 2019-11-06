@@ -11,15 +11,12 @@ import DeepScroll
 
 class ViewController: UIViewController {
 
+    private var lanedScroller: LanedScroller!
     private var tableView: UITableView!
-    private var dataSource = LanedScrollerDataSource()
-    private var delegate = LanedScrollerDelegate()
 
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
-        NotificationCenter.default.addObserver(self,
-                                               selector:#selector(listenScrollState), name: NSNotification.Name(rawValue: "scrollState"), object: nil)
     }
     
     override func loadView() {
@@ -27,22 +24,11 @@ class ViewController: UIViewController {
         addTableView()
     }
     
-    @objc
-    func listenScrollState(notifcation: Notification) {
-        tableView.beginUpdates()
-        tableView.setNeedsLayout()
-        tableView.endUpdates()
-        //        tableView.reloadData()
-    }
-    
     func addTableView() {
-
-        tableView = UITableView()
+        lanedScroller = LanedScroller()
+        tableView = lanedScroller.getTableView()
         view.addSubview(tableView)
-        tableView.dataSource = dataSource
-        tableView.delegate = delegate
-        tableView.register(UITableViewCell.self, forCellReuseIdentifier: dataSource.cellId)
-                
+
         tableView.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
             tableView.topAnchor.constraint(equalTo: view.topAnchor, constant: 0),
@@ -57,21 +43,3 @@ class ViewController: UIViewController {
         super.didReceiveMemoryWarning()
     }
 }
-
-//extension ViewController: UITableViewDelegate {
-//    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-//        50
-//    }
-//}
-//
-//extension ViewController: UITableViewDataSource {
-//    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-//        return 10
-//    }
-//    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-//        let cell = tableView.dequeueReusableCell(withIdentifier: "CellID", for: indexPath)
-//        cell.textLabel!.text = "Cell"
-//        return cell
-//    }
-//}
-

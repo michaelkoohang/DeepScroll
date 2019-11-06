@@ -6,7 +6,7 @@ func makeScrollStateObject() -> [String:String] {
 
 func sendScrollStateNotification() {
     let scrollState = makeScrollStateObject()
-     NotificationCenter.default.post(name: NSNotification.Name(rawValue: "scrollState"), object: nil, userInfo: scrollState)
+    NotificationCenter.default.post(name: NSNotification.Name(rawValue: "scrollState"), object: nil, userInfo: scrollState)
 }
 
 func resetScrollState() {
@@ -18,8 +18,42 @@ var touchSction: TouchSection = .none
 var resetTimer: Timer = Timer()
 
 
+public class LanedScroller: NSObject {
+    
+    private var tableView: UITableView
+    private var dataSource: LanedScrollerDataSource
+    private var delegate: LanedScrollerDelegate
+    
+    override public init() {
+        tableView = UITableView()
+        dataSource = LanedScrollerDataSource()
+        delegate = LanedScrollerDelegate()
+        tableView.dataSource = dataSource
+        tableView.delegate = delegate
+        super.init()
+        tableView.register(UITableViewCell.self, forCellReuseIdentifier: dataSource.cellId)
+        NotificationCenter.default.addObserver(self,
+                                               selector:#selector(listenScrollState), name: NSNotification.Name(rawValue: "scrollState"), object: nil)
+    }
+    
+    
+    @objc
+    func listenScrollState(notifcation: Notification) {
+        tableView.beginUpdates()
+        tableView.setNeedsLayout()
+        tableView.endUpdates()
+        //        tableView.reloadData()
+    }
+    
+    
+    public func getTableView() -> UITableView {
+        return tableView
+    }
+}
+
+
 public class LanedScrollerDelegate: NSObject, UITableViewDelegate {
-        
+    
     public func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         switch touchSction {
         case .left:
@@ -33,8 +67,7 @@ public class LanedScrollerDelegate: NSObject, UITableViewDelegate {
         }
     }
     
-    public func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        
+    public func scrollViewDidScroll(_ scrollView: UIScrollView) {        
         resetTimer.invalidate()
         let hapticfeedback = UIImpactFeedbackGenerator()
         let containerView = UIApplication.shared.windows.first!.rootViewController?.view
@@ -66,7 +99,7 @@ public class LanedScrollerDelegate: NSObject, UITableViewDelegate {
             hapticfeedback.impactOccurred()
             sendScrollStateNotification()
         }
-
+        
     }
 }
 
@@ -80,23 +113,23 @@ public class LanedScrollerDataSource: NSObject, UITableViewDataSource {
     }
     
     public func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-    return 200
-  }
-
+        return 200
+    }
+    
     public func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: cellId, for: indexPath)
         
         switch touchSction {
-//        case .right:
-//            cell.backgroundColor = .blue
-//        case .center:
-//            cell.backgroundColor = .brown
-//        case .left:
-//            cell.backgroundColor = .yellow
+            //        case .right:
+            //            cell.backgroundColor = .blue
+            //        case .center:
+            //            cell.backgroundColor = .brown
+            //        case .left:
+        //            cell.backgroundColor = .yellow
         default:
             cell.backgroundColor = .yellow
         }
         cell.textLabel?.text = "\(indexPath.row)"
         return cell
-  }
+    }
 }
