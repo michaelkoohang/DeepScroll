@@ -9,7 +9,7 @@ public class LanedScrollerDelegate: NSObject, UITableViewDelegate {
     var touchSction: TouchSection = .none
     var resetTimer: Timer = Timer()
     let lanedScrollerId: Int
-    
+        
     convenience override public init() {
         self.init(lanedScrollerId: 0)
     }

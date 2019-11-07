@@ -14,6 +14,8 @@
 		607FACDD1AFB9204008FA782 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 607FACDC1AFB9204008FA782 /* Images.xcassets */; };
 		607FACE01AFB9204008FA782 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 607FACDE1AFB9204008FA782 /* LaunchScreen.xib */; };
 		607FACEC1AFB9204008FA782 /* Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 607FACEB1AFB9204008FA782 /* Tests.swift */; };
+		B2308D4023736FAB0079C141 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2308D3F23736FAB0079C141 /* Constants.swift */; };
+		B2308D422373703D0079C141 /* data.json in Resources */ = {isa = PBXBuildFile; fileRef = B2308D412373703D0079C141 /* data.json */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -45,6 +47,8 @@
 		6A23F6DE2A6DEC79ADB6E2D9 /* Pods-DeepScroll_Example.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DeepScroll_Example.release.xcconfig"; path = "Pods/Target Support Files/Pods-DeepScroll_Example/Pods-DeepScroll_Example.release.xcconfig"; sourceTree = "<group>"; };
 		924C769C9DC9D81F7D935F6B /* Pods-DeepScroll_Example.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DeepScroll_Example.debug.xcconfig"; path = "Pods/Target Support Files/Pods-DeepScroll_Example/Pods-DeepScroll_Example.debug.xcconfig"; sourceTree = "<group>"; };
 		934207480D5C99DC8A7A0FA0 /* Pods-DeepScroll_Tests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DeepScroll_Tests.release.xcconfig"; path = "Pods/Target Support Files/Pods-DeepScroll_Tests/Pods-DeepScroll_Tests.release.xcconfig"; sourceTree = "<group>"; };
+		B2308D3F23736FAB0079C141 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
+		B2308D412373703D0079C141 /* data.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = data.json; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -102,6 +106,8 @@
 		607FACD21AFB9204008FA782 /* Example for DeepScroll */ = {
 			isa = PBXGroup;
 			children = (
+				B2308D412373703D0079C141 /* data.json */,
+				B2308D3F23736FAB0079C141 /* Constants.swift */,
 				607FACD51AFB9204008FA782 /* AppDelegate.swift */,
 				607FACD71AFB9204008FA782 /* ViewController.swift */,
 				607FACDC1AFB9204008FA782 /* Images.xcassets */,
@@ -249,6 +255,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				607FACE01AFB9204008FA782 /* LaunchScreen.xib in Resources */,
+				B2308D422373703D0079C141 /* data.json in Resources */,
 				607FACDD1AFB9204008FA782 /* Images.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -371,6 +378,7 @@
 			files = (
 				607FACD81AFB9204008FA782 /* ViewController.swift in Sources */,
 				607FACD61AFB9204008FA782 /* AppDelegate.swift in Sources */,
+				B2308D4023736FAB0079C141 /* Constants.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
