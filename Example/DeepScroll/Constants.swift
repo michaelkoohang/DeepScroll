@@ -9,6 +9,7 @@
 import Foundation
 
 struct Post: Decodable {
+    let id: Int
     let name: String
     let profileUrl: String
     let post: String

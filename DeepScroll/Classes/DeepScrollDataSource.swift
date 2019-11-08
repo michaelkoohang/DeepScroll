@@ -47,14 +47,21 @@ public class LanedScrollerDataSource: NSObject, UITableViewDataSource {
     
     
     public func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 200
+        return tableViewData.count
     }
     
     
     public func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: String(lanedScrollerId), for: indexPath)
+        if (cell.contentView.subviews.count > 0) {
+            let addStackViewTag = cell.contentView.subviews[0].tag
+            print(addStackViewTag)
+            print(tableViewData[indexPath.row])
+        } else {
+            print("No Subview Added to table view cell")
+        }
         cell.contentView.subviews.forEach({ $0.removeFromSuperview() })
-        let contentStackView = stackViewMaker(tableViewData[indexPath.row % 2])
+        let contentStackView = stackViewMaker(tableViewData[indexPath.row])
         contentStackView.backgroundColor = .black
         contentStackView.translatesAutoresizingMaskIntoConstraints = false
         contentStackView.subviews.forEach({view in

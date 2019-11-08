@@ -45,7 +45,7 @@ class ViewController: UIViewController {
                 let stackView = UIStackView(arrangedSubviews: [nameLbl, dummyView, postLbl])
 
                 
-                nameLbl.text = post.name
+                nameLbl.text = String(post.id) + " " + post.name 
                 nameLbl.tag = 0
                 nameLbl.translatesAutoresizingMaskIntoConstraints = false
     
@@ -85,6 +85,7 @@ class ViewController: UIViewController {
                 
                 stackView.axis = .vertical
                 stackView.translatesAutoresizingMaskIntoConstraints = false
+                stackView.tag = post.id
                 return stackView
             }
       
