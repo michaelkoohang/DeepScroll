@@ -4,13 +4,15 @@
 //
 //  Created by Parth Tamane on 06/11/19.
 //
+import Foundation
+import UIKit
 
 public class LanedScrollerDataSource: NSObject, UITableViewDataSource {
     
     let lanedScrollerId: Int
     private let stackViewMaker: (Decodable) -> UIStackView
     private let tableViewData: [Decodable]
-    
+    private var touchSection: TouchSection = .none
     
     convenience override public init() {
         self.init()
@@ -22,6 +24,25 @@ public class LanedScrollerDataSource: NSObject, UITableViewDataSource {
         self.tableViewData = tableViewData
         self.stackViewMaker = stackViewMaker
         super.init()
+        NotificationCenter.default.addObserver(self,
+                                               selector:#selector(listenScrollState), name: NSNotification.Name(rawValue: "scrollState"), object: nil)
+    }
+    
+    @objc
+    func listenScrollState(notifcation: Notification) {
+        guard let userInfo = notifcation.userInfo as? [String:String] else { return }
+        guard let scrollState = userInfo[String(lanedScrollerId)] else { return }
+        switch scrollState {
+        case "\(TouchSection.center)":
+            touchSection = TouchSection.center
+        case "\(TouchSection.left)":
+            touchSection = TouchSection.left
+        case "\(TouchSection.right)":
+            touchSection = TouchSection.right
+        default:
+            touchSection = TouchSection.none
+        }
+        
     }
     
     
@@ -32,18 +53,31 @@ public class LanedScrollerDataSource: NSObject, UITableViewDataSource {
     
     public func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: String(lanedScrollerId), for: indexPath)
+        cell.contentView.subviews.forEach({ $0.removeFromSuperview() })
         let contentStackView = stackViewMaker(tableViewData[indexPath.row % 2])
         contentStackView.backgroundColor = .black
         contentStackView.translatesAutoresizingMaskIntoConstraints = false
+        contentStackView.subviews.forEach({view in
+            switch touchSection {
+            case .center:
+                if view.tag == 2 {
+                    view.isHidden = true
+                }
+            case .left:
+                if view.tag == 2 || view.tag == 1 {
+                    view.isHidden = true
+                }
+            default:
+                break
+            }
+        })
         cell.contentView.addSubview(contentStackView)
         NSLayoutConstraint.activate([
-            contentStackView.leadingAnchor.constraint(equalTo: cell.leadingAnchor),
-            contentStackView.trailingAnchor.constraint(equalTo: cell.trailingAnchor),
-            contentStackView.topAnchor.constraint(equalTo: cell.topAnchor),
-            contentStackView.bottomAnchor.constraint(equalTo: cell.bottomAnchor)
+            contentStackView.leadingAnchor.constraint(equalTo: cell.contentView.leadingAnchor),
+            contentStackView.trailingAnchor.constraint(equalTo: cell.contentView.trailingAnchor),
+            contentStackView.topAnchor.constraint(equalTo: cell.contentView.topAnchor),
+            contentStackView.bottomAnchor.constraint(equalTo: cell.contentView.bottomAnchor)
         ])
-//        cell.backgroundColor = .yellow
-//        cell.textLabel?.text = "\(indexPath.row)"
         return cell
     }
 }

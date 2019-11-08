@@ -39,30 +39,52 @@ class ViewController: UIViewController {
         lanedScroller = LanedScroller(tableViewData: unwrappedFeed.posts, stackViewMaker: {(post: Decodable) in
             if let post = post as? Post {
                 let nameLbl = UILabel()
+                let profileImageView = UIImageView()
+                let dummyView = UIView()
+                let postLbl = UILabel()
+                let stackView = UIStackView(arrangedSubviews: [nameLbl, dummyView, postLbl])
+
+                
                 nameLbl.text = post.name
                 nameLbl.tag = 0
-                let profileImageView = UIImageView()
-                if let profileUrl = URL(string: post.profileUrl) {
-                    URLSession.shared.dataTask(with: profileUrl) { (data, response, error) in
-                        guard let data = data, error == nil else {return}
-                        DispatchQueue.main.async {
-                            profileImageView.image = UIImage(data: data)
-                        }
-                    }.resume()
-                }
-                profileImageView.tag = 1
-                let postLbl = UILabel()
+                nameLbl.translatesAutoresizingMaskIntoConstraints = false
+    
+               
+//                if let profileUrl = URL(string: post.profileUrl) {
+//                    URLSession.shared.dataTask(with: profileUrl) { (data, response, error) in
+//                        guard let data = data, error == nil else {return}
+//                        DispatchQueue.main.async {
+//                            profileImageView.image = UIImage(data: data)
+//                        }
+//                    }.resume()
+//                }
+//                profileImageView.tag = 1
+//                profileImageView.layer.cornerRadius = 15
+//                profileImageView.layer.masksToBounds = true
+//                profileImageView.translatesAutoresizingMaskIntoConstraints = false
+                
+              
+                dummyView.translatesAutoresizingMaskIntoConstraints = false
+                dummyView.heightAnchor.constraint(equalToConstant: 50).isActive = true
+//                dummyView.addSubview(profileImageView)
+//                NSLayoutConstraint.activate([
+//                    profileImageView.heightAnchor.constraint(equalToConstant: 30),
+//                    profileImageView.heightAnchor.constraint(equalToConstant: 30),
+//                    profileImageView.centerXAnchor.constraint(equalTo: dummyView.centerXAnchor),
+//                    profileImageView.topAnchor.constraint(equalTo: dummyView.topAnchor),
+//                    profileImageView.bottomAnchor.constraint(equalTo: dummyView.bottomAnchor)
+//                ])
+                dummyView.backgroundColor = .systemPink
+                dummyView.tag = 1
+                
                 postLbl.text = post.post
                 postLbl.tag = 2
+                postLbl.layoutIfNeeded()
+                postLbl.numberOfLines = 0
+                postLbl.translatesAutoresizingMaskIntoConstraints = false
                 
-                let stackView = UIStackView(arrangedSubviews: [nameLbl, profileImageView, postLbl])
                 stackView.axis = .vertical
-                
-                print("Printing data from callback")
-                print("Name: \(post.name)")
-                print("URL: \(post.profileUrl)")
-                print("Post: \(post.post)")
-                
+                stackView.translatesAutoresizingMaskIntoConstraints = false
                 return stackView
             }
       

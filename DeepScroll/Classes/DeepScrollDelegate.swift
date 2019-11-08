@@ -4,6 +4,8 @@
 //
 //  Created by Parth Tamane on 06/11/19.
 //
+import Foundation
+import UIKit
 
 public class LanedScrollerDelegate: NSObject, UITableViewDelegate {
     var touchSction: TouchSection = .none
@@ -22,16 +24,17 @@ public class LanedScrollerDelegate: NSObject, UITableViewDelegate {
     
     
     public func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        switch touchSction {
-        case .left:
-            return 60
-        case .center:
-            return 100
-        case .right:
-            return 150
-        default:
-            return 150
-        }
+//        switch touchSction {
+//        case .left:
+//            return 60
+//        case .center:
+//            return 100
+//        case .right:
+//            return 150
+//        default:
+//            return 150
+//        }
+        return UITableViewAutomaticDimension
     }
     
     

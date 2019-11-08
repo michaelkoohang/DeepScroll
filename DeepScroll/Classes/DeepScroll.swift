@@ -1,4 +1,5 @@
 import UIKit
+import Foundation
 
 public class LanedScroller: NSObject {
     
@@ -12,6 +13,8 @@ public class LanedScroller: NSObject {
         self.tableViewData = tableViewData
         self.stackViewMaker = stackViewMaker
         tableView = UITableView()
+        tableView.rowHeight = UITableViewAutomaticDimension
+        tableView.estimatedRowHeight = 1
         super.init()
         dataSource = LanedScrollerDataSource(lanedScrollerId: self.hashValue, tableViewData: tableViewData, stackViewMaker: stackViewMaker)
         delegate = LanedScrollerDelegate(lanedScrollerId: self.hashValue)
@@ -20,8 +23,6 @@ public class LanedScroller: NSObject {
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: String(self.hashValue))
         NotificationCenter.default.addObserver(self,
                                                selector:#selector(listenScrollState), name: NSNotification.Name(rawValue: "scrollState"), object: nil)
-        print("IN LANED SCROLLER")
-        stackViewMaker(tableViewData[0])
     }
     
     convenience override public init() {
@@ -33,9 +34,10 @@ public class LanedScroller: NSObject {
     func listenScrollState(notifcation: Notification) {
         guard let userInfo = notifcation.userInfo as? [String:String] else { return }
         guard let _ = userInfo[String(self.hashValue)] else { return }
-        tableView.beginUpdates()
-        tableView.setNeedsLayout()
-        tableView.endUpdates()
+//        tableView.beginUpdates()
+//        tableView.setNeedsLayout()
+//        tableView.endUpdates()
+        tableView.reloadData()
     }
     
     
