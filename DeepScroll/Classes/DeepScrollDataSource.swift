@@ -10,7 +10,7 @@ import UIKit
 public class LanedScrollerDataSource: NSObject, UITableViewDataSource {
     
     let lanedScrollerId: Int
-    private let stackViewMaker: CellMaker
+    private let cellMaker: CellMaker
     private let tableViewData: [Decodable]
     private var touchSection: TouchSection = .none
     
@@ -19,10 +19,10 @@ public class LanedScrollerDataSource: NSObject, UITableViewDataSource {
     }
     
     
-    init(lanedScrollerId: Int, tableViewData: [Decodable], stackViewMaker: @escaping CellMaker) {
+    init(lanedScrollerId: Int, tableViewData: [Decodable], cellMaker: @escaping CellMaker) {
         self.lanedScrollerId = lanedScrollerId
         self.tableViewData = tableViewData
-        self.stackViewMaker = stackViewMaker
+        self.cellMaker = cellMaker
         super.init()
         NotificationCenter.default.addObserver(self,
                                                selector:#selector(listenScrollState), name: NSNotification.Name(rawValue: "scrollState"), object: nil)
@@ -53,20 +53,42 @@ public class LanedScrollerDataSource: NSObject, UITableViewDataSource {
     
     public func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         var cell = tableView.dequeueReusableCell(withIdentifier: String(lanedScrollerId), for: indexPath)
-        cell = stackViewMaker(cell, tableViewData[indexPath.row])
+        cell = cellMaker(cell, tableViewData[indexPath.row])
         
         for subview in cell.contentView.subviews {
             if (subview.isKind(of: UIStackView.self)) {
                 switch self.touchSection {
                 case .right:
+//                    UIView.animate(
+//                        withDuration: 0.1,
+//                        delay: 0.0,
+//                        options: [.curveEaseOut],
+//                        animations: {
+//
+//                    })
                     subview.viewWithTag(0)?.isHidden = false
                     subview.viewWithTag(1)?.isHidden = false
                     subview.viewWithTag(2)?.isHidden = false
+                  
                 case .center:
+//                    UIView.animate(
+//                        withDuration: 0.1,
+//                        delay: 0.0,
+//                        options: [.curveEaseOut],
+//                        animations: {
+//
+//                    })
                     subview.viewWithTag(0)?.isHidden = false
                     subview.viewWithTag(1)?.isHidden = false
                     subview.viewWithTag(2)?.isHidden = true
                 case .left:
+//                    UIView.animate(
+//                        withDuration: 0.1,
+//                        delay: 0.0,
+//                        options: [.curveEaseOut],
+//                        animations: {
+//
+//                    })
                     subview.viewWithTag(0)?.isHidden = false
                     subview.viewWithTag(1)?.isHidden = true
                     subview.viewWithTag(2)?.isHidden = true

@@ -36,7 +36,7 @@ class ViewController: UIViewController {
             }
         }
         guard let unwrappedFeed = feed else { return }
-        lanedScroller = LanedScroller(tableViewData: unwrappedFeed.posts, stackViewMaker: {(cell: UITableViewCell, post: Decodable) in
+        lanedScroller = LanedScroller(tableViewData: unwrappedFeed.posts, cellMaker: {(cell: UITableViewCell, post: Decodable) in
             if let post = post as? Post {
                 if (cell.contentView.subviews.count > 0) {
                                         
