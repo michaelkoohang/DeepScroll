@@ -34,7 +34,7 @@ public class LanedScrollerDelegate: NSObject, UITableViewDelegate {
 //        default:
 //            return 150
 //        }
-        return UITableViewAutomaticDimension
+        return UITableView.automaticDimension
     }
     
     

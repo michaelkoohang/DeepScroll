@@ -13,7 +13,7 @@ public class LanedScroller: NSObject {
         self.tableViewData = tableViewData
         self.cellMaker = cellMaker
         tableView = UITableView()
-        tableView.rowHeight = UITableViewAutomaticDimension
+        tableView.rowHeight = UITableView.automaticDimension
         tableView.estimatedRowHeight = 300
         super.init()
         dataSource = LanedScrollerDataSource(lanedScrollerId: self.hashValue, tableViewData: tableViewData, cellMaker: cellMaker)
