@@ -10,7 +10,7 @@ import UIKit
 public class LanedScrollerDataSource: NSObject, UITableViewDataSource {
     
     let lanedScrollerId: Int
-    private let stackViewMaker: (Decodable) -> UIStackView
+    private let stackViewMaker: CellMaker
     private let tableViewData: [Decodable]
     private var touchSection: TouchSection = .none
     
@@ -19,7 +19,7 @@ public class LanedScrollerDataSource: NSObject, UITableViewDataSource {
     }
     
     
-    init(lanedScrollerId: Int, tableViewData: [Decodable], stackViewMaker: @escaping (Decodable) -> UIStackView) {
+    init(lanedScrollerId: Int, tableViewData: [Decodable], stackViewMaker: @escaping CellMaker) {
         self.lanedScrollerId = lanedScrollerId
         self.tableViewData = tableViewData
         self.stackViewMaker = stackViewMaker
@@ -52,39 +52,29 @@ public class LanedScrollerDataSource: NSObject, UITableViewDataSource {
     
     
     public func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: String(lanedScrollerId), for: indexPath)
-        if (cell.contentView.subviews.count > 0) {
-            let addStackViewTag = cell.contentView.subviews[0].tag
-            print(addStackViewTag)
-            print(tableViewData[indexPath.row])
-        } else {
-            print("No Subview Added to table view cell")
-        }
-        cell.contentView.subviews.forEach({ $0.removeFromSuperview() })
-        let contentStackView = stackViewMaker(tableViewData[indexPath.row])
-        contentStackView.backgroundColor = .black
-        contentStackView.translatesAutoresizingMaskIntoConstraints = false
-        contentStackView.subviews.forEach({view in
-            switch touchSection {
-            case .center:
-                if view.tag == 2 {
-                    view.isHidden = true
+        var cell = tableView.dequeueReusableCell(withIdentifier: String(lanedScrollerId), for: indexPath)
+        cell = stackViewMaker(cell, tableViewData[indexPath.row])
+        
+        for subview in cell.contentView.subviews {
+            if (subview.isKind(of: UIStackView.self)) {
+                switch self.touchSection {
+                case .right:
+                    subview.viewWithTag(0)?.isHidden = false
+                    subview.viewWithTag(1)?.isHidden = false
+                    subview.viewWithTag(2)?.isHidden = false
+                case .center:
+                    subview.viewWithTag(0)?.isHidden = false
+                    subview.viewWithTag(1)?.isHidden = false
+                    subview.viewWithTag(2)?.isHidden = true
+                case .left:
+                    subview.viewWithTag(0)?.isHidden = false
+                    subview.viewWithTag(1)?.isHidden = true
+                    subview.viewWithTag(2)?.isHidden = true
+                default:
+                    break
                 }
-            case .left:
-                if view.tag == 2 || view.tag == 1 {
-                    view.isHidden = true
-                }
-            default:
-                break
             }
-        })
-        cell.contentView.addSubview(contentStackView)
-        NSLayoutConstraint.activate([
-            contentStackView.leadingAnchor.constraint(equalTo: cell.contentView.leadingAnchor),
-            contentStackView.trailingAnchor.constraint(equalTo: cell.contentView.trailingAnchor),
-            contentStackView.topAnchor.constraint(equalTo: cell.contentView.topAnchor),
-            contentStackView.bottomAnchor.constraint(equalTo: cell.contentView.bottomAnchor)
-        ])
+        }
         return cell
     }
 }

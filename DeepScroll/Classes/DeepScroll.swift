@@ -6,15 +6,15 @@ public class LanedScroller: NSObject {
     private var tableView: UITableView
     private var dataSource: LanedScrollerDataSource!
     private var delegate: LanedScrollerDelegate!
-    private let stackViewMaker: (Decodable) -> UIStackView
+    private let stackViewMaker: CellMaker
     private let tableViewData: [Decodable]
     
-    public init(tableViewData: [Decodable], stackViewMaker: @escaping (Decodable) -> UIStackView) {
+    public init(tableViewData: [Decodable], stackViewMaker: @escaping CellMaker) {
         self.tableViewData = tableViewData
         self.stackViewMaker = stackViewMaker
         tableView = UITableView()
         tableView.rowHeight = UITableViewAutomaticDimension
-        tableView.estimatedRowHeight = 1
+        tableView.estimatedRowHeight = 300
         super.init()
         dataSource = LanedScrollerDataSource(lanedScrollerId: self.hashValue, tableViewData: tableViewData, stackViewMaker: stackViewMaker)
         delegate = LanedScrollerDelegate(lanedScrollerId: self.hashValue)

@@ -20,6 +20,7 @@
 		B2308D3923735AA20079C141 /* DeepScrollDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2308D3823735AA20079C141 /* DeepScrollDelegate.swift */; };
 		B2308D3B23735AEF0079C141 /* DeepScrollDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2308D3A23735AEF0079C141 /* DeepScrollDataSource.swift */; };
 		B2308D3E23735B480079C141 /* ScrollStateHandlers.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2308D3D23735B480079C141 /* ScrollStateHandlers.swift */; };
+		B28A10E4237650E900C5918B /* Types.swift in Sources */ = {isa = PBXBuildFile; fileRef = B28A10E3237650E900C5918B /* Types.swift */; };
 		B29DF4D6236B350B00F85E08 /* Enums.swift in Sources */ = {isa = PBXBuildFile; fileRef = B29DF4D5236B350B00F85E08 /* Enums.swift */; };
 		B2E5A84123514F5B0085CA69 /* DeepScroll.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2E5A84023514F5B0085CA69 /* DeepScroll.swift */; };
 /* End PBXBuildFile section */
@@ -60,6 +61,7 @@
 		B2308D3823735AA20079C141 /* DeepScrollDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeepScrollDelegate.swift; sourceTree = "<group>"; };
 		B2308D3A23735AEF0079C141 /* DeepScrollDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeepScrollDataSource.swift; sourceTree = "<group>"; };
 		B2308D3D23735B480079C141 /* ScrollStateHandlers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScrollStateHandlers.swift; sourceTree = "<group>"; };
+		B28A10E3237650E900C5918B /* Types.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Types.swift; sourceTree = "<group>"; };
 		B29DF4D5236B350B00F85E08 /* Enums.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Enums.swift; sourceTree = "<group>"; };
 		B2E5A83F23514F5B0085CA69 /* .gitkeep */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = .gitkeep; sourceTree = "<group>"; };
 		B2E5A84023514F5B0085CA69 /* DeepScroll.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DeepScroll.swift; sourceTree = "<group>"; };
@@ -190,6 +192,7 @@
 			isa = PBXGroup;
 			children = (
 				B29DF4D5236B350B00F85E08 /* Enums.swift */,
+				B28A10E3237650E900C5918B /* Types.swift */,
 			);
 			path = Constants;
 			sourceTree = "<group>";
@@ -397,6 +400,7 @@
 				4C02A2C823710BC10096F94C /* DeepScrollCell.swift in Sources */,
 				B2308D3B23735AEF0079C141 /* DeepScrollDataSource.swift in Sources */,
 				B2308D3E23735B480079C141 /* ScrollStateHandlers.swift in Sources */,
+				B28A10E4237650E900C5918B /* Types.swift in Sources */,
 				B2E5A84123514F5B0085CA69 /* DeepScroll.swift in Sources */,
 				B29DF4D6236B350B00F85E08 /* Enums.swift in Sources */,
 				B2308D3923735AA20079C141 /* DeepScrollDelegate.swift in Sources */,
