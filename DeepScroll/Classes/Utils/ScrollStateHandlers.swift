@@ -5,6 +5,8 @@
 //  Created by Parth Tamane on 06/11/19.
 //
 
+import Foundation
+
 
 func makeScrollStateObject(for lanedScrollerId: Int, touchSection: TouchSection) -> [String:String] {
     return [String(lanedScrollerId):"\(touchSection)"]

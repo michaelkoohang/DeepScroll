@@ -24,8 +24,7 @@ public class LanedScrollerDataSource: NSObject, UITableViewDataSource {
         self.tableViewData = tableViewData
         self.cellMaker = cellMaker
         super.init()
-        NotificationCenter.default.addObserver(self,
-                                               selector:#selector(listenScrollState), name: NSNotification.Name(rawValue: "scrollState"), object: nil)
+        NotificationCenter.default.addObserver(self, selector:#selector(listenScrollState), name: NSNotification.Name(rawValue: "scrollState"), object: nil)
     }
     
     @objc
@@ -45,50 +44,29 @@ public class LanedScrollerDataSource: NSObject, UITableViewDataSource {
         
     }
     
+    public func numberOfSections(in tableView: UITableView) -> Int {
+        return 1
+    }
     
     public func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return tableViewData.count
     }
-    
-    
-    public func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        var cell = tableView.dequeueReusableCell(withIdentifier: String(lanedScrollerId), for: indexPath)
-        cell = cellMaker(cell, tableViewData[indexPath.row])
         
-        for subview in cell.contentView.subviews {
-            if (subview.isKind(of: UIStackView.self)) {
+    public func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        if var cell = tableView.dequeueReusableCell(withIdentifier: "deepscrollcell", for: indexPath) as? DeepScrollCell {
+            cell = cellMaker(cell, tableViewData[indexPath.row])
+
+            for subview in cell.stackview.arrangedSubviews {
                 switch self.touchSection {
                 case .right:
-//                    UIView.animate(
-//                        withDuration: 0.1,
-//                        delay: 0.0,
-//                        options: [.curveEaseOut],
-//                        animations: {
-//
-//                    })
                     subview.viewWithTag(0)?.isHidden = false
                     subview.viewWithTag(1)?.isHidden = false
                     subview.viewWithTag(2)?.isHidden = false
-                  
                 case .center:
-//                    UIView.animate(
-//                        withDuration: 0.1,
-//                        delay: 0.0,
-//                        options: [.curveEaseOut],
-//                        animations: {
-//
-//                    })
                     subview.viewWithTag(0)?.isHidden = false
                     subview.viewWithTag(1)?.isHidden = false
                     subview.viewWithTag(2)?.isHidden = true
                 case .left:
-//                    UIView.animate(
-//                        withDuration: 0.1,
-//                        delay: 0.0,
-//                        options: [.curveEaseOut],
-//                        animations: {
-//
-//                    })
                     subview.viewWithTag(0)?.isHidden = false
                     subview.viewWithTag(1)?.isHidden = true
                     subview.viewWithTag(2)?.isHidden = true
@@ -96,8 +74,12 @@ public class LanedScrollerDataSource: NSObject, UITableViewDataSource {
                     break
                 }
             }
+            
+            return cell
         }
-        return cell
+        
+        return DeepScrollCell()
+        
     }
 }
 

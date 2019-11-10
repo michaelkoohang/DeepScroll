@@ -36,9 +36,9 @@ class ViewController: UIViewController {
             }
         }
         guard let unwrappedFeed = feed else { return }
-        lanedScroller = LanedScroller(tableViewData: unwrappedFeed.posts, cellMaker: {(cell: UITableViewCell, post: Decodable) in
+        lanedScroller = LanedScroller(tableViewData: unwrappedFeed.posts, cellMaker: {(cell: DeepScrollCell, post: Decodable) in
             if let post = post as? Post {
-                if (cell.contentView.subviews.count > 0) {
+                if (cell.getViewsCount() > 0) {
                                         
                     for subview in cell.contentView.subviews {
                         if (subview.isKind(of: UIStackView.self)) {
@@ -49,43 +49,16 @@ class ViewController: UIViewController {
                     return cell
                 }
                 else {
-                    print("Adding new stack view")
                     let nameLbl = UILabel()
-                    let profileImageView = UIImageView()
                     let dummyView = UIView()
                     let postLbl = UILabel()
-                    let stackView = UIStackView(arrangedSubviews: [nameLbl, dummyView, postLbl])
-
                     
                     nameLbl.text = String(post.id) + " " + post.name
                     nameLbl.tag = 0
                     nameLbl.translatesAutoresizingMaskIntoConstraints = false
-        
-                   
-    //                if let profileUrl = URL(string: post.profileUrl) {
-    //                    URLSession.shared.dataTask(with: profileUrl) { (data, response, error) in
-    //                        guard let data = data, error == nil else {return}
-    //                        DispatchQueue.main.async {
-    //                            profileImageView.image = UIImage(data: data)
-    //                        }
-    //                    }.resume()
-    //                }
-    //                profileImageView.tag = 1
-    //                profileImageView.layer.cornerRadius = 15
-    //                profileImageView.layer.masksToBounds = true
-    //                profileImageView.translatesAutoresizingMaskIntoConstraints = false
-                    
                   
                     dummyView.translatesAutoresizingMaskIntoConstraints = false
                     dummyView.heightAnchor.constraint(equalToConstant: 50).isActive = true
-    //                dummyView.addSubview(profileImageView)
-    //                NSLayoutConstraint.activate([
-    //                    profileImageView.heightAnchor.constraint(equalToConstant: 30),
-    //                    profileImageView.heightAnchor.constraint(equalToConstant: 30),
-    //                    profileImageView.centerXAnchor.constraint(equalTo: dummyView.centerXAnchor),
-    //                    profileImageView.topAnchor.constraint(equalTo: dummyView.topAnchor),
-    //                    profileImageView.bottomAnchor.constraint(equalTo: dummyView.bottomAnchor)
-    //                ])
                     dummyView.backgroundColor = .systemPink
                     dummyView.tag = 1
                     
@@ -95,25 +68,15 @@ class ViewController: UIViewController {
                     postLbl.numberOfLines = 0
                     postLbl.translatesAutoresizingMaskIntoConstraints = false
                     
-                    stackView.axis = .vertical
-                    stackView.translatesAutoresizingMaskIntoConstraints = false
-                    stackView.tag = Int.max
-                    
-                    cell.contentView.addSubview(stackView)
-                    NSLayoutConstraint.activate([
-                        stackView.leadingAnchor.constraint(equalTo: cell.contentView.leadingAnchor),
-                        stackView.trailingAnchor.constraint(equalTo: cell.contentView.trailingAnchor),
-                        stackView.topAnchor.constraint(equalTo: cell.contentView.topAnchor),
-                        stackView.bottomAnchor.constraint(equalTo: cell.contentView.bottomAnchor)
-                    ])
-                    
+                    cell.addViews(views:[nameLbl, dummyView, postLbl])
+                                        
                     return cell
                     
                 }
                 
             }
       
-            return UITableViewCell()
+            return DeepScrollCell()
             
         })
         tableView = lanedScroller.getTableView()

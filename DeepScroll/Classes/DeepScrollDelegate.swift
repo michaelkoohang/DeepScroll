@@ -8,7 +8,7 @@ import Foundation
 import UIKit
 
 public class LanedScrollerDelegate: NSObject, UITableViewDelegate {
-    var touchSction: TouchSection = .none
+    var touchSection: TouchSection = .none
     var resetTimer: Timer = Timer()
     let lanedScrollerId: Int
         
@@ -24,20 +24,9 @@ public class LanedScrollerDelegate: NSObject, UITableViewDelegate {
     
     
     public func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-//        switch touchSction {
-//        case .left:
-//            return 60
-//        case .center:
-//            return 100
-//        case .right:
-//            return 150
-//        default:
-//            return 150
-//        }
         return UITableView.automaticDimension
     }
-    
-    
+        
     public func scrollViewDidScroll(_ scrollView: UIScrollView) {
         
         resetTimer.invalidate()
@@ -48,29 +37,28 @@ public class LanedScrollerDelegate: NSObject, UITableViewDelegate {
         let touchX = touchLocation.x
         var scrollLaneChanged = false
         
-        if (touchSction == .none) {
-            touchSction = .right
+        if (touchSection == .none) {
+            touchSection = .right
         } else if ( 0 <= touchX && touchX <= (1/3) * width) {
             resetTimer = Timer.scheduledTimer(withTimeInterval: 2, repeats: false, block: { (timer) in
                 resetScrollState(for: self.lanedScrollerId)
             })
-            scrollLaneChanged = touchSction != .left
-            touchSction = .left
+            scrollLaneChanged = touchSection != .left
+            touchSection = .left
         } else if ( (1/3) * width <= touchX && touchX <= (2/3) * width) {
             resetTimer = Timer.scheduledTimer(withTimeInterval: 2, repeats: false, block: { (timer) in
                 resetScrollState(for: self.lanedScrollerId)
             })
-            scrollLaneChanged = touchSction != .center
-            touchSction = .center
+            scrollLaneChanged = touchSection != .center
+            touchSection = .center
         } else {
-            scrollLaneChanged = touchSction != .right
-            touchSction = .right
+            scrollLaneChanged = touchSection != .right
+            touchSection = .right
         }
         
         if scrollLaneChanged {
             hapticfeedback.impactOccurred()
-            sendScrollStateNotification(for: lanedScrollerId, touchSection: touchSction)
+            sendScrollStateNotification(for: lanedScrollerId, touchSection: touchSection)
         }
-        
     }
 }

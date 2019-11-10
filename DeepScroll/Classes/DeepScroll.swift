@@ -1,5 +1,6 @@
 import UIKit
 import Foundation
+import AVFoundation
 
 public class LanedScroller: NSObject {
     
@@ -8,38 +9,37 @@ public class LanedScroller: NSObject {
     private var delegate: LanedScrollerDelegate!
     private let cellMaker: CellMaker
     private let tableViewData: [Decodable]
-    
+
     public init(tableViewData: [Decodable], cellMaker: @escaping CellMaker) {
         self.tableViewData = tableViewData
         self.cellMaker = cellMaker
         tableView = UITableView()
-        tableView.rowHeight = UITableView.automaticDimension
-        tableView.estimatedRowHeight = 300
         super.init()
         dataSource = LanedScrollerDataSource(lanedScrollerId: self.hashValue, tableViewData: tableViewData, cellMaker: cellMaker)
         delegate = LanedScrollerDelegate(lanedScrollerId: self.hashValue)
         tableView.dataSource = dataSource
         tableView.delegate = delegate
-        tableView.register(UITableViewCell.self, forCellReuseIdentifier: String(self.hashValue))
-        NotificationCenter.default.addObserver(self,
-                                               selector:#selector(listenScrollState), name: NSNotification.Name(rawValue: "scrollState"), object: nil)
+        tableView.register(DeepScrollCell.self, forCellReuseIdentifier: "deepscrollcell")
+        NotificationCenter.default.addObserver(self, selector:#selector(listenScrollState), name: NSNotification.Name(rawValue: "scrollState"), object: nil)
     }
     
     convenience override public init() {
         self.init()
     }
     
-    
     @objc
     func listenScrollState(notifcation: Notification) {
         guard let userInfo = notifcation.userInfo as? [String:String] else { return }
         guard let _ = userInfo[String(self.hashValue)] else { return }
         tableView.reloadData()
+        tableView.beginUpdates()
+        tableView.endUpdates()
+        AudioServicesPlaySystemSound(1057);
     }
-    
     
     public func getTableView() -> UITableView {
         return tableView
     }
+
 }
 

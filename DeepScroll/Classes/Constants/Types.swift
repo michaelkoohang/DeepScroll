@@ -8,4 +8,4 @@
 import Foundation
 import UIKit
 
-public typealias CellMaker = (UITableViewCell, Decodable) -> UITableViewCell
+public typealias CellMaker = (DeepScrollCell, Decodable) -> DeepScrollCell

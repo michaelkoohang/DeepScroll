@@ -9,7 +9,7 @@
     "file": "LICENSE"
   },
   "authors": {
-    "parthv21": "parthv21@gmail.com"
+    "mkoohang": "michael.s.k1001@gmail.com"
   },
   "source": {
     "git": "https://github.com/parthv21/DeepScroll.git",
@@ -18,5 +18,9 @@
   "platforms": {
     "ios": "8.0"
   },
-  "source_files": "DeepScroll/Classes/**/*"
+  "source_files": "DeepScroll/Classes/**/*",
+  "resources": [
+    "Sounds/*.aif"
+  ],
+  "frameworks": "UIKit"
 }
