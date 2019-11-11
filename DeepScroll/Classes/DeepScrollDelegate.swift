@@ -9,7 +9,6 @@ import UIKit
 
 public class LanedScrollerDelegate: NSObject, UITableViewDelegate {
     var touchSection: TouchSection = .none
-    var resetTimer: Timer = Timer()
     let lanedScrollerId: Int
         
     convenience override public init() {
@@ -57,7 +56,6 @@ public class LanedScrollerDelegate: NSObject, UITableViewDelegate {
         
     public func scrollViewDidScroll(_ scrollView: UIScrollView) {
         
-        resetTimer.invalidate()
         let hapticfeedback = UIImpactFeedbackGenerator()
         let containerView = UIApplication.shared.windows.first!.rootViewController?.view
         let width = (containerView?.bounds.width)!
@@ -72,15 +70,9 @@ public class LanedScrollerDelegate: NSObject, UITableViewDelegate {
         if (touchSection == .none) {
             touchSection = .right
         } else if ( 0 <= touchX && touchX <= (1/3) * width) {
-            resetTimer = Timer.scheduledTimer(withTimeInterval: 2, repeats: false, block: { (timer) in
-                resetScrollState(for: self.lanedScrollerId)
-            })
             scrollLaneChanged = touchSection != .left
             touchSection = .left
         } else if ( (1/3) * width <= touchX && touchX <= (2/3) * width) {
-            resetTimer = Timer.scheduledTimer(withTimeInterval: 2, repeats: false, block: { (timer) in
-                resetScrollState(for: self.lanedScrollerId)
-            })
             scrollLaneChanged = touchSection != .center
             touchSection = .center
         } else {
