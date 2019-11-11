@@ -37,52 +37,163 @@ class ViewController: UIViewController {
         }
         guard let unwrappedFeed = feed else { return }
         lanedScroller = LanedScroller(tableViewData: unwrappedFeed.posts, cellMaker: {(cell: DeepScrollCell, post: Decodable) in
+
             if let post = post as? Post {
+
                 if (cell.getViewsCount() > 0) {
-                                        
+
                     for subview in cell.contentView.subviews {
                         if (subview.isKind(of: UIStackView.self)) {
-                            (subview.viewWithTag(0) as! UILabel).text = String(post.id) + " " + post.name
-                            (subview.viewWithTag(2) as! UILabel).text = post.post
+                            (subview.subviews[0].subviews[0] as! UIImageView).image = UIImage()
+                            (subview.subviews[0].subviews[1] as! UILabel).text = post.name
+                            (subview.subviews[0].subviews[2] as! UILabel).text = "DATE"
+                            
+                            (subview.subviews[1] as! UILabel).text = post.post
                         }
                     }
                     return cell
                 }
                 else {
-                    let nameLbl = UILabel()
-                    let dummyView = UIView()
-                    let postLbl = UILabel()
+
+                    // If the cell doesn't have any views inside of its stack view, create a new one
                     
-                    nameLbl.text = String(post.id) + " " + post.name
-                    nameLbl.tag = 0
-                    nameLbl.translatesAutoresizingMaskIntoConstraints = false
-                  
-                    dummyView.translatesAutoresizingMaskIntoConstraints = false
-                    dummyView.heightAnchor.constraint(equalToConstant: 50).isActive = true
-                    dummyView.backgroundColor = .systemPink
-                    dummyView.tag = 1
+                    let avatar: UIImageView = {
+                        let iv = UIImageView()
+                        iv.backgroundColor = .black
+                        iv.layer.cornerRadius = 25
+                        iv.translatesAutoresizingMaskIntoConstraints = false
+                        return iv
+                    }()
                     
-                    postLbl.text = post.post
-                    postLbl.tag = 2
-                    postLbl.layoutIfNeeded()
-                    postLbl.numberOfLines = 0
-                    postLbl.translatesAutoresizingMaskIntoConstraints = false
+                    let name: UILabel = {
+                        let l = UILabel()
+                        l.text = post.name
+                        l.font = UIFont.systemFont(ofSize: 18, weight: .bold)
+                        l.translatesAutoresizingMaskIntoConstraints = false
+                        return l
+                    }()
                     
-                    cell.addViews(views:[nameLbl, dummyView, postLbl])
+                    let postDate: UILabel = {
+                        let l = UILabel()
+                        l.text = "DATE"
+                        l.textColor = .lightGray
+                        l.font = UIFont.systemFont(ofSize: 14, weight: .regular)
+                        l.translatesAutoresizingMaskIntoConstraints = false
+                        return l
+                    }()
+                    
+                    let view1: UIView = {
+                        let v = UIView()
+                        v.tag = 0
+                        v.translatesAutoresizingMaskIntoConstraints = false
+                        return v
+                    }()
+                    
+                    let postLabel: UILabel = {
+                        let l = UILabel()
+                        l.text = post.post
+                        l.tag = 2
+                        l.layoutIfNeeded()
+                        l.numberOfLines = 0
+                        l.translatesAutoresizingMaskIntoConstraints = false
+                        return l
+                    }()
+                    
+                    let like: UIButton = {
+                        let b = UIButton()
+                        b.titleLabel?.font = UIFont.systemFont(ofSize: 18, weight: .bold)
+                        b.backgroundColor = .systemBlue
+                        b.setTitle("Like", for: .normal)
+                        b.setTitleColor(.white, for: .normal)
+                        b.layer.cornerRadius = 5
+                        b.translatesAutoresizingMaskIntoConstraints = false
+                        return b
+                    }()
+                    
+                    let comment: UIButton = {
+                        let b = UIButton()
+                        b.titleLabel?.font = UIFont.systemFont(ofSize: 18, weight: .bold)
+                        b.backgroundColor = .systemRed
+                        b.setTitle("Comment", for: .normal)
+                        b.setTitleColor(.white, for: .normal)
+                        b.layer.cornerRadius = 5
+                        b.translatesAutoresizingMaskIntoConstraints = false
+                        return b
+                    }()
+                    
+                    let share: UIButton = {
+                        let b = UIButton()
+                        b.titleLabel?.font = UIFont.systemFont(ofSize: 18, weight: .bold)
+                        b.backgroundColor = .systemYellow
+                        b.setTitle("Share", for: .normal)
+                        b.setTitleColor(.white, for: .normal)
+                        b.layer.cornerRadius = 5
+                        b.translatesAutoresizingMaskIntoConstraints = false
+                        return b
+                    }()
+                    
+                    let view2: UIView = {
+                        let v = UIView()
+                        v.tag = 1
+                        v.translatesAutoresizingMaskIntoConstraints = false
+                        return v
+                    }()
+                    
+                    view1.addSubview(avatar)
+                    view1.addSubview(name)
+                    view1.addSubview(postDate)
+                    
+                    view2.addSubview(like)
+                    view2.addSubview(comment)
+                    view2.addSubview(share)
                                         
-                    return cell
+                    cell.addViews(views:[view1, postLabel, view2])
                     
+                    NSLayoutConstraint.activate([
+                        view1.heightAnchor.constraint(equalToConstant: 70),
+                        view2.heightAnchor.constraint(equalToConstant: 40),
+                                                
+                        avatar.centerYAnchor.constraint(equalTo: view1.centerYAnchor, constant: 0),
+                        avatar.leftAnchor.constraint(equalTo: view1.leftAnchor, constant: 8),
+                        avatar.heightAnchor.constraint(equalToConstant: 50),
+                        avatar.widthAnchor.constraint(equalToConstant: 50),
+                        
+                        name.leftAnchor.constraint(equalTo: avatar.rightAnchor, constant: 8),
+                        name.centerYAnchor.constraint(equalTo: avatar.centerYAnchor, constant: -12),
+                        
+                        postDate.leftAnchor.constraint(equalTo: avatar.rightAnchor, constant: 8),
+                        postDate.centerYAnchor.constraint(equalTo: avatar.centerYAnchor, constant: 12),
+                        
+                        postLabel.leftAnchor.constraint(equalTo: cell.leftAnchor, constant: 16),
+                        postLabel.rightAnchor.constraint(equalTo: cell.rightAnchor, constant: -16),
+                        
+                        like.leftAnchor.constraint(equalTo: view2.leftAnchor, constant: 8),
+                        like.centerYAnchor.constraint(equalTo: view2.centerYAnchor, constant: 0),
+                        like.widthAnchor.constraint(equalToConstant: 80),
+                        
+                        comment.centerXAnchor.constraint(equalTo: view2.centerXAnchor, constant: 0),
+                        comment.centerYAnchor.constraint(equalTo: view2.centerYAnchor, constant: 0),
+                        comment.widthAnchor.constraint(equalToConstant: 100),
+
+                        share.centerYAnchor.constraint(equalTo: view2.centerYAnchor, constant: 0),
+                        share.rightAnchor.constraint(equalTo: view2.rightAnchor, constant: -8),
+                        share.widthAnchor.constraint(equalToConstant: 80)
+
+                                    
+                    ])
+                    
+                    
+                    return cell
+
                 }
-                
+
             }
-      
+            
             return DeepScrollCell()
             
         })
         tableView = lanedScroller.getTableView()
         view.addSubview(tableView)
-
-        
         
         tableView.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
@@ -93,8 +204,5 @@ class ViewController: UIViewController {
         ])
         
     }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-    }
+    
 }

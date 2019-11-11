@@ -56,23 +56,26 @@ public class LanedScrollerDataSource: NSObject, UITableViewDataSource {
         if var cell = tableView.dequeueReusableCell(withIdentifier: "deepscrollcell", for: indexPath) as? DeepScrollCell {
             cell = cellMaker(cell, tableViewData[indexPath.row])
 
-            for subview in cell.stackview.arrangedSubviews {
-                switch self.touchSection {
-                case .right:
-                    subview.viewWithTag(0)?.isHidden = false
-                    subview.viewWithTag(1)?.isHidden = false
-                    subview.viewWithTag(2)?.isHidden = false
-                case .center:
-                    subview.viewWithTag(0)?.isHidden = false
-                    subview.viewWithTag(1)?.isHidden = false
-                    subview.viewWithTag(2)?.isHidden = true
-                case .left:
-                    subview.viewWithTag(0)?.isHidden = false
-                    subview.viewWithTag(1)?.isHidden = true
-                    subview.viewWithTag(2)?.isHidden = true
-                default:
-                    break
+            for subview in cell.contentView.subviews {
+                if subview.isKind(of: UIStackView.self) {
+                    switch self.touchSection {
+                    case .right:
+                        subview.viewWithTag(0)?.isHidden = false
+                        subview.viewWithTag(1)?.isHidden = false
+                        subview.viewWithTag(2)?.isHidden = false
+                    case .center:
+                        subview.viewWithTag(0)?.isHidden = false
+                        subview.viewWithTag(1)?.isHidden = false
+                        subview.viewWithTag(2)?.isHidden = true
+                    case .left:
+                        subview.viewWithTag(0)?.isHidden = false
+                        subview.viewWithTag(1)?.isHidden = true
+                        subview.viewWithTag(2)?.isHidden = true
+                    default:
+                        break
+                    }
                 }
+                
             }
             
             return cell

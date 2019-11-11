@@ -7,14 +7,14 @@
 
 import UIKit
 
-public class DeepScrollCell: UITableViewCell {
+open class DeepScrollCell: UITableViewCell {
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: .default, reuseIdentifier: "deepscrollcell")
         setup()
     }
     
-    required init?(coder: NSCoder) {
+    required public init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
@@ -22,10 +22,10 @@ public class DeepScrollCell: UITableViewCell {
         self.contentView.addSubview(stackview)
         
         NSLayoutConstraint.activate([
-            stackview.leftAnchor.constraint(equalTo: self.contentView.leftAnchor),
-            stackview.rightAnchor.constraint(equalTo: self.contentView.rightAnchor),
-            stackview.topAnchor.constraint(equalTo: self.contentView.topAnchor),
-            stackview.bottomAnchor.constraint(equalTo: self.contentView.bottomAnchor)
+            stackview.leftAnchor.constraint(equalTo: self.contentView.leftAnchor, constant: 8),
+            stackview.rightAnchor.constraint(equalTo: self.contentView.rightAnchor, constant: -8),
+            stackview.topAnchor.constraint(equalTo: self.contentView.topAnchor, constant: 8),
+            stackview.bottomAnchor.constraint(equalTo: self.contentView.bottomAnchor, constant: -8)
         ])
     }
     
@@ -34,6 +34,7 @@ public class DeepScrollCell: UITableViewCell {
         v.axis = .vertical
         v.translatesAutoresizingMaskIntoConstraints = false
         v.tag = Int.max
+        v.spacing = 5
         return v
     }()
     
@@ -45,6 +46,10 @@ public class DeepScrollCell: UITableViewCell {
     
     public func getViewsCount() -> Int {
         return stackview.arrangedSubviews.count
+    }
+    
+    public func getViews() -> [UIView] {
+        return stackview.arrangedSubviews
     }
 
 }
