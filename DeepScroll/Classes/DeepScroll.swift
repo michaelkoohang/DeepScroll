@@ -34,7 +34,7 @@ public class LanedScroller: NSObject {
         guard let _ = userInfo[String(self.hashValue)] else { return }
         tableView.reloadData()
         tableView.beginUpdates()
-        tableView.endUpdates()
+        tableView.endUpdates()       
         AudioServicesPlaySystemSound(1057);
     }
     
