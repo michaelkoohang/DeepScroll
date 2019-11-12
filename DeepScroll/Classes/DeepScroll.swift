@@ -50,6 +50,7 @@ public class LanedScroller: NSObject {
             compressionDirection = .RTL
         }
         dataSource.setCompressionDirection(to: compressionDirection)
+        tableView.reloadData()
     }
     
     public func isCompressionRTL() -> Bool {
