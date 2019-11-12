@@ -10,10 +10,14 @@ import UIKit
 import DeepScroll
 
 class ViewController: UIViewController {
-
+    
     private var lanedScroller: LanedScroller!
     private var tableView: UITableView!
-
+    private var menuView: UITableView = UITableView()
+    private var menuViewContiner: UIView!
+    private let switchView = UISwitch()
+    private var downloadedImages: [String: UIImage] = [:]
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
@@ -22,6 +26,8 @@ class ViewController: UIViewController {
     override func loadView() {
         super.loadView()
         addTableView()
+        addMenuTableView()
+        switchView.setOn(false, animated: true)
     }
     
     func addTableView() {
@@ -37,33 +43,36 @@ class ViewController: UIViewController {
         }
         guard let unwrappedFeed = feed else { return }
         lanedScroller = LanedScroller(tableViewData: unwrappedFeed.posts, cellMaker: {(cell: DeepScrollCell, post: Decodable) in
-
+            
             if let post = post as? Post {
-
+                
                 if (cell.getViewsCount() > 0) {
-
+                    
                     for subview in cell.contentView.subviews {
                         if (subview.isKind(of: UIStackView.self)) {
-                            (subview.subviews[0].subviews[0] as! UIImageView).image = UIImage()
+                            self.setAvatar(profileUrl: post.profileUrl, avatar: (subview.subviews[0].subviews[0] as! UIImageView))
+                            //                            (subview.subviews[0].subviews[0] as! UIImageView).image = UIImage()
                             (subview.subviews[0].subviews[1] as! UILabel).text = post.name
                             (subview.subviews[0].subviews[2] as! UILabel).text = "DATE"
-                            
                             (subview.subviews[1] as! UILabel).text = post.post
+                            
                         }
                     }
                     return cell
                 }
                 else {
-
+                    
                     // If the cell doesn't have any views inside of its stack view, create a new one
                     
                     let avatar: UIImageView = {
                         let iv = UIImageView()
                         iv.backgroundColor = .black
                         iv.layer.cornerRadius = 25
+                        iv.layer.masksToBounds = true
                         iv.translatesAutoresizingMaskIntoConstraints = false
                         return iv
                     }()
+                    self.setAvatar(profileUrl: post.profileUrl, avatar: avatar)
                     
                     let name: UILabel = {
                         let l = UILabel()
@@ -146,13 +155,13 @@ class ViewController: UIViewController {
                     view2.addSubview(like)
                     view2.addSubview(comment)
                     view2.addSubview(share)
-                                        
+                    
                     cell.addViews(views:[view1, postLabel, view2])
                     
                     NSLayoutConstraint.activate([
                         view1.heightAnchor.constraint(equalToConstant: 70),
                         view2.heightAnchor.constraint(equalToConstant: 40),
-                                                
+                        
                         avatar.centerYAnchor.constraint(equalTo: view1.centerYAnchor, constant: 0),
                         avatar.leftAnchor.constraint(equalTo: view1.leftAnchor, constant: 8),
                         avatar.heightAnchor.constraint(equalToConstant: 50),
@@ -174,19 +183,19 @@ class ViewController: UIViewController {
                         comment.centerXAnchor.constraint(equalTo: view2.centerXAnchor, constant: 0),
                         comment.centerYAnchor.constraint(equalTo: view2.centerYAnchor, constant: 0),
                         comment.widthAnchor.constraint(equalToConstant: 100),
-
+                        
                         share.centerYAnchor.constraint(equalTo: view2.centerYAnchor, constant: 0),
                         share.rightAnchor.constraint(equalTo: view2.rightAnchor, constant: -8),
                         share.widthAnchor.constraint(equalToConstant: 80)
-
-                                    
+                        
+                        
                     ])
                     
                     
                     return cell
-
+                    
                 }
-
+                
             }
             
             return DeepScrollCell()
@@ -205,4 +214,91 @@ class ViewController: UIViewController {
         
     }
     
+    func setAvatar(profileUrl: String, avatar: UIImageView) {
+        if downloadedImages[profileUrl] != nil {
+            avatar.image = self.downloadedImages[profileUrl]
+        } else {
+            self.fetchProfileImage(from: profileUrl) { (image) in
+                guard let image = image else { return }
+                self.downloadedImages[profileUrl] = image
+                DispatchQueue.main.async {
+                    avatar.image = image
+                }
+            }
+        }
+    }
+    
+    func fetchProfileImage(from profileLink: String, completion: @escaping (UIImage?)->()) {
+        guard let url =  URL(string: profileLink) else {
+            completion(nil)
+            return
+        }
+        URLSession.shared.dataTask(with: url) { (data, response, error) in
+            guard let data = data, error == nil else { return }
+            completion(UIImage(data: data))
+        }.resume()
+    }
+    
+}
+
+extension ViewController {
+    
+    func addMenuTableView() {
+        menuViewContiner = UIView(frame: CGRect(x: 0, y: view.bounds.height - 50, width: view.bounds.width, height: 2/3 * view.bounds.height))
+        view.addSubview(menuViewContiner)
+        menuViewContiner.translatesAutoresizingMaskIntoConstraints = false
+        menuViewContiner.backgroundColor = .white
+        NSLayoutConstraint.activate([
+            menuViewContiner.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            menuViewContiner.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            menuViewContiner.topAnchor.constraint(equalTo: view.topAnchor, constant: view.bounds.height - 50),
+            menuViewContiner.heightAnchor.constraint(equalToConstant: 2/3 * view.bounds.height)
+        ])
+
+        switchView.addTarget(self, action: #selector(switched), for: .valueChanged)
+        switchView.translatesAutoresizingMaskIntoConstraints = false
+        menuViewContiner.addSubview(switchView)
+        NSLayoutConstraint.activate([
+            switchView.topAnchor.constraint(equalTo: menuViewContiner.topAnchor, constant: 5),
+            switchView.trailingAnchor.constraint(equalTo: menuViewContiner.trailingAnchor, constant: -35),
+            switchView.widthAnchor.constraint(equalToConstant: 40),
+            switchView.heightAnchor.constraint(equalToConstant: 20)
+        ])
+        
+        let settingsText = UILabel()
+        settingsText.text = "Settings"
+        settingsText.textColor = .black
+        settingsText.font = UIFont(name: "HelveticaNeue-Bold", size: 25.0)
+        settingsText.textAlignment = .center
+        settingsText.baselineAdjustment = .alignCenters
+        menuViewContiner.addSubview(settingsText)
+        settingsText.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            settingsText.leadingAnchor.constraint(equalTo: menuViewContiner.leadingAnchor, constant: 5),
+            settingsText.topAnchor.constraint(equalTo: menuViewContiner.topAnchor, constant: -10),
+            settingsText.heightAnchor.constraint(equalToConstant: 60),
+            settingsText.widthAnchor.constraint(equalToConstant: 100)
+        ])
+        
+        menuView = UITableView()
+        menuViewContiner.addSubview(menuView)
+        menuView.translatesAutoresizingMaskIntoConstraints = false
+        
+        NSLayoutConstraint.activate([
+            menuView.leadingAnchor.constraint(equalTo: menuViewContiner.leadingAnchor),
+            menuView.topAnchor.constraint(equalTo: menuViewContiner.topAnchor, constant: 40),
+            menuView.bottomAnchor.constraint(equalTo: menuViewContiner.bottomAnchor),
+            menuView.trailingAnchor.constraint(equalTo: menuViewContiner.trailingAnchor)
+        ])
+        
+    }
+    
+    @objc
+       func switched(s: UISwitch){
+           let origin: CGFloat = s.isOn ?  view.bounds.height - view.bounds.height/3 : view.bounds.height - 50
+           print(origin)
+           UIView.animate(withDuration: 0.35) {
+               self.menuViewContiner.frame.origin.y = origin
+           }
+       }
 }

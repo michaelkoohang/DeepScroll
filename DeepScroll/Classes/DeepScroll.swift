@@ -9,7 +9,8 @@ public class LanedScroller: NSObject {
     private var delegate: LanedScrollerDelegate!
     private let cellMaker: CellMaker
     private let tableViewData: [Decodable]
-
+    private var compressionDirection: CompressionDirection = .RTL
+    
     public init(tableViewData: [Decodable], cellMaker: @escaping CellMaker) {
         self.tableViewData = tableViewData
         self.cellMaker = cellMaker
@@ -40,6 +41,16 @@ public class LanedScroller: NSObject {
     public func getTableView() -> UITableView {
         return tableView
     }
-
+    
+    public func toggleCompressionDirection() {
+        switch compressionDirection {
+        case .RTL:
+            compressionDirection = .LTR
+        case .LTR:
+            compressionDirection = .RTL
+        }
+        
+    }
+    
 }
 

@@ -13,6 +13,7 @@ public class LanedScrollerDataSource: NSObject, UITableViewDataSource {
     private let cellMaker: CellMaker
     private let tableViewData: [Decodable]
     private var touchSection: TouchSection = .none
+    private var compressionDirection: CompressionDirection = .RTL
     
     convenience override public init() {
         self.init()
@@ -51,28 +52,27 @@ public class LanedScrollerDataSource: NSObject, UITableViewDataSource {
     public func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return tableViewData.count
     }
-        
+    
     public func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if var cell = tableView.dequeueReusableCell(withIdentifier: "deepscrollcell", for: indexPath) as? DeepScrollCell {
             cell = cellMaker(cell, tableViewData[indexPath.row])
-
+            
             for subview in cell.contentView.subviews {
                 if subview.isKind(of: UIStackView.self) {
-                    switch self.touchSection {
-                    case .right:
+                    let cellState = getCellState(compressionDirection: compressionDirection, touchSection: touchSection)
+                    switch cellState {
+                    case .normal:
                         subview.viewWithTag(0)?.isHidden = false
                         subview.viewWithTag(1)?.isHidden = false
                         subview.viewWithTag(2)?.isHidden = false
-                    case .center:
+                    case .collapsed:
                         subview.viewWithTag(0)?.isHidden = false
                         subview.viewWithTag(1)?.isHidden = false
                         subview.viewWithTag(2)?.isHidden = true
-                    case .left:
+                    case .condensed:
                         subview.viewWithTag(0)?.isHidden = false
                         subview.viewWithTag(1)?.isHidden = true
                         subview.viewWithTag(2)?.isHidden = true
-                    default:
-                        break
                     }
                 }
                 
@@ -86,3 +86,8 @@ public class LanedScrollerDataSource: NSObject, UITableViewDataSource {
     }
 }
 
+extension LanedScrollerDataSource {
+    func setCompressionDirection(to compressionDirection: CompressionDirection) {
+        self.compressionDirection = compressionDirection
+    }
+}

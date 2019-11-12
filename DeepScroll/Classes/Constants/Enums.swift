@@ -14,3 +14,14 @@ enum TouchSection {
     case right
     case none
 }
+
+enum CellState {
+    case normal
+    case collapsed
+    case condensed
+}
+
+enum CompressionDirection {
+    case LTR
+    case RTL
+}

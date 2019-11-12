@@ -22,6 +22,7 @@
 		9C2C2519F0F1E36317D20F001934C173 /* DeepScroll.swift in Sources */ = {isa = PBXBuildFile; fileRef = 248F844CB78A98413721725081D469E3 /* DeepScroll.swift */; };
 		9F7CE51D54F72E0516CFB665D22708EF /* Types.swift in Sources */ = {isa = PBXBuildFile; fileRef = F43CBFD5732F8728C935F4BCEFFC78B2 /* Types.swift */; };
 		A6AB5D00AB2ACD700CB6C010280B1B4E /* Pods-DeepScroll_Tests-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 145BD735904D7E7BD304641C0F82A6A4 /* Pods-DeepScroll_Tests-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		B2B4D216237A33680039D419 /* CellStateConverters.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2B4D215237A33680039D419 /* CellStateConverters.swift */; };
 		B39AA821CC1463BBB366116922A9341C /* Pods-DeepScroll_Tests-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = D4077152C9ED1D61BB38E4B827A54C92 /* Pods-DeepScroll_Tests-dummy.m */; };
 		FB14FDCAE1E909A84F7710575F28499A /* Pods-DeepScroll_Example-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 601DD3B521D5C867740C58E778671F5B /* Pods-DeepScroll_Example-dummy.m */; };
 /* End PBXBuildFile section */
@@ -75,6 +76,7 @@
 		9F3E4875FCD4724089D98496DCB735B8 /* Pods-DeepScroll_Tests-acknowledgements.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-DeepScroll_Tests-acknowledgements.plist"; sourceTree = "<group>"; };
 		A350A2B2D24045F8F2721F84124F3767 /* Pods-DeepScroll_Tests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-DeepScroll_Tests.release.xcconfig"; sourceTree = "<group>"; };
 		ADB8F07A5FF9A3B349F5A836165BD318 /* Pods_DeepScroll_Tests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_DeepScroll_Tests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		B2B4D215237A33680039D419 /* CellStateConverters.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CellStateConverters.swift; sourceTree = "<group>"; };
 		D4077152C9ED1D61BB38E4B827A54C92 /* Pods-DeepScroll_Tests-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Pods-DeepScroll_Tests-dummy.m"; sourceTree = "<group>"; };
 		D4CF9C08EEA1E544A98D21BE2E5EE026 /* Pods-DeepScroll_Tests-Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-DeepScroll_Tests-Info.plist"; sourceTree = "<group>"; };
 		D745F6D543794721F3B1BCF1CEF1C954 /* Pods-DeepScroll_Tests-acknowledgements.markdown */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = "Pods-DeepScroll_Tests-acknowledgements.markdown"; sourceTree = "<group>"; };
@@ -181,6 +183,7 @@
 			isa = PBXGroup;
 			children = (
 				38C65115B87E1CFB2A82B99FEED387E6 /* ScrollStateHandlers.swift */,
+				B2B4D215237A33680039D419 /* CellStateConverters.swift */,
 			);
 			name = Utils;
 			path = DeepScroll/Classes/Utils;
@@ -415,6 +418,7 @@
 			files = (
 				427A380257F72986ED39C681190ECF3A /* DeepScroll-dummy.m in Sources */,
 				9C2C2519F0F1E36317D20F001934C173 /* DeepScroll.swift in Sources */,
+				B2B4D216237A33680039D419 /* CellStateConverters.swift in Sources */,
 				42A27EE0E3BF0A002D0F4F989D066156 /* DeepScrollCell.swift in Sources */,
 				3853E45E461860E91585570C37636FB5 /* DeepScrollDataSource.swift in Sources */,
 				83A36CF6B6777A58B1E3E2F0AEF9881F /* DeepScrollDelegate.swift in Sources */,
