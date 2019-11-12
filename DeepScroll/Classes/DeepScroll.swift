@@ -49,8 +49,12 @@ public class LanedScroller: NSObject {
         case .LTR:
             compressionDirection = .RTL
         }
-        
+        dataSource.setCompressionDirection(to: compressionDirection)
     }
     
+    public func isCompressionRTL() -> Bool {
+        return compressionDirection == .RTL
+    }
+
 }
 

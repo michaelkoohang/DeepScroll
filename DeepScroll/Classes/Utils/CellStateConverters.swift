@@ -31,7 +31,5 @@ func getCellState(compressionDirection: CompressionDirection, touchSection: Touc
         default:
             return .normal
         }
-    default:
-        return .normal
     }
 }
