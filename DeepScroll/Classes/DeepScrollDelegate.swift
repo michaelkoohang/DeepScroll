@@ -62,7 +62,17 @@ public class LanedScrollerDelegate: NSObject, UITableViewDelegate {
     }()
     
     public func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return UITableView.automaticDimension
+        let cellState = getCellState(compressionDirection: compressionDirection, touchSection: touchSection)
+        switch cellState {
+//        case .normal:
+//            return 600
+//        case .collapsed:
+//            return 100
+//        case .condensed:
+//            return 100
+        default:
+            return UITableView.automaticDimension
+        }
     }
         
     public func scrollViewDidScroll(_ scrollView: UIScrollView) {
@@ -131,6 +141,7 @@ extension LanedScrollerDelegate {
     func setCompressionDirection(to compressionDirection: CompressionDirection) {
         self.compressionDirection = compressionDirection
         touchSection = .none
+        setLaneProperties()
     }
     
     /**

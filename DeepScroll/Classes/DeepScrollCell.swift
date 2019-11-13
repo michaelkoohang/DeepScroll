@@ -20,7 +20,7 @@ open class DeepScrollCell: UITableViewCell {
     
     func setup() {
         self.contentView.addSubview(stackview)
-        
+//        self.contentView.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
             stackview.leftAnchor.constraint(equalTo: self.contentView.leftAnchor, constant: 8),
             stackview.rightAnchor.constraint(equalTo: self.contentView.rightAnchor, constant: -8),

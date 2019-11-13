@@ -185,19 +185,11 @@ class ViewController: UIViewController {
                         share.centerYAnchor.constraint(equalTo: view2.centerYAnchor, constant: 0),
                         share.rightAnchor.constraint(equalTo: view2.rightAnchor, constant: -8),
                         share.widthAnchor.constraint(equalToConstant: 80)
-                        
-                        
                     ])
-                    
-                    
                     return cell
-                    
                 }
-                
             }
-            
             return DeepScrollCell()
-            
         })
         tableView = lanedScroller.getTableView()
         view.addSubview(tableView)
@@ -264,7 +256,6 @@ extension ViewController {
         
         let settingsText = UILabel()
         settingsText.text = "Settings"
-        //        settingsText.textColor = .black
         settingsText.font = UIFont(name: "HelveticaNeue-Bold", size: 25.0)
         settingsText.textAlignment = .center
         settingsText.baselineAdjustment = .alignCenters
@@ -377,7 +368,6 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
         settingSwitch.translatesAutoresizingMaskIntoConstraints = false
         settingSwitch.addTarget(self, action: action, for: .valueChanged)
         settingSwitch.setOn(switchState, animated: false)
-        
         let containerSv = UIStackView(arrangedSubviews: [settingDescLbl, leftLbl, settingSwitch, rightLbl])
         NSLayoutConstraint.activate([
             settingSwitch.topAnchor.constraint(equalTo: containerSv.topAnchor, constant: 10)
@@ -393,7 +383,6 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
             containerSv.topAnchor.constraint(equalTo: cell.contentView.topAnchor),
             containerSv.bottomAnchor.constraint(equalTo: cell.contentView.bottomAnchor)
         ])
-        
         if #available(iOS 13.0, *) {
             cell.backgroundColor = UITraitCollection.current.userInterfaceStyle == .dark ? blackShade : whiteShade
         } else {

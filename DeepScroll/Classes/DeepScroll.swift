@@ -20,6 +20,8 @@ public class LanedScroller: NSObject {
         delegate = LanedScrollerDelegate(lanedScrollerId: self.hashValue)
         tableView.dataSource = dataSource
         tableView.delegate = delegate
+        tableView.rowHeight = UITableView.automaticDimension
+        tableView.estimatedRowHeight = 200
         tableView.register(DeepScrollCell.self, forCellReuseIdentifier: "deepscrollcell")
         NotificationCenter.default.addObserver(self, selector:#selector(listenScrollState), name: NSNotification.Name(rawValue: "scrollState"), object: nil)
     }
@@ -34,6 +36,7 @@ public class LanedScroller: NSObject {
         guard let _ = userInfo[String(self.hashValue)] else { return }
         tableView.reloadData()
         tableView.beginUpdates()
+        tableView.layoutIfNeeded()
         tableView.endUpdates()       
         AudioServicesPlaySystemSound(1057);
     }
