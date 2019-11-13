@@ -50,6 +50,7 @@ public class LanedScroller: NSObject {
             compressionDirection = .RTL
         }
         dataSource.setCompressionDirection(to: compressionDirection)
+        delegate.setCompressionDirection(to: compressionDirection)
         tableView.reloadData()
     }
     

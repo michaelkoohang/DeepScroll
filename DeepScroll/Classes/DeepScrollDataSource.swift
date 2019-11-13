@@ -4,6 +4,7 @@
 //
 //  Created by Parth Tamane on 06/11/19.
 //
+
 import Foundation
 import UIKit
 
@@ -89,5 +90,13 @@ public class LanedScrollerDataSource: NSObject, UITableViewDataSource {
 extension LanedScrollerDataSource {
     func setCompressionDirection(to compressionDirection: CompressionDirection) {
         self.compressionDirection = compressionDirection
+        switch touchSection {
+        case .left:
+            touchSection = .right
+        case .right:
+            touchSection = .left
+        default:
+            break
+        }
     }
 }
