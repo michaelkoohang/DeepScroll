@@ -17,8 +17,10 @@ class ViewController: UIViewController {
     private var menuOpen = false
     private let settingsCellId = "ExampleAppSettingsCellId"
     private var menuViewContiner: UIView!
-    private let switchView = UISwitch()
     private var downloadedImages: [String: UIImage] = [:]
+    
+    private let whiteShade = UIColor(red:0.96, green:0.96, blue:0.96, alpha:1.0)
+    private let blackShade = UIColor(red:0.10, green:0.13, blue:0.16, alpha:1.0)
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -26,7 +28,7 @@ class ViewController: UIViewController {
         addTableView()
         addMenuTableView()
     }
-        
+    
     func addTableView() {
         var feed: Feed?
         if let url = Bundle.main.url(forResource: "data", withExtension: "json") {
@@ -240,7 +242,7 @@ class ViewController: UIViewController {
 // MARK: Extension to make settings menu
 
 extension ViewController {
-        
+    
     func addMenuTableView() {
         menuViewContiner = UIView(frame: CGRect(x: 0, y: view.bounds.height - 50, width: view.bounds.width, height: 2/3 * view.bounds.height))
         let tap = UITapGestureRecognizer(target: self, action: #selector(self.toggleSettingsPane(_:)))
@@ -248,10 +250,10 @@ extension ViewController {
         view.addSubview(menuViewContiner)
         menuViewContiner.translatesAutoresizingMaskIntoConstraints = false
         if #available(iOS 13.0, *) {
-            menuViewContiner.backgroundColor = UITraitCollection.current.userInterfaceStyle == .dark ? .black : .white
+            menuViewContiner.backgroundColor = UITraitCollection.current.userInterfaceStyle == .dark ? blackShade : whiteShade
         } else {
             // Fallback on earlier versions
-            menuViewContiner.backgroundColor = .white
+            menuViewContiner.backgroundColor = whiteShade
         }
         NSLayoutConstraint.activate([
             menuViewContiner.leadingAnchor.constraint(equalTo: view.leadingAnchor),
@@ -259,21 +261,10 @@ extension ViewController {
             menuViewContiner.topAnchor.constraint(equalTo: view.topAnchor, constant: view.bounds.height - 50),
             menuViewContiner.heightAnchor.constraint(equalToConstant: 2/3 * view.bounds.height)
         ])
-
-        switchView.setOn(false, animated: true)
-        switchView.addTarget(self, action: #selector(switched), for: .valueChanged)
-        switchView.translatesAutoresizingMaskIntoConstraints = false
-        menuViewContiner.addSubview(switchView)
-        NSLayoutConstraint.activate([
-            switchView.topAnchor.constraint(equalTo: menuViewContiner.topAnchor, constant: 5),
-            switchView.trailingAnchor.constraint(equalTo: menuViewContiner.trailingAnchor, constant: -35),
-            switchView.widthAnchor.constraint(equalToConstant: 40),
-            switchView.heightAnchor.constraint(equalToConstant: 20)
-        ])
         
         let settingsText = UILabel()
         settingsText.text = "Settings"
-//        settingsText.textColor = .black
+        //        settingsText.textColor = .black
         settingsText.font = UIFont(name: "HelveticaNeue-Bold", size: 25.0)
         settingsText.textAlignment = .center
         settingsText.baselineAdjustment = .alignCenters
@@ -287,6 +278,12 @@ extension ViewController {
         ])
         
         menuView = UITableView()
+        if #available(iOS 13.0, *) {
+            menuView.backgroundColor = UITraitCollection.current.userInterfaceStyle == .dark ? blackShade : whiteShade
+        } else {
+            // Fallback on earlier versions
+            menuView.backgroundColor = whiteShade
+        }
         menuView.delegate = self
         menuView.dataSource = self
         menuView.register(UITableViewCell.self, forCellReuseIdentifier: settingsCellId)
@@ -303,16 +300,8 @@ extension ViewController {
         
     }
     
-    @objc
-       func switched(s: UISwitch){
-           let origin: CGFloat = s.isOn ?  view.bounds.height - view.bounds.height/3 : view.bounds.height - 50
-           UIView.animate(withDuration: 0.35) {
-               self.menuViewContiner.frame.origin.y = origin
-           }
-       }
-    
     @objc func toggleSettingsPane(_ sender: UITapGestureRecognizer? = nil) {
-        menuOpen = !menuOpen
+        menuOpen = self.menuViewContiner.frame.origin.y == view.bounds.height - 50
         let origin: CGFloat = menuOpen ?  view.bounds.height - view.bounds.height/3 : view.bounds.height - 50
         UIView.animate(withDuration: 0.35) {
             self.menuViewContiner.frame.origin.y = origin
@@ -322,12 +311,22 @@ extension ViewController {
     @objc func toggleCompressionMode(s: UISwitch) {
         lanedScroller.toggleCompressionDirection()
     }
+    
+      @objc func toggleLaneWidth(s: UISwitch) {
+        if s.isOn {
+            lanedScroller.setWidthRatioEqual()
+        } else {
+            lanedScroller.setWidthRatioIncreasing()
+        }
+      }
+      
 }
 
+//MARK: Extension to handle settings menu table view methods
 
 extension ViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        1
+        2
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -336,39 +335,23 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
                 let settingDescLbl = UILabel()
                 settingDescLbl.translatesAutoresizingMaskIntoConstraints = false
                 settingDescLbl.text = "Compression Direction"
-//                settingDescLbl.textColor = .black
                 settingDescLbl.font = UIFont(name: "HelveticaNeue-Bold", size: 15.0)
                 let ltrLbl = UILabel()
                 ltrLbl.translatesAutoresizingMaskIntoConstraints = false
                 ltrLbl.text = "LTR"
-//                ltrLbl.textColor = .black
                 ltrLbl.font = UIFont(name: "HelveticaNeue", size: 13.0)
                 let rtlLbl = UILabel()
                 rtlLbl.translatesAutoresizingMaskIntoConstraints = false
                 rtlLbl.text = "RTL"
-//                rtlLbl.textColor = .black
                 rtlLbl.font = UIFont(name: "HelveticaNeue", size: 13.0)
                 let ltrSwitch = UISwitch()
                 ltrSwitch.translatesAutoresizingMaskIntoConstraints = false
                 ltrSwitch.addTarget(self, action: #selector(toggleCompressionMode(s:)), for: .valueChanged)
                 ltrSwitch.setOn(lanedScroller.isCompressionRTL(), animated: false)
-            
+                
                 
                 let containerSv = UIStackView(arrangedSubviews: [settingDescLbl, ltrLbl, ltrSwitch, rtlLbl])
                 NSLayoutConstraint.activate([
-//                    ltrLbl.widthAnchor.constraint(equalToConstant: 30),
-//                    ltrLbl.heightAnchor.constraint(equalToConstant: 30),
-//                    rtlLbl.widthAnchor.constraint(equalToConstant: 30),
-//                    rtlLbl.heightAnchor.constraint(equalToConstant: 30),
-//                    settingDescLbl.widthAnchor.constraint(equalToConstant: 40),
-//                    settingDescLbl.heightAnchor.constraint(equalToConstant: 30),
-//                    ltrSwitch.widthAnchor.constraint(equalToConstant: 30),
-//                    ltrSwitch.heightAnchor.constraint(equalToConstant: 30),
-//                    settingDescLbl.leadingAnchor.constraint(equalTo: containerSv.leadingAnchor),
-//                    ltrLbl.leadingAnchor.constraint(equalTo: settingDescLbl.trailingAnchor),
-//                    ltrSwitch.leadingAnchor.constraint(equalTo: ltrLbl.trailingAnchor,constant: 30),
-//                    rtlLbl.leadingAnchor.constraint(equalTo: ltrSwitch.trailingAnchor),
-//                    rtlLbl.trailingAnchor.constraint(equalTo: containerSv.trailingAnchor)
                     ltrSwitch.topAnchor.constraint(equalTo: containerSv.topAnchor, constant: 10)
                 ])
                 containerSv.translatesAutoresizingMaskIntoConstraints = false
@@ -383,9 +366,63 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
                     containerSv.bottomAnchor.constraint(equalTo: cell.contentView.bottomAnchor)
                 ])
                 
+                if #available(iOS 13.0, *) {
+                    cell.backgroundColor = UITraitCollection.current.userInterfaceStyle == .dark ? blackShade : whiteShade
+                } else {
+                    // Fallback on earlier versions
+                    cell.backgroundColor = whiteShade
+                }
+                
                 return cell
             }
         }
+        
+        if indexPath.row == 1 {
+            if let cell = tableView.dequeueReusableCell(withIdentifier: settingsCellId) {
+                let settingDescLbl = UILabel()
+                settingDescLbl.translatesAutoresizingMaskIntoConstraints = false
+                settingDescLbl.text = "Lane Width"
+                settingDescLbl.font = UIFont(name: "HelveticaNeue-Bold", size: 15.0)
+                let equal = UILabel()
+                equal.translatesAutoresizingMaskIntoConstraints = false
+                equal.text = "1/3x"
+                equal.font = UIFont(name: "HelveticaNeue", size: 13.0)
+                let increasing = UILabel()
+                increasing.translatesAutoresizingMaskIntoConstraints = false
+                increasing.text = "1/9x"
+                increasing.font = UIFont(name: "HelveticaNeue", size: 13.0)
+                let laneWidthSwitch = UISwitch()
+                laneWidthSwitch.translatesAutoresizingMaskIntoConstraints = false
+                laneWidthSwitch.addTarget(self, action: #selector(toggleLaneWidth(s:)), for: .valueChanged)
+                laneWidthSwitch.setOn(lanedScroller.isLaneWidthRationEqual(), animated: false)
+                
+                let containerSv = UIStackView(arrangedSubviews: [settingDescLbl, equal, laneWidthSwitch, increasing])
+                NSLayoutConstraint.activate([
+                    laneWidthSwitch.topAnchor.constraint(equalTo: containerSv.topAnchor, constant: 10)
+                ])
+                containerSv.translatesAutoresizingMaskIntoConstraints = false
+                containerSv.axis = .horizontal
+                containerSv.distribution = .fill
+                containerSv.spacing = 5
+                cell.contentView.addSubview(containerSv)
+                NSLayoutConstraint.activate([
+                    containerSv.leadingAnchor.constraint(equalTo: cell.contentView.leadingAnchor, constant: 10),
+                    containerSv.trailingAnchor.constraint(equalTo: cell.contentView.trailingAnchor, constant:  -10),
+                    containerSv.topAnchor.constraint(equalTo: cell.contentView.topAnchor),
+                    containerSv.bottomAnchor.constraint(equalTo: cell.contentView.bottomAnchor)
+                ])
+                
+                if #available(iOS 13.0, *) {
+                    cell.backgroundColor = UITraitCollection.current.userInterfaceStyle == .dark ? blackShade : whiteShade
+                } else {
+                    // Fallback on earlier versions
+                    cell.backgroundColor = whiteShade
+                }
+                
+                return cell
+            }
+        }
+        
         return UITableViewCell()
     }
     

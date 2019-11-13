@@ -85,4 +85,8 @@ extension LanedScroller {
     public func setWidthRatioIncreasing() {
         delegate.setLaneWidthRatio(to: .increasing)
     }
+    
+    public func isLaneWidthRationEqual() -> Bool {
+        return delegate.isLaneWidthRationEqual()
+    }
 }

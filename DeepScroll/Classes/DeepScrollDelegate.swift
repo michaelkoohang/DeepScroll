@@ -126,17 +126,31 @@ extension LanedScrollerDelegate {
     /**
      Function to set a compression direction.
      
-     - Paramenter compressionDirection: The new compression direction to be set.
+     - Parameter compressionDirection: The new compression direction to be set.
      */
     func setCompressionDirection(to compressionDirection: CompressionDirection) {
         self.compressionDirection = compressionDirection
         touchSection = .none
     }
     
+    /**
+     Function to set the ratio of widths of scroll lanes
+     
+     - Parameter laneWidthRation: The new width ration mode for lanes.
+     */
     func setLaneWidthRatio(to laneWidthRatio: ScrollLaneWidthRatio) {
         self.laneWidthRatio = laneWidthRatio
         setLaneProperties()
     }
+    
+    /**
+     Function to check if width of lanes is equal
+     
+     - Returns: True if lane widths are equal else false.
+     */
+    public func isLaneWidthRationEqual() -> Bool {
+        return laneWidthRatio == .equal
+       }
     
     /**
      Function to set properties dependent on scroll width ratio.
