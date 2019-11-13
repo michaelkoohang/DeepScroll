@@ -13,13 +13,26 @@ public class LanedScrollerDelegate: NSObject, UITableViewDelegate {
     let lanedScrollerId: Int
     private var touchSection: TouchSection = .none
     private var compressionDirection: CompressionDirection = .RTL
-        
+    private var laneWidthRatio: ScrollLaneWidthRatio = .equal
+    private var leftLaneBounds: [LaneXBound: CGFloat]
+    private var centerLaneBounds: [LaneXBound: CGFloat]
+    private var rightLaneBounds: [LaneXBound: CGFloat]
+    
     convenience override public init() {
-        self.init(lanedScrollerId: 0)
+        self.init()
     }
     
     init(lanedScrollerId: Int) {
         self.lanedScrollerId = lanedScrollerId
+        
+        //Setting up lane ratio properties
+        leftLaneBounds = getLaneXBounds(with: laneWidthRatio, for: .left)
+        centerLaneBounds = getLaneXBounds(with: laneWidthRatio, for: .center)
+        rightLaneBounds = getLaneXBounds(with: laneWidthRatio, for: .right)
+        leftLane.frame = CGRect(x: leftLaneBounds[.lower]!, y: 0, width: getLaneWidth(with: laneWidthRatio, for: .left), height: UIScreen.main.bounds.height)
+        centerLane.frame = CGRect(x: centerLaneBounds[.lower]!, y: 0, width: getLaneWidth(with: laneWidthRatio, for: .center), height: UIScreen.main.bounds.height)
+        rightLane.frame = CGRect(x: rightLaneBounds[.lower]!, y: 0, width: getLaneWidth(with: laneWidthRatio, for: .right), height: UIScreen.main.bounds.height)
+        
         super.init()
     }
         
@@ -28,7 +41,7 @@ public class LanedScrollerDelegate: NSObject, UITableViewDelegate {
         v.backgroundColor = .lightGray
         v.alpha = 0
         v.isUserInteractionEnabled = false
-        v.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width / 3, height: UIScreen.main.bounds.height)
+//        v.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width / 3, height: UIScreen.main.bounds.height)
         v.translatesAutoresizingMaskIntoConstraints = false
         return v
     }()
@@ -38,7 +51,7 @@ public class LanedScrollerDelegate: NSObject, UITableViewDelegate {
         v.backgroundColor = .lightGray
         v.alpha = 0
         v.isUserInteractionEnabled = false
-        v.frame = CGRect(x: UIScreen.main.bounds.width / 3, y: 0, width: UIScreen.main.bounds.width / 3, height: UIScreen.main.bounds.height)
+//        v.frame = CGRect(x: UIScreen.main.bounds.width / 3, y: 0, width: UIScreen.main.bounds.width / 3, height: UIScreen.main.bounds.height)
         v.translatesAutoresizingMaskIntoConstraints = false
         return v
     }()
@@ -48,7 +61,7 @@ public class LanedScrollerDelegate: NSObject, UITableViewDelegate {
         v.backgroundColor = .lightGray
         v.alpha = 0
         v.isUserInteractionEnabled = false
-        v.frame = CGRect(x: UIScreen.main.bounds.width / 3 * 2, y: 0, width: UIScreen.main.bounds.width / 3, height: UIScreen.main.bounds.height)
+//        v.frame = CGRect(x: UIScreen.main.bounds.width / 3 * 2, y: 0, width: UIScreen.main.bounds.width / 3, height: UIScreen.main.bounds.height)
         v.translatesAutoresizingMaskIntoConstraints = false
         return v
     }()
@@ -61,7 +74,6 @@ public class LanedScrollerDelegate: NSObject, UITableViewDelegate {
         
         let hapticfeedback = UIImpactFeedbackGenerator()
         let containerView = UIApplication.shared.windows.first!.rootViewController?.view
-        let width = (containerView?.bounds.width)!
         let touchLocation = scrollView.panGestureRecognizer.location(in: containerView)
         let touchX = touchLocation.x
         var scrollLaneChanged = false
@@ -69,7 +81,7 @@ public class LanedScrollerDelegate: NSObject, UITableViewDelegate {
         UIApplication.shared.windows.first?.rootViewController?.view.addSubview(leftLane)
         UIApplication.shared.windows.first?.rootViewController?.view.addSubview(centerLane)
         UIApplication.shared.windows.first?.rootViewController?.view.addSubview(rightLane)
-
+        
         if (touchSection == .none) {
             switch compressionDirection {
             case .RTL:
@@ -77,10 +89,10 @@ public class LanedScrollerDelegate: NSObject, UITableViewDelegate {
             case .LTR:
                 touchSection = .left
             }
-        } else if ( 0 <= touchX && touchX <= (1/3) * width) {
+        } else if (leftLaneBounds[.lower]! <= touchX && touchX < leftLaneBounds[.upper]!) {
             scrollLaneChanged = touchSection != .left
             touchSection = .left
-        } else if ( (1/3) * width <= touchX && touchX <= (2/3) * width) {
+        } else if (centerLaneBounds[.lower]! <= touchX && touchX < centerLaneBounds[.upper]!) {
             scrollLaneChanged = touchSection != .center
             touchSection = .center
         } else {
