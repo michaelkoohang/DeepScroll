@@ -14,9 +14,9 @@ public class LanedScrollerDelegate: NSObject, UITableViewDelegate {
     private var touchSection: TouchSection = .none
     private var compressionDirection: CompressionDirection = .RTL
     private var laneWidthRatio: ScrollLaneWidthRatio = .equal
-    private var leftLaneBounds: [LaneXBound: CGFloat]
-    private var centerLaneBounds: [LaneXBound: CGFloat]
-    private var rightLaneBounds: [LaneXBound: CGFloat]
+    private var leftLaneBounds: [LaneXBound: CGFloat] = [:]
+    private var centerLaneBounds: [LaneXBound: CGFloat] = [:]
+    private var rightLaneBounds: [LaneXBound: CGFloat] = [:]
     
     convenience override public init() {
         self.init()
@@ -24,16 +24,11 @@ public class LanedScrollerDelegate: NSObject, UITableViewDelegate {
     
     init(lanedScrollerId: Int) {
         self.lanedScrollerId = lanedScrollerId
+        super.init()
         
         //Setting up lane ratio properties
-        leftLaneBounds = getLaneXBounds(with: laneWidthRatio, for: .left)
-        centerLaneBounds = getLaneXBounds(with: laneWidthRatio, for: .center)
-        rightLaneBounds = getLaneXBounds(with: laneWidthRatio, for: .right)
-        leftLane.frame = CGRect(x: leftLaneBounds[.lower]!, y: 0, width: getLaneWidth(with: laneWidthRatio, for: .left), height: UIScreen.main.bounds.height)
-        centerLane.frame = CGRect(x: centerLaneBounds[.lower]!, y: 0, width: getLaneWidth(with: laneWidthRatio, for: .center), height: UIScreen.main.bounds.height)
-        rightLane.frame = CGRect(x: rightLaneBounds[.lower]!, y: 0, width: getLaneWidth(with: laneWidthRatio, for: .right), height: UIScreen.main.bounds.height)
-        
-        super.init()
+        setLaneProperties()
+
     }
         
     var leftLane: UIView = {
@@ -126,10 +121,33 @@ public class LanedScrollerDelegate: NSObject, UITableViewDelegate {
     }
 }
 
+//MARK: Extension to handle configuration changes
 extension LanedScrollerDelegate {
+    /**
+     Function to set a compression direction.
+     
+     - Paramenter compressionDirection: The new compression direction to be set.
+     */
     func setCompressionDirection(to compressionDirection: CompressionDirection) {
         self.compressionDirection = compressionDirection
         touchSection = .none
+    }
+    
+    func setLaneWidthRatio(to laneWidthRatio: ScrollLaneWidthRatio) {
+        self.laneWidthRatio = laneWidthRatio
+        setLaneProperties()
+    }
+    
+    /**
+     Function to set properties dependent on scroll width ratio.
+     */
+    func setLaneProperties() {
+        leftLaneBounds = getLaneXBounds(with: laneWidthRatio, for: .left, direction: compressionDirection)
+        centerLaneBounds = getLaneXBounds(with: laneWidthRatio, for: .center, direction: compressionDirection)
+        rightLaneBounds = getLaneXBounds(with: laneWidthRatio, for: .right, direction: compressionDirection)
+        leftLane.frame = CGRect(x: leftLaneBounds[.lower]!, y: 0, width: getLaneWidth(with: laneWidthRatio, for: .left, direction: compressionDirection), height: UIScreen.main.bounds.height)
+        centerLane.frame = CGRect(x: centerLaneBounds[.lower]!, y: 0, width: getLaneWidth(with: laneWidthRatio, for: .center, direction: compressionDirection), height: UIScreen.main.bounds.height)
+        rightLane.frame = CGRect(x: rightLaneBounds[.lower]!, y: 0, width: getLaneWidth(with: laneWidthRatio, for: .right, direction: compressionDirection), height: UIScreen.main.bounds.height)
     }
 }
 

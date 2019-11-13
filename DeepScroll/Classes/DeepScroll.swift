@@ -42,6 +42,15 @@ public class LanedScroller: NSObject {
         return tableView
     }
     
+}
+
+//MARK: Extension to handle configuration functions
+
+extension LanedScroller {
+    
+    /**
+     Toggles the compression direction beteen Left to Right and Right to left
+     */
     public func toggleCompressionDirection() {
         switch compressionDirection {
         case .RTL:
@@ -54,9 +63,26 @@ public class LanedScroller: NSObject {
         tableView.reloadData()
     }
     
+    /**
+     Tells if the compression direction is Right to Left
+     
+     - Returns: True if compression direction is RTL else false.
+     */
     public func isCompressionRTL() -> Bool {
         return compressionDirection == .RTL
     }
-
+    
+    /**
+     Sets the width of lanes to equal ration.
+     */
+    public func setWidthRatioEqual() {
+        delegate.setLaneWidthRatio(to: .equal)
+    }
+    
+    /**
+     Sets the width of lanes to increasing ratio from left to right.
+     */
+    public func setWidthRatioIncreasing() {
+        delegate.setLaneWidthRatio(to: .increasing)
+    }
 }
-

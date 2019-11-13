@@ -56,7 +56,7 @@ enum EqualLaneXUpperBound {
     }
 }
 
-enum IncreasingLaneXUpperBound  {
+enum IncreasingLaneXUpperBoundRTL {
     case left, center, right
 
     var rawValue: CGFloat {
@@ -66,6 +66,23 @@ enum IncreasingLaneXUpperBound  {
                 return (2/9*width)
             case .center:
                 return (5/9*width)
+            case .right:
+                return width
+            }
+        }
+    }
+}
+
+enum IncreasingLaneXUpperBoundLTR {
+    case left, center, right
+
+    var rawValue: CGFloat {
+        get {
+            switch self {
+            case .left:
+                return (4/9*width)
+            case .center:
+                return (7/9*width)
             case .right:
                 return width
             }

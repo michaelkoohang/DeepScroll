@@ -237,7 +237,8 @@ class ViewController: UIViewController {
     
 }
 
-// MARK :- Extension to make settings menu
+// MARK: Extension to make settings menu
+
 extension ViewController {
         
     func addMenuTableView() {

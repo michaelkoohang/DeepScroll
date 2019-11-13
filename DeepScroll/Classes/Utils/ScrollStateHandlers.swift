@@ -24,7 +24,7 @@ func resetScrollState(for lanedScrollerId: Int) {
     sendScrollStateNotification(for: lanedScrollerId, touchSection: touchSction)
 }
 
-func getLaneXBounds(with ratio: ScrollLaneWidthRatio, for lane: TouchSection) ->[LaneXBound:CGFloat] {
+func getLaneXBounds(with ratio: ScrollLaneWidthRatio, for lane: TouchSection, direction: CompressionDirection ) ->[LaneXBound:CGFloat] {
     var bounds: [LaneXBound: CGFloat] = [:]
     switch ratio {
     case .equal:
@@ -33,7 +33,7 @@ func getLaneXBounds(with ratio: ScrollLaneWidthRatio, for lane: TouchSection) ->
             bounds[LaneXBound.lower] = CGFloat(0.0)
             bounds[LaneXBound.upper] = EqualLaneXUpperBound.left.rawValue
             return bounds
-
+            
         case .center:
             bounds[LaneXBound.lower] = EqualLaneXUpperBound.left.rawValue
             bounds[LaneXBound.upper] = EqualLaneXUpperBound.center.rawValue
@@ -48,24 +48,48 @@ func getLaneXBounds(with ratio: ScrollLaneWidthRatio, for lane: TouchSection) ->
             break
         }
     case .increasing:
-        switch lane {
-        case .left:
-            bounds[LaneXBound.lower] = CGFloat(0.0)
-            bounds[LaneXBound.upper] = IncreasingLaneXUpperBound.left.rawValue
-            return bounds
-
-        case .center:
-            bounds[LaneXBound.lower] = IncreasingLaneXUpperBound.left.rawValue
-            bounds[LaneXBound.upper] = IncreasingLaneXUpperBound.center.rawValue
-            return bounds
+        switch direction {
+        case .RTL:
+            switch lane {
+            case .left:
+                bounds[LaneXBound.lower] = CGFloat(0.0)
+                bounds[LaneXBound.upper] = IncreasingLaneXUpperBoundRTL.left.rawValue
+                return bounds
+                
+            case .center:
+                bounds[LaneXBound.lower] = IncreasingLaneXUpperBoundRTL.left.rawValue
+                bounds[LaneXBound.upper] = IncreasingLaneXUpperBoundRTL.center.rawValue
+                return bounds
+                
+            case .right:
+                bounds[LaneXBound.lower] = IncreasingLaneXUpperBoundRTL.center.rawValue
+                bounds[LaneXBound.upper] = IncreasingLaneXUpperBoundRTL.right.rawValue
+                return bounds
+                
+            case .none:
+                break
+            }
             
-        case .right:
-            bounds[LaneXBound.lower] = IncreasingLaneXUpperBound.center.rawValue
-            bounds[LaneXBound.upper] = IncreasingLaneXUpperBound.right.rawValue
-            return bounds
-            
-        case .none:
-            break
+        case .LTR:
+            switch lane {
+            case .left:
+                bounds[LaneXBound.lower] = CGFloat(0.0)
+                bounds[LaneXBound.upper] = IncreasingLaneXUpperBoundLTR.left.rawValue
+                return bounds
+                
+            case .center:
+                bounds[LaneXBound.lower] = IncreasingLaneXUpperBoundLTR.left.rawValue
+                bounds[LaneXBound.upper] = IncreasingLaneXUpperBoundLTR.center.rawValue
+                return bounds
+                
+            case .right:
+                bounds[LaneXBound.lower] = IncreasingLaneXUpperBoundLTR.center.rawValue
+                bounds[LaneXBound.upper] = IncreasingLaneXUpperBoundLTR.right.rawValue
+                return bounds
+                
+            case .none:
+                break
+            }
         }
     }
     bounds[LaneXBound.lower] = EqualLaneXUpperBound.center.rawValue
@@ -73,36 +97,55 @@ func getLaneXBounds(with ratio: ScrollLaneWidthRatio, for lane: TouchSection) ->
     return bounds
 }
 
-func getLaneWidth(with ratio: ScrollLaneWidthRatio, for lane: TouchSection) -> CGFloat {
+func getLaneWidth(with ratio: ScrollLaneWidthRatio, for lane: TouchSection, direction: CompressionDirection) -> CGFloat {
     switch ratio {
     case .equal:
         switch lane {
         case .left:
             return (EqualLaneXUpperBound.left.rawValue - CGFloat(0.0))
-
+            
         case .center:
             return (EqualLaneXUpperBound.center.rawValue - EqualLaneXUpperBound.left.rawValue)
             
         case .right:
             return (EqualLaneXUpperBound.right.rawValue - EqualLaneXUpperBound.center.rawValue)
-        
+            
         case .none:
             break
         }
     case .increasing:
-        switch lane {
-        case .left:
-            return (IncreasingLaneXUpperBound.left.rawValue - CGFloat(0.0))
+        switch direction {
+        case .RTL:
+            switch lane {
+            case .left:
+                return (IncreasingLaneXUpperBoundRTL.left.rawValue - CGFloat(0.0))
+                
+            case .center:
+                return (IncreasingLaneXUpperBoundRTL.center.rawValue - IncreasingLaneXUpperBoundRTL.left.rawValue)
+                
+            case .right:
+                return (IncreasingLaneXUpperBoundRTL.right.rawValue - IncreasingLaneXUpperBoundRTL.center.rawValue)
+                
+            case .none:
+                break
+            }
         
-        case .center:
-            return (IncreasingLaneXUpperBound.center.rawValue - IncreasingLaneXUpperBound.left.rawValue)
-            
-        case .right:
-            return (IncreasingLaneXUpperBound.right.rawValue - IncreasingLaneXUpperBound.center.rawValue)
-            
-        case .none:
-            break
+        case .LTR:
+           switch lane {
+            case .left:
+                return (IncreasingLaneXUpperBoundLTR.left.rawValue - CGFloat(0.0))
+                
+            case .center:
+                return (IncreasingLaneXUpperBoundLTR.center.rawValue - IncreasingLaneXUpperBoundLTR.left.rawValue)
+                
+            case .right:
+                return (IncreasingLaneXUpperBoundLTR.right.rawValue - IncreasingLaneXUpperBoundLTR.center.rawValue)
+                
+            case .none:
+                break
+            }
         }
+        
     }
     return (EqualLaneXUpperBound.left.rawValue - CGFloat(0.0))
 }
