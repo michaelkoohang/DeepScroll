@@ -36,7 +36,6 @@ public class LanedScrollerDelegate: NSObject, UITableViewDelegate {
         v.backgroundColor = .lightGray
         v.alpha = 0
         v.isUserInteractionEnabled = false
-//        v.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width / 3, height: UIScreen.main.bounds.height)
         v.translatesAutoresizingMaskIntoConstraints = false
         return v
     }()
@@ -46,7 +45,6 @@ public class LanedScrollerDelegate: NSObject, UITableViewDelegate {
         v.backgroundColor = .lightGray
         v.alpha = 0
         v.isUserInteractionEnabled = false
-//        v.frame = CGRect(x: UIScreen.main.bounds.width / 3, y: 0, width: UIScreen.main.bounds.width / 3, height: UIScreen.main.bounds.height)
         v.translatesAutoresizingMaskIntoConstraints = false
         return v
     }()
@@ -56,7 +54,6 @@ public class LanedScrollerDelegate: NSObject, UITableViewDelegate {
         v.backgroundColor = .lightGray
         v.alpha = 0
         v.isUserInteractionEnabled = false
-//        v.frame = CGRect(x: UIScreen.main.bounds.width / 3 * 2, y: 0, width: UIScreen.main.bounds.width / 3, height: UIScreen.main.bounds.height)
         v.translatesAutoresizingMaskIntoConstraints = false
         return v
     }()
