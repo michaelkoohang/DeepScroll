@@ -61,6 +61,23 @@ public class LanedScrollerDelegate: NSObject, UITableViewDelegate {
         return v
     }()
     
+    public func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        if section != 0 {
+            let v = UIView()
+            v.backgroundColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.2)
+            return v
+        }
+        return UIView()
+    }
+    
+    public func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        if section != 0 {
+            return 10
+        }
+        
+        return 0
+    }
+    
     public func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         let cellState = getCellState(compressionDirection: compressionDirection, touchSection: touchSection)
         switch cellState {

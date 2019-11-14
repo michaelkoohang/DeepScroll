@@ -19,22 +19,29 @@ open class DeepScrollCell: UITableViewCell {
     }
     
     func setup() {
-        self.contentView.addSubview(stackview)
-//        self.contentView.translatesAutoresizingMaskIntoConstraints = false
+        self.cellView.addSubview(stackview)
+        self.contentView.addSubview(cellView)
         NSLayoutConstraint.activate([
-            stackview.leftAnchor.constraint(equalTo: self.contentView.leftAnchor, constant: 8),
-            stackview.rightAnchor.constraint(equalTo: self.contentView.rightAnchor, constant: -8),
-            stackview.topAnchor.constraint(equalTo: self.contentView.topAnchor, constant: 8),
-            stackview.bottomAnchor.constraint(equalTo: self.contentView.bottomAnchor, constant: -8)
+            
+            cellView.leadingAnchor.constraint(equalTo: self.contentView.leadingAnchor, constant: 0),
+            cellView.trailingAnchor.constraint(equalTo: self.contentView.trailingAnchor, constant: 0),
+            cellView.topAnchor.constraint(equalTo: self.contentView.topAnchor, constant: 0),
+            cellView.bottomAnchor.constraint(equalTo: self.contentView.bottomAnchor, constant: 0),
+            
         ])
     }
+    
+    var cellView: UIView = {
+        let v = UIView()
+        v.translatesAutoresizingMaskIntoConstraints = false
+        return v
+    }()
     
     var stackview: UIStackView = {
         let v = UIStackView()
         v.axis = .vertical
         v.translatesAutoresizingMaskIntoConstraints = false
         v.tag = Int.max
-        v.spacing = 5
         return v
     }()
     
@@ -50,6 +57,20 @@ open class DeepScrollCell: UITableViewCell {
     
     public func getViews() -> [UIView] {
         return stackview.arrangedSubviews
+    }
+    
+    public func setPadding(top: CGFloat, right: CGFloat, bottom: CGFloat, left: CGFloat) {
+        print("\(top) + \(right) + \(bottom) + \(left)")
+        NSLayoutConstraint.activate([
+            stackview.leadingAnchor.constraint(equalTo: self.cellView.leadingAnchor, constant: left),
+            stackview.trailingAnchor.constraint(equalTo: self.cellView.trailingAnchor, constant: -right),
+            stackview.topAnchor.constraint(equalTo: self.cellView.topAnchor, constant: top),
+            stackview.bottomAnchor.constraint(equalTo: self.cellView.bottomAnchor, constant: -bottom)
+        ])
+    }
+    
+    public func addSpaceAfter(view: UIView, value: CGFloat) {
+        stackview.setCustomSpacing(value, after: view)
     }
 
 }
