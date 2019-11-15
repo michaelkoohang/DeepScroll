@@ -60,7 +60,6 @@ public class LanedScrollerDataSource: NSObject, UITableViewDataSource {
             
             if let sv = cell.contentView.subviews[0].subviews[0] as? UIStackView {
                 let cellState = getCellState(compressionDirection: compressionDirection, touchSection: touchSection)
-                print("Selected Touch Section: \(touchSection)")
                 switch cellState {
                 case .normal:
                     sv.subviews.forEach({ if ($0.tag == 0) { $0.isHidden = false } })

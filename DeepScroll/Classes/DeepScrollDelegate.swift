@@ -17,7 +17,6 @@ public class LanedScrollerDelegate: NSObject, UITableViewDelegate {
     private var leftLaneBounds: [LaneXBound: CGFloat] = [:]
     private var centerLaneBounds: [LaneXBound: CGFloat] = [:]
     private var rightLaneBounds: [LaneXBound: CGFloat] = [:]
-    private var resetState = false
     
     convenience override public init() {
         self.init()
@@ -29,9 +28,9 @@ public class LanedScrollerDelegate: NSObject, UITableViewDelegate {
         
         //Setting up lane ratio properties
         setLaneProperties()
-
-    }
         
+    }
+    
     var leftLane: UIView = {
         let v = UIView()
         v.backgroundColor = .lightGray
@@ -79,17 +78,17 @@ public class LanedScrollerDelegate: NSObject, UITableViewDelegate {
     public func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         let cellState = getCellState(compressionDirection: compressionDirection, touchSection: touchSection)
         switch cellState {
-//        case .normal:
-//            return 600
-//        case .collapsed:
-//            return 100
-//        case .condensed:
-//            return 100
+            //        case .normal:
+            //            return 600
+            //        case .collapsed:
+            //            return 100
+            //        case .condensed:
+        //            return 100
         default:
             return UITableView.automaticDimension
         }
     }
-        
+    
     public func scrollViewDidScroll(_ scrollView: UIScrollView) {
         
         let hapticfeedback = UIImpactFeedbackGenerator()
@@ -101,19 +100,13 @@ public class LanedScrollerDelegate: NSObject, UITableViewDelegate {
         UIApplication.shared.windows.first?.rootViewController?.view.addSubview(leftLane)
         UIApplication.shared.windows.first?.rootViewController?.view.addSubview(centerLane)
         UIApplication.shared.windows.first?.rootViewController?.view.addSubview(rightLane)
-        print("Selected Touch Section: \(touchSection) Touch Location \(touchLocation.x) Reset State \(resetState)")
         
-        if (touchSection == .none || resetState) {
+        if (touchSection == .none) {
             switch compressionDirection {
             case .RTL:
                 touchSection = .right
             case .LTR:
                 touchSection = .left
-            }
-            
-            if resetState {
-                sendScrollStateNotification(for: lanedScrollerId, touchSection: touchSection, reset: true)
-                return
             }
             
         } else if (leftLaneBounds[.lower]! <= touchX && touchX < leftLaneBounds[.upper]!) {
@@ -151,38 +144,24 @@ public class LanedScrollerDelegate: NSObject, UITableViewDelegate {
             }
         }
     }
-        
+    
     public func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        print("Selected #########")
         tableView.deselectRow(at: indexPath, animated: true)
-        print("Selected \(getCellState(compressionDirection: compressionDirection, touchSection: touchSection))")
         if getCellState(compressionDirection: compressionDirection, touchSection: touchSection) == .normal { return }
         
         switch compressionDirection {
         case .RTL:
             sendScrollStateNotification(for: lanedScrollerId, touchSection: .right)
-//            touchSection = .right
         case .LTR:
             sendScrollStateNotification(for: lanedScrollerId, touchSection: .left)
-//            touchSection = .left
         }
         tableView.scrollToRow(at: indexPath, at: .top, animated: false)
-         switch compressionDirection {
-                case .RTL:
-                    touchSection = .right
-                case .LTR:
-                    touchSection = .left
-                }
-//        self.resetState = true
-        
-//        tableView.reloadData()
-//        (tableView as? DeepScrollTableView)!.reloadDataWithCompletion(completion: {
-//            print("Selected Inside Completion")
-//            tableView.beginUpdates()
-//            tableView.layoutIfNeeded()
-//            tableView.endUpdates()
-////            self.resetState = false
-//        } )
+        switch compressionDirection {
+        case .RTL:
+            touchSection = .right
+        case .LTR:
+            touchSection = .left
+        }
     }
     
 }
@@ -217,7 +196,7 @@ extension LanedScrollerDelegate {
      */
     public func isLaneWidthRationEqual() -> Bool {
         return laneWidthRatio == .equal
-       }
+    }
     
     /**
      Function to set properties dependent on scroll width ratio.

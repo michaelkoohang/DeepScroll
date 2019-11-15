@@ -13,14 +13,12 @@ final class DeepScrollTableView: UITableView {
     
     override func layoutSubviews() {
         super.layoutSubviews()
-        print("Selected Layout Subviews")
         reloadDataCompletionBlock?()
         reloadDataCompletionBlock = nil
     }
     
     
     func reloadDataWithCompletion(completion: @escaping () -> Void) {
-        print("Selected Reload Data")
         reloadDataCompletionBlock = completion
         self.reloadData()
     }

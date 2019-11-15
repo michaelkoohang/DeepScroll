@@ -14,7 +14,6 @@ public class LanedScroller: NSObject {
     public init(tableViewData: [Decodable], cellMaker: @escaping CellMaker) {
         self.tableViewData = tableViewData
         self.cellMaker = cellMaker
-//        tableView = UITableView()
         tableView = DeepScrollTableView()
         super.init()
         dataSource = LanedScrollerDataSource(lanedScrollerId: self.hashValue, tableViewData: tableViewData, cellMaker: cellMaker)
@@ -35,15 +34,12 @@ public class LanedScroller: NSObject {
     func listenScrollState(notifcation: Notification) {
         guard let userInfo = notifcation.userInfo as? [String:String] else { return }
         guard let _ = userInfo[String(self.hashValue)] else { return }
-        guard let reset = userInfo["reset"] else { return }
-        if reset == "true" { return }
         
         tableView.reloadData()
         tableView.beginUpdates()
         tableView.layoutIfNeeded()
         tableView.endUpdates()
         AudioServicesPlaySystemSound(1057);
-        print("Selected Called in DeepScroll")
     }
     
     public func getTableView() -> UITableView {
