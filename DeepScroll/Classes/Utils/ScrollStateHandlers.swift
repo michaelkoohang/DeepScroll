@@ -8,19 +8,14 @@
 import Foundation
 import UIKit
 
-func makeScrollStateObject(for lanedScrollerId: Int, touchSection: TouchSection, reset: Bool) -> [String:String] {
-    return [String(lanedScrollerId):"\(touchSection)", "reset": "\(reset)"]
+func makeScrollStateObject(for lanedScrollerId: Int, touchSection: TouchSection) -> [String:String] {
+    return [String(lanedScrollerId):"\(touchSection)"]
 }
 
 
-func sendScrollStateNotification(for lanedScrollerId: Int, touchSection: TouchSection, reset: Bool = false) {
-    let scrollState = makeScrollStateObject(for: lanedScrollerId, touchSection: touchSection, reset: reset)
+func sendScrollStateNotification(for lanedScrollerId: Int, touchSection: TouchSection) {
+    let scrollState = makeScrollStateObject(for: lanedScrollerId, touchSection: touchSection)
     NotificationCenter.default.post(name: NSNotification.Name(rawValue: "scrollState"), object: nil, userInfo: scrollState)
-}
-
-func resetScrollState(for lanedScrollerId: Int) {
-    let touchSction: TouchSection = .right
-    sendScrollStateNotification(for: lanedScrollerId, touchSection: touchSction)
 }
 
 func getLaneXBounds(with ratio: ScrollLaneWidthRatio, for lane: TouchSection, direction: CompressionDirection ) ->[LaneXBound:CGFloat] {

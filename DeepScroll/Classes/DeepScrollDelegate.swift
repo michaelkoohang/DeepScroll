@@ -96,7 +96,7 @@ public class LanedScrollerDelegate: NSObject, UITableViewDelegate {
         let touchLocation = scrollView.panGestureRecognizer.location(in: containerView)
         let touchX = touchLocation.x
         var scrollLaneChanged = false
-        
+        print("X: \(touchX)")
         UIApplication.shared.windows.first?.rootViewController?.view.addSubview(leftLane)
         UIApplication.shared.windows.first?.rootViewController?.view.addSubview(centerLane)
         UIApplication.shared.windows.first?.rootViewController?.view.addSubview(rightLane)
@@ -155,7 +155,17 @@ public class LanedScrollerDelegate: NSObject, UITableViewDelegate {
         case .LTR:
             sendScrollStateNotification(for: lanedScrollerId, touchSection: .left)
         }
-        tableView.scrollToRow(at: indexPath, at: .top, animated: false)
+//        DispatchQueue.main.asyncAfter(deadline: .now() + 5, execute: {
+//            switch self.compressionDirection {
+//            case .RTL:
+//                self.touchSection = .right
+//            case .LTR:
+//                self.touchSection = .left
+//            }
+//            tableView.scrollToRow(at: indexPath, at: .top, animated: false)
+//        })
+        
+                tableView.scrollToRow(at: indexPath, at: .top, animated: false)
         switch compressionDirection {
         case .RTL:
             touchSection = .right
