@@ -60,19 +60,29 @@ public class LanedScrollerDataSource: NSObject, UITableViewDataSource {
             
             if let sv = cell.contentView.subviews[0].subviews[0] as? UIStackView {
                 let cellState = getCellState(compressionDirection: compressionDirection, touchSection: touchSection)
+                print("Selected Touch Section: \(touchSection)")
                 switch cellState {
                 case .normal:
-                    sv.viewWithTag(0)?.isHidden = false
-                    sv.viewWithTag(1)?.isHidden = false
-                    sv.viewWithTag(2)?.isHidden = false
+                    sv.subviews.forEach({ if ($0.tag == 0) { $0.isHidden = false } })
+                    sv.subviews.forEach({ if ($0.tag == 1) { $0.isHidden = false } })
+                    sv.subviews.forEach({ if ($0.tag == 2) { $0.isHidden = false } })
+//                    sv.viewWithTag(0)?.isHidden = false
+//                    sv.viewWithTag(1)?.isHidden = false
+//                    sv.viewWithTag(2)?.isHidden = false
                 case .collapsed:
-                    sv.viewWithTag(0)?.isHidden = false
-                    sv.viewWithTag(1)?.isHidden = false
-                    sv.viewWithTag(2)?.isHidden = true
+                    sv.subviews.forEach({ if ($0.tag == 0) { $0.isHidden = false } })
+                    sv.subviews.forEach({ if ($0.tag == 1) { $0.isHidden = false } })
+                    sv.subviews.forEach({ if ($0.tag == 2) { $0.isHidden = true } })
+//                    sv.viewWithTag(0)?.isHidden = false
+//                    sv.viewWithTag(1)?.isHidden = false
+//                    sv.viewWithTag(2)?.isHidden = true
                 case .condensed:
-                    sv.viewWithTag(0)?.isHidden = false
-                    sv.viewWithTag(1)?.isHidden = true
-                    sv.viewWithTag(2)?.isHidden = true
+                    sv.subviews.forEach({ if ($0.tag == 0) { $0.isHidden = false } })
+                    sv.subviews.forEach({ if ($0.tag == 1) { $0.isHidden = true } })
+                    sv.subviews.forEach({ if ($0.tag == 2) { $0.isHidden = true } })
+//                    sv.viewWithTag(0)?.isHidden = false
+//                    sv.viewWithTag(1)?.isHidden = true
+//                    sv.viewWithTag(2)?.isHidden = true
                 }
                 
             }

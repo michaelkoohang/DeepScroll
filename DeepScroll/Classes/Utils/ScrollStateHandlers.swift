@@ -8,16 +8,15 @@
 import Foundation
 import UIKit
 
-func makeScrollStateObject(for lanedScrollerId: Int, touchSection: TouchSection) -> [String:String] {
-    return [String(lanedScrollerId):"\(touchSection)"]
+func makeScrollStateObject(for lanedScrollerId: Int, touchSection: TouchSection, reset: Bool) -> [String:String] {
+    return [String(lanedScrollerId):"\(touchSection)", "reset": "\(reset)"]
 }
 
 
-func sendScrollStateNotification(for lanedScrollerId: Int, touchSection: TouchSection) {
-    let scrollState = makeScrollStateObject(for: lanedScrollerId, touchSection: touchSection)
+func sendScrollStateNotification(for lanedScrollerId: Int, touchSection: TouchSection, reset: Bool = false) {
+    let scrollState = makeScrollStateObject(for: lanedScrollerId, touchSection: touchSection, reset: reset)
     NotificationCenter.default.post(name: NSNotification.Name(rawValue: "scrollState"), object: nil, userInfo: scrollState)
 }
-
 
 func resetScrollState(for lanedScrollerId: Int) {
     let touchSction: TouchSection = .right

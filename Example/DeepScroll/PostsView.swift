@@ -14,7 +14,7 @@ func setPostCellContent(cell: DeepScrollCell, post: Post, avatarSetter: @escapin
 
     // If the cell doesn't have any views inside of its stack view, create a new one
     cell.setPadding(top: 16, right: 16, bottom: 16, left: 16)
-    cell.selectionStyle = .none
+    cell.selectionStyle = .blue
     
     let avatar: UIImageView = {
         let iv = UIImageView()
