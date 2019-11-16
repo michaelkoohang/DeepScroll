@@ -12,7 +12,9 @@ struct Post: Decodable {
     let id: Int
     let name: String
     let profileUrl: String
-    let post: String
+    let data: String
+    let likes: Int
+    let comments: Int
 }
 
 struct Feed: Decodable {

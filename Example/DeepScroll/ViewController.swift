@@ -64,7 +64,9 @@ class ViewController: UIViewController {
                             self.setAvatar(profileUrl: post.profileUrl, avatar: (sv.subviews[0].subviews[0] as! UIImageView))
                             (sv.subviews[0].subviews[1] as! UILabel).text = post.name
                             (sv.subviews[0].subviews[2] as! UILabel).text = "45 min •"
-                            (sv.subviews[1] as! UILabel).text = post.post
+                            (sv.subviews[1] as! UILabel).text = post.data
+                            (sv.subviews[2].subviews[1] as! UILabel).text = String(post.likes)
+                            (sv.subviews[2].subviews[2] as! UILabel).text = "\(post.comments) Comments"
                         }
                     }
                     return cell
@@ -213,7 +215,7 @@ extension ViewController {
 
 extension ViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        4
+        return 4
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {

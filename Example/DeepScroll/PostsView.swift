@@ -68,11 +68,42 @@ func setPostCellContent(cell: DeepScrollCell, post: Post, avatarSetter: @escapin
     
     let postLabel: UILabel = {
         let l = UILabel()
-        l.text = post.post
+        l.text = post.data
         l.tag = 2
         l.layoutIfNeeded()
         l.numberOfLines = 0
         l.textColor = UIColor(red: 0/255, green: 0/255, blue: 0/255, alpha: 0.85)
+        l.font = UIFont.systemFont(ofSize: 15, weight: .regular)
+        l.translatesAutoresizingMaskIntoConstraints = false
+        return l
+    }()
+    
+    let view2: UIView = {
+        let v = UIView()
+        v.translatesAutoresizingMaskIntoConstraints = false
+        v.tag = 1
+        return v
+    }()
+    
+    let likeImage: UIImageView = {
+        let iv = UIImageView(image: UIImage(named: "like-heart-laugh"))
+        iv.translatesAutoresizingMaskIntoConstraints = false
+        return iv
+    }()
+    
+    let likeCount: UILabel = {
+        let l = UILabel()
+        l.text = String(post.likes)
+        l.textColor = UIColor(red:0.39, green:0.40, blue:0.42, alpha:1.00)
+        l.font = UIFont.systemFont(ofSize: 15, weight: .regular)
+        l.translatesAutoresizingMaskIntoConstraints = false
+        return l
+    }()
+    
+    let commentCount: UILabel = {
+        let l = UILabel()
+        l.text = "\(post.comments) Comments"
+        l.textColor = UIColor(red:0.39, green:0.40, blue:0.42, alpha:1.00)
         l.font = UIFont.systemFont(ofSize: 15, weight: .regular)
         l.translatesAutoresizingMaskIntoConstraints = false
         return l
@@ -124,7 +155,7 @@ func setPostCellContent(cell: DeepScrollCell, post: Post, avatarSetter: @escapin
         return b
     }()
     
-    let view2: UIView = {
+    let view3: UIView = {
         let v = UIView()
         v.tag = 1
         v.translatesAutoresizingMaskIntoConstraints = false
@@ -137,18 +168,24 @@ func setPostCellContent(cell: DeepScrollCell, post: Post, avatarSetter: @escapin
     view1.addSubview(options)
     view1.addSubview(friends)
     
-    view2.addSubview(seperator)
-    view2.addSubview(like)
-    view2.addSubview(comment)
-    view2.addSubview(share)
+    view2.addSubview(likeImage)
+    view2.addSubview(likeCount)
+    view2.addSubview(commentCount)
     
-    cell.addViews(views:[view1, postLabel, view2])
+    view3.addSubview(seperator)
+    view3.addSubview(like)
+    view3.addSubview(comment)
+    view3.addSubview(share)
+    
+    cell.addViews(views:[view1, postLabel, view2, view3])
     cell.addSpaceAfter(view: view1, value: 10)
     cell.addSpaceAfter(view: postLabel, value: 10)
+    cell.addSpaceAfter(view: view2, value: 10)
     
     NSLayoutConstraint.activate([
         view1.heightAnchor.constraint(equalToConstant: 40),
-        view2.heightAnchor.constraint(equalToConstant: 40),
+        view2.heightAnchor.constraint(equalToConstant: 20),
+        view3.heightAnchor.constraint(equalToConstant: 40),
         
         avatar.centerYAnchor.constraint(equalTo: view1.centerYAnchor, constant: 0),
         avatar.leftAnchor.constraint(equalTo: view1.leftAnchor, constant: 0),
@@ -173,18 +210,29 @@ func setPostCellContent(cell: DeepScrollCell, post: Post, avatarSetter: @escapin
         
         postLabel.topAnchor.constraint(equalTo: view1.bottomAnchor, constant: 399),
         
-        seperator.topAnchor.constraint(equalTo: view2.topAnchor, constant: 0),
-        seperator.leadingAnchor.constraint(equalTo: view2.leadingAnchor, constant: 0),
-        seperator.trailingAnchor.constraint(equalTo: view2.trailingAnchor, constant: 0),
+        seperator.topAnchor.constraint(equalTo: view3.topAnchor, constant: 0),
+        seperator.leadingAnchor.constraint(equalTo: view3.leadingAnchor, constant: 0),
+        seperator.trailingAnchor.constraint(equalTo: view3.trailingAnchor, constant: 0),
         seperator.heightAnchor.constraint(equalToConstant: 1),
                                 
-        like.leftAnchor.constraint(equalTo: view2.leftAnchor, constant: 0),
-        like.centerYAnchor.constraint(equalTo: view2.centerYAnchor, constant: 0),
+        like.leftAnchor.constraint(equalTo: view3.leftAnchor, constant: 0),
+        like.centerYAnchor.constraint(equalTo: view3.centerYAnchor, constant: 0),
         
-        comment.centerXAnchor.constraint(equalTo: view2.centerXAnchor, constant: 0),
-        comment.centerYAnchor.constraint(equalTo: view2.centerYAnchor, constant:0),
+        comment.centerXAnchor.constraint(equalTo: view3.centerXAnchor, constant: 0),
+        comment.centerYAnchor.constraint(equalTo: view3.centerYAnchor, constant:0),
 
-        share.centerYAnchor.constraint(equalTo: view2.centerYAnchor, constant: 0),
-        share.rightAnchor.constraint(equalTo: view2.rightAnchor, constant: 0),
+        share.centerYAnchor.constraint(equalTo: view3.centerYAnchor, constant: 0),
+        share.rightAnchor.constraint(equalTo: view3.rightAnchor, constant: 0),
+        
+        likeImage.leftAnchor.constraint(equalTo: view2.leftAnchor, constant: 0),
+        likeImage.centerYAnchor.constraint(lessThanOrEqualTo: view2.centerYAnchor, constant: 0),
+        likeImage.heightAnchor.constraint(equalToConstant: 20),
+        likeImage.widthAnchor.constraint(equalToConstant: 55),
+        
+        likeCount.leftAnchor.constraint(equalTo: likeImage.rightAnchor, constant: 4),
+        likeCount.centerYAnchor.constraint(equalTo: likeImage.centerYAnchor, constant: 0),
+        
+        commentCount.rightAnchor.constraint(equalTo: view2.rightAnchor, constant: 0),
+        commentCount.centerYAnchor.constraint(equalTo: view2.centerYAnchor, constant: 0)
     ])
 }
