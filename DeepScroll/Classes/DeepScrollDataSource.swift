@@ -14,7 +14,7 @@ public class LanedScrollerDataSource: NSObject, UITableViewDataSource {
     private let cellMaker: CellMaker
     private let tableViewData: [Decodable]
     private var touchSection: TouchSection = .none
-    private var compressionDirection: CompressionDirection = .RTL
+    internal var compressionDirection: CompressionDirection = .RTL
     
     convenience override public init() {
         self.init()
@@ -29,6 +29,11 @@ public class LanedScrollerDataSource: NSObject, UITableViewDataSource {
         NotificationCenter.default.addObserver(self, selector:#selector(listenScrollState), name: NSNotification.Name(rawValue: "scrollState"), object: nil)
     }
     
+    /**
+     Listen to notification of scroll state information and update local touch section.
+     
+     - Parameter notification: Notification object containing id of scrolled tableview.
+     */
     @objc
     func listenScrollState(notifcation: Notification) {
         guard let userInfo = notifcation.userInfo as? [String:String] else { return }
@@ -57,7 +62,6 @@ public class LanedScrollerDataSource: NSObject, UITableViewDataSource {
     public func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if var cell = tableView.dequeueReusableCell(withIdentifier: "deepscrollcell", for: indexPath) as? DeepScrollCell {
             cell = cellMaker(cell, tableViewData[indexPath.section])
-            
             if let sv = cell.contentView.subviews[0].subviews[0] as? UIStackView {
                 let cellState = getCellState(compressionDirection: compressionDirection, touchSection: touchSection)
                 switch cellState {
@@ -91,19 +95,5 @@ public class LanedScrollerDataSource: NSObject, UITableViewDataSource {
         
         return DeepScrollCell()
         
-    }
-}
-
-extension LanedScrollerDataSource {
-    func setCompressionDirection(to compressionDirection: CompressionDirection) {
-        self.compressionDirection = compressionDirection
-        switch touchSection {
-        case .left:
-            touchSection = .right
-        case .right:
-            touchSection = .left
-        default:
-            break
-        }
     }
 }

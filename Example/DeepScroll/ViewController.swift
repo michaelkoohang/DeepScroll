@@ -65,7 +65,6 @@ class ViewController: UIViewController {
                             (sv.subviews[0].subviews[1] as! UILabel).text = post.name
                             (sv.subviews[0].subviews[2] as! UILabel).text = "45 min •"
                             (sv.subviews[1] as! UILabel).text = post.post
-                            
                         }
                     }
                     return cell
@@ -86,7 +85,7 @@ class ViewController: UIViewController {
         tableView.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
             tableView.topAnchor.constraint(equalTo: view.topAnchor, constant: 0),
-            tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: 0),
+            tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -50),
             tableView.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 0),
             tableView.rightAnchor.constraint(equalTo: view.rightAnchor, constant: 0)
         ])
@@ -140,7 +139,7 @@ extension ViewController {
             menuViewContiner.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             menuViewContiner.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             menuViewContiner.topAnchor.constraint(equalTo: view.topAnchor, constant: view.bounds.height - 50),
-            menuViewContiner.heightAnchor.constraint(equalToConstant: 2/3 * view.bounds.height)
+            menuViewContiner.heightAnchor.constraint(equalToConstant: 2/3 * view.bounds.height),
         ])
         
         let settingsText = UILabel()
@@ -182,8 +181,8 @@ extension ViewController {
     
     @objc func toggleSettingsPane(_ sender: UITapGestureRecognizer? = nil) {
         menuOpen = self.menuViewContiner.frame.origin.y == view.bounds.height - 50
-        let origin: CGFloat = menuOpen ?  view.bounds.height - view.bounds.height/3 : view.bounds.height - 50
-        UIView.animate(withDuration: 0.35) {
+        let origin: CGFloat = menuOpen ?  view.bounds.height - view.bounds.height/3 - 20 : view.bounds.height - 50
+        UIView.animate(withDuration: 0.25) {
             self.menuViewContiner.frame.origin.y = origin
         }
     }
@@ -200,13 +199,21 @@ extension ViewController {
         }
     }
     
+    @objc func toggleTapToExpandCell (s: UISwitch) {
+        lanedScroller.setTapToExpandCell(to: s.isOn)
+    }
+    
+    @objc func toggleAutoExpandCell (s: UISwitch) {
+        lanedScroller.setAutoResetCellState(to: s.isOn)
+    }
+    
 }
 
 //MARK: Extension to handle settings menu table view methods
 
 extension ViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        2
+        4
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -223,6 +230,21 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
                 return cell
             }
         }
+        
+        if indexPath.row == 2 {
+            if let cell = tableView.dequeueReusableCell(withIdentifier: settingsCellId) {
+                menuTableCellMaker(cell: cell, title: "Tap To Expand", leftTitle: "Off", rightTitle: "On", switchState: lanedScroller.isTapToExpandCellEnabled(), action: #selector(toggleTapToExpandCell(s:)))
+                return cell
+            }
+        }
+        
+        if indexPath.row == 3 {
+            if let cell = tableView.dequeueReusableCell(withIdentifier: settingsCellId) {
+                menuTableCellMaker(cell: cell, title: "Auto Expand", leftTitle: "Off", rightTitle: "On", switchState: lanedScroller.isAutoResetCellStateEnabled(), action: #selector(toggleAutoExpandCell(s:)))
+                return cell
+            }
+        }
+        
         
         return UITableViewCell()
     }

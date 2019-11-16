@@ -17,7 +17,6 @@ final class DeepScrollTableView: UITableView {
         reloadDataCompletionBlock = nil
     }
     
-    
     func reloadDataWithCompletion(completion: @escaping () -> Void) {
         reloadDataCompletionBlock = completion
         self.reloadData()

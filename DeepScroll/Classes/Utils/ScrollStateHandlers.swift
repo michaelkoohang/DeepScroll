@@ -123,9 +123,9 @@ func getLaneWidth(with ratio: ScrollLaneWidthRatio, for lane: TouchSection, dire
             case .none:
                 break
             }
-        
+            
         case .LTR:
-           switch lane {
+            switch lane {
             case .left:
                 return (IncreasingLaneXUpperBoundLTR.left.rawValue - CGFloat(0.0))
                 
@@ -142,4 +142,19 @@ func getLaneWidth(with ratio: ScrollLaneWidthRatio, for lane: TouchSection, dire
         
     }
     return (EqualLaneXUpperBound.left.rawValue - CGFloat(0.0))
+}
+
+/**
+ Get the lane of normal cell state for a compression direction.
+ 
+ - Returns: Lane of normal cell state.
+ */
+
+func getNormalStateLane(compressionDirection: CompressionDirection) -> TouchSection {
+    switch compressionDirection {
+    case .RTL:
+        return .right
+    case .LTR:
+        return .left
+    }
 }
