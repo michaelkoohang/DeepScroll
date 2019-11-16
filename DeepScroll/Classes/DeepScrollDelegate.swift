@@ -17,6 +17,7 @@ public class LanedScrollerDelegate: NSObject, UITableViewDelegate {
     private var rightLaneBounds: [LaneXBound: CGFloat] = [:]
     private var resettingLanedScroller = false
     private var resetTimer: Timer = Timer()
+    private var screenHeight: CGFloat = UIScreen.main.bounds.height
     internal var compressionDirection: CompressionDirection = .RTL
     internal var laneWidthRatio: ScrollLaneWidthRatio = .equal
     internal var tapToExpandCell = true
@@ -32,7 +33,6 @@ public class LanedScrollerDelegate: NSObject, UITableViewDelegate {
         
         //Setting up lane ratio properties
         setLaneProperties()
-        
     }
     
     var leftLane: UIView = {
@@ -106,9 +106,10 @@ public class LanedScrollerDelegate: NSObject, UITableViewDelegate {
         let touchLocation = scrollView.panGestureRecognizer.location(in: containerView)
         let touchX = touchLocation.x
         var scrollLaneChanged = false
-        UIApplication.shared.windows.first?.rootViewController?.view.addSubview(leftLane)
-        UIApplication.shared.windows.first?.rootViewController?.view.addSubview(centerLane)
-        UIApplication.shared.windows.first?.rootViewController?.view.addSubview(rightLane)
+        
+        scrollView.superview!.addSubview(leftLane)
+        scrollView.superview!.addSubview(centerLane)
+        scrollView.superview!.addSubview(rightLane)
         
         if (touchSection == .none) {
             touchSection = getNormalStateLane(compressionDirection: compressionDirection)
@@ -136,19 +137,28 @@ public class LanedScrollerDelegate: NSObject, UITableViewDelegate {
             sendScrollStateNotification(for: lanedScrollerId, touchSection: touchSection)
             switch touchSection {
             case .left:
-                UIView.animate(withDuration: 0.4) {
-                    self.leftLane.alpha = 0.3
+                UIView.animate(withDuration: 0.6, animations: {
+                    self.leftLane.alpha = 0.8
+                    self.leftLane.frame.size.height += self.screenHeight
                     self.leftLane.alpha = 0
+                }) { (Bool) in
+                    self.leftLane.frame.size.height = 0
                 }
             case .center:
-                UIView.animate(withDuration: 0.4) {
-                    self.centerLane.alpha = 0.3
+                UIView.animate(withDuration: 0.6, animations: {
+                    self.centerLane.alpha = 0.8
+                    self.centerLane.frame.size.height += self.screenHeight
                     self.centerLane.alpha = 0
+                }) { (Bool) in
+                    self.centerLane.frame.size.height = 0
                 }
             case .right:
-                UIView.animate(withDuration: 0.4) {
-                    self.rightLane.alpha = 0.3
+                UIView.animate(withDuration: 0.6, animations: {
+                    self.rightLane.alpha = 0.8
+                    self.rightLane.frame.size.height += self.screenHeight
                     self.rightLane.alpha = 0
+                }) { (Bool) in
+                    self.rightLane.frame.size.height = 0
                 }
             default:
                 break
@@ -217,8 +227,8 @@ extension LanedScrollerDelegate {
         leftLaneBounds = getLaneXBounds(with: laneWidthRatio, for: .left, direction: compressionDirection)
         centerLaneBounds = getLaneXBounds(with: laneWidthRatio, for: .center, direction: compressionDirection)
         rightLaneBounds = getLaneXBounds(with: laneWidthRatio, for: .right, direction: compressionDirection)
-        leftLane.frame = CGRect(x: leftLaneBounds[.lower]!, y: 0, width: getLaneWidth(with: laneWidthRatio, for: .left, direction: compressionDirection), height: UIScreen.main.bounds.height)
-        centerLane.frame = CGRect(x: centerLaneBounds[.lower]!, y: 0, width: getLaneWidth(with: laneWidthRatio, for: .center, direction: compressionDirection), height: UIScreen.main.bounds.height)
-        rightLane.frame = CGRect(x: rightLaneBounds[.lower]!, y: 0, width: getLaneWidth(with: laneWidthRatio, for: .right, direction: compressionDirection), height: UIScreen.main.bounds.height)
+        leftLane.frame = CGRect(x: leftLaneBounds[.lower]!, y: 0, width: getLaneWidth(with: laneWidthRatio, for: .left, direction: compressionDirection), height: 0)
+        centerLane.frame = CGRect(x: centerLaneBounds[.lower]!, y: 0, width: getLaneWidth(with: laneWidthRatio, for: .center, direction: compressionDirection), height: 0)
+        rightLane.frame = CGRect(x: rightLaneBounds[.lower]!, y: 0, width: getLaneWidth(with: laneWidthRatio, for: .right, direction: compressionDirection), height: 0)
     }
 }
