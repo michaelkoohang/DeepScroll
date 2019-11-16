@@ -199,19 +199,7 @@ public class LanedScrollerDelegate: NSObject, UITableViewDelegate {
             resettingLanedScroller = true
             let normalLane = getNormalStateLane(compressionDirection: compressionDirection)
             sendScrollStateNotification(for: lanedScrollerId, touchSection: normalLane)
-            
-            //            switch compressionDirection {
-            //            case .RTL:
-            //            case .LTR:
-            //                sendScrollStateNotification(for: lanedScrollerId, touchSection: .left)
-            //            }
             tableView.scrollToRow(at: indexPath, at: .top, animated: true)
-            //            switch compressionDirection {
-            //            case .RTL:
-            //                touchSection = .right
-            //            case .LTR:
-            //                touchSection = .left
-            //            }
             touchSection = normalLane
         }
         //Default did select action listner.
@@ -220,76 +208,8 @@ public class LanedScrollerDelegate: NSObject, UITableViewDelegate {
 }
 
 //MARK: Extension to handle configuration changes
+
 extension LanedScrollerDelegate {
-//    /**
-//     Function to set a compression direction.
-//
-//     - Parameter compressionDirection: The new compression direction to be set.
-//     */
-//    func setCompressionDirection(to compressionDirection: CompressionDirection) {
-//        self.compressionDirection = compressionDirection
-//        touchSection = .none
-//        setLaneProperties()
-//    }
-//
-//    /**
-//     Function to set the ratio of widths of scroll lanes
-//
-//     - Parameter laneWidthRation: The new width ration mode for lanes.
-//     */
-//    func setLaneWidthRatio(to laneWidthRatio: ScrollLaneWidthRatio) {
-//        self.laneWidthRatio = laneWidthRatio
-//        setLaneProperties()
-//    }
-//
-//    /**
-//     Function to check if width of lanes is equal
-//
-//     - Returns: True if lane widths are equal else false.
-//     */
-//
-//    public func isLaneWidthRationEqual() -> Bool {
-//        return laneWidthRatio == .equal
-//    }
-//
-//    /**
-//     Set value for tap to expand.
-//
-//     - Parameter to: Value to set tapToExpandCell to.
-//     */
-//
-//    func setTapToExpandCell(to: Bool) {
-//        self.tapToExpandCell = to
-//    }
-//
-//    /**
-//     Get if tap to expand cell is enabled.
-//
-//     - Returns: true if tap to expand cell is true else false.
-//     */
-//    func isTapToExpandCellEnabled() -> Bool {
-//        return tapToExpandCell
-//    }
-//
-//    /**
-//     Set value for auto reset cell state.
-//
-//     - Parameter to: Value to set autoResetCellState to.
-//     */
-//
-//    func setAutoResetCellState(to: Bool) {
-//        self.autoResetCellState = to
-//    }
-//
-//    /**
-//     Get if auto reset cell state is enabled.
-//
-//     - Returns: true if auto reset cell state is true else false.
-//     */
-//    func isAutoResetCellStateEnabled() -> Bool {
-//        return autoResetCellState
-//    }
-//
     /**
      Function to set properties dependent on scroll width ratio.
      */
@@ -302,4 +222,3 @@ extension LanedScrollerDelegate {
         rightLane.frame = CGRect(x: rightLaneBounds[.lower]!, y: 0, width: getLaneWidth(with: laneWidthRatio, for: .right, direction: compressionDirection), height: UIScreen.main.bounds.height)
     }
 }
-

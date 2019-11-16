@@ -8,15 +8,40 @@
 import Foundation
 import UIKit
 
+/**
+ Gives a notification object for scrolled laned scroller id.
+ 
+ - Parameter for: Id of the laned scroller that was interacted with.
+ - Parameter touchSection: The part of the screen that was touched.
+ 
+ - Returns: Object with laned scroller id and touch section.
+ */
+
 func makeScrollStateObject(for lanedScrollerId: Int, touchSection: TouchSection) -> [String:String] {
     return [String(lanedScrollerId):"\(touchSection)"]
 }
 
+/**
+ Sends a notification informing which laned scroller was scrolled.
+ 
+ - Parameter for: Id of the laned scroller that was interacted with.
+ - Parameter touchSection: The part of the screen that was touched.
+ */
 
 func sendScrollStateNotification(for lanedScrollerId: Int, touchSection: TouchSection) {
     let scrollState = makeScrollStateObject(for: lanedScrollerId, touchSection: touchSection)
     NotificationCenter.default.post(name: NSNotification.Name(rawValue: "scrollState"), object: nil, userInfo: scrollState)
 }
+
+/**
+Gives the x min and x max for a lane for distribution of widths and compression direction.
+
+- Parameter with: Ratio of scroll lane's widths - Equal / Increasing.
+- Parameter for: Touch section Left / Right / Center.
+- Parameter direction: Compression direction of cells LTR / RTL.
+
+- Returns: Dictionary of lower and upper x bounds of a lane.
+*/
 
 func getLaneXBounds(with ratio: ScrollLaneWidthRatio, for lane: TouchSection, direction: CompressionDirection ) ->[LaneXBound:CGFloat] {
     var bounds: [LaneXBound: CGFloat] = [:]
@@ -90,6 +115,16 @@ func getLaneXBounds(with ratio: ScrollLaneWidthRatio, for lane: TouchSection, di
     bounds[LaneXBound.upper] = EqualLaneXUpperBound.right.rawValue
     return bounds
 }
+
+/**
+ Gives the width a lane for distribution of widths and compression direction.
+ 
+ - Parameter with: Ratio of scroll lane's widths - Equal / Increasing.
+ - Parameter for: Touch section Left / Right / Center.
+ - Parameter direction: Compression direction of cells LTR / RTL.
+
+ - Returns: Width of a scroll lane.
+ */
 
 func getLaneWidth(with ratio: ScrollLaneWidthRatio, for lane: TouchSection, direction: CompressionDirection) -> CGFloat {
     switch ratio {
