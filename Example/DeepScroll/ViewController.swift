@@ -81,9 +81,7 @@ class ViewController: UIViewController {
             return DeepScrollCell()
         })
         lanedScroller.setDidSelectCallback(didSelectCallback: { (post) in
-            if let post = post as? Post {
-                print("Tapped cell for \(post.id) of \(post.name)")
-            }
+            self.navigationController?.pushViewController(CommentsVC(posts: unwrappedFeed.posts), animated: true)
         })
         tableView = lanedScroller.getTableView()
         tableView.separatorStyle = .none
