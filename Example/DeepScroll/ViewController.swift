@@ -80,6 +80,11 @@ class ViewController: UIViewController {
             }
             return DeepScrollCell()
         })
+        lanedScroller.setDidSelectCallback(didSelectCallback: { (post) in
+            if let post = post as? Post {
+                print("Tapped cell for \(post.id) of \(post.name)")
+            }
+        })
         tableView = lanedScroller.getTableView()
         tableView.separatorStyle = .none
         view.addSubview(tableView)
@@ -140,9 +145,18 @@ extension ViewController {
         NSLayoutConstraint.activate([
             menuViewContiner.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             menuViewContiner.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            menuViewContiner.topAnchor.constraint(equalTo: view.topAnchor, constant: view.bounds.height - 50),
             menuViewContiner.heightAnchor.constraint(equalToConstant: 2/3 * view.bounds.height),
         ])
+        if !menuOpen {
+            NSLayoutConstraint.activate([
+                menuViewContiner.topAnchor.constraint(equalTo: view.topAnchor, constant: view.bounds.height - 50),
+            ])
+        } else {
+            NSLayoutConstraint.activate([
+                menuViewContiner.topAnchor.constraint(equalTo: view.topAnchor, constant: view.bounds.height - view.bounds.height/3 - 20)
+            ])
+        }
+        
         
         let settingsText = UILabel()
         settingsText.text = "Settings"
@@ -194,11 +208,7 @@ extension ViewController {
     }
     
     @objc func toggleLaneWidth(s: UISwitch) {
-        if s.isOn {
-            lanedScroller.setWidthRatioEqual()
-        } else {
-            lanedScroller.setWidthRatioIncreasing()
-        }
+        lanedScroller.toggleLaneWidthRatio()
     }
     
     @objc func toggleTapToExpandCell (s: UISwitch) {
@@ -208,7 +218,6 @@ extension ViewController {
     @objc func toggleAutoExpandCell (s: UISwitch) {
         lanedScroller.setAutoResetCellState(to: s.isOn)
     }
-    
 }
 
 //MARK: Extension to handle settings menu table view methods

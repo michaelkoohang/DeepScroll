@@ -41,7 +41,7 @@ enum LaneXBound {
 
 enum EqualLaneXUpperBound {
     case left, center, right
-
+    
     var rawValue: CGFloat {
         get {
             switch self {
@@ -58,7 +58,7 @@ enum EqualLaneXUpperBound {
 
 enum IncreasingLaneXUpperBoundRTL {
     case left, center, right
-
+    
     var rawValue: CGFloat {
         get {
             switch self {
@@ -75,7 +75,7 @@ enum IncreasingLaneXUpperBoundRTL {
 
 enum IncreasingLaneXUpperBoundLTR {
     case left, center, right
-
+    
     var rawValue: CGFloat {
         get {
             switch self {

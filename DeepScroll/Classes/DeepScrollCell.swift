@@ -72,5 +72,5 @@ open class DeepScrollCell: UITableViewCell {
     public func addSpaceAfter(view: UIView, value: CGFloat) {
         stackview.setCustomSpacing(value, after: view)
     }
-
+    
 }

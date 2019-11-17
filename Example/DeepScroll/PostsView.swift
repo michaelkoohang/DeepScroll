@@ -11,7 +11,7 @@ import UIKit
 import DeepScroll
 
 func setPostCellContent(cell: DeepScrollCell, post: Post, avatarSetter: @escaping (String, UIImageView)->())  {
-
+    
     // If the cell doesn't have any views inside of its stack view, create a new one
     cell.setPadding(top: 16, right: 16, bottom: 16, left: 16)
     cell.selectionStyle = .blue
@@ -214,13 +214,13 @@ func setPostCellContent(cell: DeepScrollCell, post: Post, avatarSetter: @escapin
         seperator.leadingAnchor.constraint(equalTo: view3.leadingAnchor, constant: 0),
         seperator.trailingAnchor.constraint(equalTo: view3.trailingAnchor, constant: 0),
         seperator.heightAnchor.constraint(equalToConstant: 1),
-                                
+        
         like.leftAnchor.constraint(equalTo: view3.leftAnchor, constant: 0),
         like.centerYAnchor.constraint(equalTo: view3.centerYAnchor, constant: 0),
         
         comment.centerXAnchor.constraint(equalTo: view3.centerXAnchor, constant: 0),
         comment.centerYAnchor.constraint(equalTo: view3.centerYAnchor, constant:0),
-
+        
         share.centerYAnchor.constraint(equalTo: view3.centerYAnchor, constant: 0),
         share.rightAnchor.constraint(equalTo: view3.rightAnchor, constant: 0),
         

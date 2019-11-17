@@ -22,6 +22,8 @@ public class LanedScrollerDelegate: NSObject, UITableViewDelegate {
     internal var laneWidthRatio: ScrollLaneWidthRatio = .equal
     internal var tapToExpandCell = true
     internal var autoResetCellState = false
+    internal var tableViewData: [Decodable] = []
+    internal var didSelectCallback: DidSelectCallback?
     
     convenience override public init() {
         self.init()
@@ -205,7 +207,12 @@ public class LanedScrollerDelegate: NSObject, UITableViewDelegate {
         tableView.deselectRow(at: indexPath, animated: true)
         
         if tapToExpandCell {
-            if getCellState(compressionDirection: compressionDirection, touchSection: touchSection) == .normal { return }
+            if getCellState(compressionDirection: compressionDirection, touchSection: touchSection) == .normal {
+                if let didSelectCallback = didSelectCallback {
+                    didSelectCallback(tableViewData[indexPath.section])
+                }
+                return
+            }
             resettingLanedScroller = true
             let normalLane = getNormalStateLane(compressionDirection: compressionDirection)
             sendScrollStateNotification(for: lanedScrollerId, touchSection: normalLane)
@@ -213,6 +220,10 @@ public class LanedScrollerDelegate: NSObject, UITableViewDelegate {
             touchSection = normalLane
         }
         //Default did select action listner.
+        if let didSelectCallback = didSelectCallback {
+            didSelectCallback(tableViewData[indexPath.section])
+        }
+        
     }
     
 }
@@ -224,6 +235,7 @@ extension LanedScrollerDelegate {
      Function to set properties dependent on scroll width ratio.
      */
     func setLaneProperties() {
+        touchSection = .none
         leftLaneBounds = getLaneXBounds(with: laneWidthRatio, for: .left, direction: compressionDirection)
         centerLaneBounds = getLaneXBounds(with: laneWidthRatio, for: .center, direction: compressionDirection)
         rightLaneBounds = getLaneXBounds(with: laneWidthRatio, for: .right, direction: compressionDirection)

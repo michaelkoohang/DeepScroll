@@ -9,3 +9,5 @@ import Foundation
 import UIKit
 
 public typealias CellMaker = (DeepScrollCell, Decodable) -> DeepScrollCell
+
+public typealias DidSelectCallback = (Decodable) -> ()

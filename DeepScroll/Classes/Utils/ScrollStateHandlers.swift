@@ -34,14 +34,14 @@ func sendScrollStateNotification(for lanedScrollerId: Int, touchSection: TouchSe
 }
 
 /**
-Gives the x min and x max for a lane for distribution of widths and compression direction.
-
-- Parameter with: Ratio of scroll lane's widths - Equal / Increasing.
-- Parameter for: Touch section Left / Right / Center.
-- Parameter direction: Compression direction of cells LTR / RTL.
-
-- Returns: Dictionary of lower and upper x bounds of a lane.
-*/
+ Gives the x min and x max for a lane for distribution of widths and compression direction.
+ 
+ - Parameter with: Ratio of scroll lane's widths - Equal / Increasing.
+ - Parameter for: Touch section Left / Right / Center.
+ - Parameter direction: Compression direction of cells LTR / RTL.
+ 
+ - Returns: Dictionary of lower and upper x bounds of a lane.
+ */
 
 func getLaneXBounds(with ratio: ScrollLaneWidthRatio, for lane: TouchSection, direction: CompressionDirection ) ->[LaneXBound:CGFloat] {
     var bounds: [LaneXBound: CGFloat] = [:]
@@ -122,7 +122,7 @@ func getLaneXBounds(with ratio: ScrollLaneWidthRatio, for lane: TouchSection, di
  - Parameter with: Ratio of scroll lane's widths - Equal / Increasing.
  - Parameter for: Touch section Left / Right / Center.
  - Parameter direction: Compression direction of cells LTR / RTL.
-
+ 
  - Returns: Width of a scroll lane.
  */
 

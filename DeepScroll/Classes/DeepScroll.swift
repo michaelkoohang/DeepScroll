@@ -9,9 +9,6 @@ public class LanedScroller: NSObject {
     private var delegate: LanedScrollerDelegate!
     private let cellMaker: CellMaker
     private let tableViewData: [Decodable]
-    private var compressionDirection: CompressionDirection = .RTL
-//    private var tapToExpandCell = true
-//    private var autoResetCellState = false
     
     public init(tableViewData: [Decodable], cellMaker: @escaping CellMaker) {
         self.tableViewData = tableViewData
@@ -20,6 +17,7 @@ public class LanedScroller: NSObject {
         super.init()
         dataSource = LanedScrollerDataSource(lanedScrollerId: self.hashValue, tableViewData: tableViewData, cellMaker: cellMaker)
         delegate = LanedScrollerDelegate(lanedScrollerId: self.hashValue)
+        delegate.tableViewData = tableViewData
         setTapToExpandCell(to: true)
         setAutoResetCellState(to: false)
         tableView.dataSource = dataSource
@@ -67,6 +65,17 @@ public class LanedScroller: NSObject {
 extension LanedScroller {
     
     /**
+     Set the did select callback for laned scroller's tableview delegate.
+     
+     - Parameter didSelectCallback: Function to execute when row selected. You have access to the data object for the current cell.
+     */
+    
+    public func setDidSelectCallback(didSelectCallback: @escaping DidSelectCallback) {
+        print("Tapped Setting Callback")
+        delegate.didSelectCallback = didSelectCallback
+    }
+    
+    /**
      Toggles the compression direction beteen Left to Right and Right to left
      */
     public func toggleCompressionDirection() {
@@ -78,8 +87,7 @@ extension LanedScroller {
             delegate.compressionDirection = .RTL
             dataSource.compressionDirection = .RTL
         }
-//        dataSource.setCompressionDirection(to: compressionDirection)
-//        delegate.setCompressionDirection(to: compressionDirection)
+        delegate.setLaneProperties()
         tableView.reloadData()
     }
     
@@ -89,30 +97,41 @@ extension LanedScroller {
      - Returns: True if compression direction is RTL else false.
      */
     public func isCompressionRTL() -> Bool {
-        return compressionDirection == .RTL
+        return delegate.compressionDirection == .RTL
+    }
+    
+    /**
+     Function to toggle the width ratios of the scroll lanes.
+     */
+    public func toggleLaneWidthRatio() {
+        if delegate.laneWidthRatio == .equal {
+            delegate.laneWidthRatio = .increasing
+        } else {
+            delegate.laneWidthRatio = .equal
+        }
+        delegate.setLaneProperties()
     }
     
     /**
      Sets the width of lanes to equal ration.
      */
     public func setWidthRatioEqual() {
-//        delegate.setLaneWidthRatio(to: .equal)
         delegate.laneWidthRatio = .equal
+        delegate.setLaneProperties()
     }
     
     /**
      Sets the width of lanes to increasing ratio from left to right.
      */
     public func setWidthRatioIncreasing() {
-//        delegate.setLaneWidthRatio(to: .increasing)
         delegate.laneWidthRatio = .increasing
+        delegate.setLaneProperties()
     }
     
     /**
      Tells if all lanes have equal width.
      */
     public func isLaneWidthRationEqual() -> Bool {
-//        return delegate.isLaneWidthRationEqual()
         return delegate.laneWidthRatio == .equal
     }
     
@@ -123,7 +142,6 @@ extension LanedScroller {
      */
     
     public func setTapToExpandCell(to: Bool) {
-//        delegate.setTapToExpandCell(to: to)
         delegate.tapToExpandCell = to
     }
     
@@ -133,7 +151,6 @@ extension LanedScroller {
      - Returns: true if tap to expand cell is true else false.
      */
     public func isTapToExpandCellEnabled() -> Bool {
-//        return delegate.isTapToExpandCellEnabled()
         return delegate.tapToExpandCell
     }
     
@@ -144,7 +161,6 @@ extension LanedScroller {
      */
     
     public func setAutoResetCellState(to: Bool) {
-//        delegate.setAutoResetCellState(to: to)
         delegate.autoResetCellState = to
     }
     
@@ -154,7 +170,6 @@ extension LanedScroller {
      - Returns: true if auto reset cell state is true else false.
      */
     public func isAutoResetCellStateEnabled() -> Bool {
-//        return delegate.isAutoResetCellStateEnabled()
         return delegate.autoResetCellState
     }
 }
