@@ -13,7 +13,7 @@ public class LanedScroller: NSObject {
     public init(tableViewData: [Decodable], cellMaker: @escaping CellMaker) {
         self.tableViewData = tableViewData
         self.cellMaker = cellMaker
-        tableView = DeepScrollTableView()
+        tableView = UITableView()
         super.init()
         dataSource = LanedScrollerDataSource(lanedScrollerId: self.hashValue, tableViewData: tableViewData, cellMaker: cellMaker)
         delegate = LanedScrollerDelegate(lanedScrollerId: self.hashValue)

@@ -9,6 +9,7 @@ import Foundation
 import UIKit
 
 final class DeepScrollTableView: UITableView {
+    
     private var reloadDataCompletionBlock: (() -> Void)?
     
     override func layoutSubviews() {
