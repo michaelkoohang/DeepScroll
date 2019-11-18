@@ -219,13 +219,7 @@ public class LanedScrollerDelegate: NSObject, UITableViewDelegate {
             tableView.scrollToRow(at: indexPath, at: .top, animated: true)
             touchSection = normalLane
         }
-        //Default did select action listner.
-        if let didSelectCallback = didSelectCallback {
-            didSelectCallback(tableViewData[indexPath.section])
-        }
-        
     }
-    
 }
 
 //MARK: Extension to handle configuration changes

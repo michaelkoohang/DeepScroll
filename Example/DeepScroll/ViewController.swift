@@ -37,11 +37,14 @@ class ViewController: UIViewController {
             navigationController?.navigationBar.scrollEdgeAppearance = navBarAppearance
         }
         title = "facebook"
+        
+        //STEP 1: Add the laned scroller Table View to View Controller
         addTableView()
         addMenuTableView()
     }
     
     func addTableView() {
+        //STEP 2: Read and pass data for the Table View
         var feed: Feed?
         if let url = Bundle.main.url(forResource: "data", withExtension: "json") {
             do {
@@ -53,6 +56,8 @@ class ViewController: UIViewController {
             }
         }
         guard let unwrappedFeed = feed else { return }
+        
+        //STEP 3: Create an instance of LanedScroller and define the callback to make cell
         lanedScroller = LanedScroller(tableViewData: unwrappedFeed.posts, cellMaker: {(cell: DeepScrollCell, post: Decodable) in
             
             if let post = post as? Post {
@@ -81,12 +86,15 @@ class ViewController: UIViewController {
             return DeepScrollCell()
         })
         lanedScroller.setDidSelectCallback(didSelectCallback: { (post) in
-            self.navigationController?.pushViewController(CommentsVC(posts: unwrappedFeed.posts), animated: true)
+            self.navigationController?.pushViewController(CommentsVC(posts: Array(unwrappedFeed.posts[0...20])), animated: true)
         })
+        
+        //STEP 4: Get the instance of Table View Created by Laned Scroller
         tableView = lanedScroller.getTableView()
         tableView.separatorStyle = .none
         view.addSubview(tableView)
         
+        //STEP 5: Add the Table View to view
         tableView.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
             tableView.topAnchor.constraint(equalTo: view.topAnchor, constant: 0),
