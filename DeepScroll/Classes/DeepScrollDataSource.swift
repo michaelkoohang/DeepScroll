@@ -34,6 +34,7 @@ public class LanedScrollerDataSource: NSObject, UITableViewDataSource {
      
      - Parameter notification: Notification object containing id of scrolled tableview.
      */
+    
     @objc
     func listenScrollState(notifcation: Notification) {
         guard let userInfo = notifcation.userInfo as? [String:String] else { return }
@@ -69,27 +70,18 @@ public class LanedScrollerDataSource: NSObject, UITableViewDataSource {
                     sv.subviews.forEach({ if ($0.tag == 0) { $0.isHidden = false } })
                     sv.subviews.forEach({ if ($0.tag == 1) { $0.isHidden = false } })
                     sv.subviews.forEach({ if ($0.tag == 2) { $0.isHidden = false } })
-                    //                    sv.viewWithTag(0)?.isHidden = false
-                    //                    sv.viewWithTag(1)?.isHidden = false
-                //                    sv.viewWithTag(2)?.isHidden = false
+            
                 case .collapsed:
                     sv.subviews.forEach({ if ($0.tag == 0) { $0.isHidden = false } })
                     sv.subviews.forEach({ if ($0.tag == 1) { $0.isHidden = false } })
                     sv.subviews.forEach({ if ($0.tag == 2) { $0.isHidden = true } })
-                    //                    sv.viewWithTag(0)?.isHidden = false
-                    //                    sv.viewWithTag(1)?.isHidden = false
-                //                    sv.viewWithTag(2)?.isHidden = true
+        
                 case .condensed:
                     sv.subviews.forEach({ if ($0.tag == 0) { $0.isHidden = false } })
                     sv.subviews.forEach({ if ($0.tag == 1) { $0.isHidden = true } })
                     sv.subviews.forEach({ if ($0.tag == 2) { $0.isHidden = true } })
-                    //                    sv.viewWithTag(0)?.isHidden = false
-                    //                    sv.viewWithTag(1)?.isHidden = true
-                    //                    sv.viewWithTag(2)?.isHidden = true
                 }
-                
             }
-            
             return cell
         }
         

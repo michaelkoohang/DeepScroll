@@ -22,7 +22,6 @@
 		9C2C2519F0F1E36317D20F001934C173 /* DeepScroll.swift in Sources */ = {isa = PBXBuildFile; fileRef = 248F844CB78A98413721725081D469E3 /* DeepScroll.swift */; };
 		9F7CE51D54F72E0516CFB665D22708EF /* Types.swift in Sources */ = {isa = PBXBuildFile; fileRef = F43CBFD5732F8728C935F4BCEFFC78B2 /* Types.swift */; };
 		A6AB5D00AB2ACD700CB6C010280B1B4E /* Pods-DeepScroll_Tests-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 145BD735904D7E7BD304641C0F82A6A4 /* Pods-DeepScroll_Tests-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		B2AE626C237E61C300F1921C /* DeepScrollTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2AE626B237E61C300F1921C /* DeepScrollTableView.swift */; };
 		B2B4D216237A33680039D419 /* CellStateConverters.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2B4D215237A33680039D419 /* CellStateConverters.swift */; };
 		B39AA821CC1463BBB366116922A9341C /* Pods-DeepScroll_Tests-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = D4077152C9ED1D61BB38E4B827A54C92 /* Pods-DeepScroll_Tests-dummy.m */; };
 		FB14FDCAE1E909A84F7710575F28499A /* Pods-DeepScroll_Example-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 601DD3B521D5C867740C58E778671F5B /* Pods-DeepScroll_Example-dummy.m */; };
@@ -77,7 +76,6 @@
 		9F3E4875FCD4724089D98496DCB735B8 /* Pods-DeepScroll_Tests-acknowledgements.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-DeepScroll_Tests-acknowledgements.plist"; sourceTree = "<group>"; };
 		A350A2B2D24045F8F2721F84124F3767 /* Pods-DeepScroll_Tests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-DeepScroll_Tests.release.xcconfig"; sourceTree = "<group>"; };
 		ADB8F07A5FF9A3B349F5A836165BD318 /* Pods_DeepScroll_Tests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_DeepScroll_Tests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		B2AE626B237E61C300F1921C /* DeepScrollTableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeepScrollTableView.swift; sourceTree = "<group>"; };
 		B2B4D215237A33680039D419 /* CellStateConverters.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CellStateConverters.swift; sourceTree = "<group>"; };
 		D4077152C9ED1D61BB38E4B827A54C92 /* Pods-DeepScroll_Tests-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Pods-DeepScroll_Tests-dummy.m"; sourceTree = "<group>"; };
 		D4CF9C08EEA1E544A98D21BE2E5EE026 /* Pods-DeepScroll_Tests-Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-DeepScroll_Tests-Info.plist"; sourceTree = "<group>"; };
@@ -198,7 +196,6 @@
 				662F61640FE04A5DA95AA925C989AEA5 /* DeepScrollCell.swift */,
 				3F7672A6362941200BE0C89A391D10D1 /* DeepScrollDataSource.swift */,
 				9EECEF979137E5CB2D205AD7D007C046 /* DeepScrollDelegate.swift */,
-				B2AE626B237E61C300F1921C /* DeepScrollTableView.swift */,
 				678C36132BFB76860C0D5F68953464D2 /* Utils */,
 				321FEF99E6E584B4C10DE963A685A751 /* Constants */,
 				2688FF48F794158BF158D28503D40452 /* Pod */,
@@ -432,7 +429,6 @@
 				83A36CF6B6777A58B1E3E2F0AEF9881F /* DeepScrollDelegate.swift in Sources */,
 				7771BE60E85AF8219942300A928BDCBE /* Enums.swift in Sources */,
 				4464FFC917D795E63C65215D9E8A2B63 /* ScrollStateHandlers.swift in Sources */,
-				B2AE626C237E61C300F1921C /* DeepScrollTableView.swift in Sources */,
 				9F7CE51D54F72E0516CFB665D22708EF /* Types.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

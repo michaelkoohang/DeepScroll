@@ -1,3 +1,10 @@
+//
+//  DeepScroll.swift
+//  DeepScroll
+//
+//  Created by Parth Tamane on 25/10/19.
+//
+
 import UIKit
 import Foundation
 import AVFoundation
@@ -78,6 +85,7 @@ extension LanedScroller {
     /**
      Toggles the compression direction beteen Left to Right and Right to left
      */
+    
     public func toggleCompressionDirection() {
         switch delegate.compressionDirection {
         case .RTL:

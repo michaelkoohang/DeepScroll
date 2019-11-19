@@ -279,6 +279,7 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
      - Parameter switchState: Value indicating if the setting is active or not.
      - Parameter action: Selector to function executed when switch toggled.
      */
+    
     func menuTableCellMaker(cell: UITableViewCell, title: String, leftTitle: String, rightTitle: String, switchState: Bool, action: Selector) {
         let settingDescLbl = UILabel()
         settingDescLbl.translatesAutoresizingMaskIntoConstraints = false

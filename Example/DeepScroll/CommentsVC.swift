@@ -48,7 +48,6 @@ class CommentsVC: UITableViewController {
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        // #warning Incomplete implementation, return the number of rows
         return posts!.count
     }
 
@@ -86,6 +85,4 @@ class CommentsVC: UITableViewController {
             completion(UIImage(data: data))
         }.resume()
     }
-
-
 }

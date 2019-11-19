@@ -82,17 +82,7 @@ public class LanedScrollerDelegate: NSObject, UITableViewDelegate {
     }
     
     public func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        let cellState = getCellState(compressionDirection: compressionDirection, touchSection: touchSection)
-        switch cellState {
-            //        case .normal:
-            //            return 600
-            //        case .collapsed:
-            //            return 100
-            //        case .condensed:
-        //            return 100
-        default:
-            return UITableView.automaticDimension
-        }
+        return UITableView.automaticDimension
     }
     
     /**
@@ -225,9 +215,11 @@ public class LanedScrollerDelegate: NSObject, UITableViewDelegate {
 //MARK: Extension to handle configuration changes
 
 extension LanedScrollerDelegate {
+    
     /**
      Function to set properties dependent on scroll width ratio.
      */
+    
     func setLaneProperties() {
         touchSection = .none
         leftLaneBounds = getLaneXBounds(with: laneWidthRatio, for: .left, direction: compressionDirection)
