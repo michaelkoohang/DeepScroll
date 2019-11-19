@@ -37,6 +37,8 @@ public class LanedScrollerDelegate: NSObject, UITableViewDelegate {
         setLaneProperties()
     }
     
+    // Scroll lane visual overlays.
+    
     var leftLane: UIView = {
         let v = UIView()
         v.backgroundColor = .lightGray
@@ -64,6 +66,7 @@ public class LanedScrollerDelegate: NSObject, UITableViewDelegate {
         return v
     }()
     
+    // Creates gray header between cells.
     public func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         if section != 0 {
             let v = UIView()
@@ -73,6 +76,7 @@ public class LanedScrollerDelegate: NSObject, UITableViewDelegate {
         return UIView()
     }
     
+    // Sets height for header between cells.
     public func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         if section != 0 {
             return 10
@@ -81,6 +85,7 @@ public class LanedScrollerDelegate: NSObject, UITableViewDelegate {
         return 0
     }
     
+    // Sets height for rows in the tableView.
     public func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return UITableView.automaticDimension
     }
@@ -93,16 +98,19 @@ public class LanedScrollerDelegate: NSObject, UITableViewDelegate {
         resetTimer.invalidate()
         if resettingLanedScroller { return }
         
+        // Set up haptic feedback and get touch location.
         let hapticfeedback = UIImpactFeedbackGenerator()
         let containerView = UIApplication.shared.windows.first!.rootViewController?.view
         let touchLocation = scrollView.panGestureRecognizer.location(in: containerView)
         let touchX = touchLocation.x
         var scrollLaneChanged = false
         
+        // Add visual overlays to the screen.
         scrollView.superview!.addSubview(leftLane)
         scrollView.superview!.addSubview(centerLane)
         scrollView.superview!.addSubview(rightLane)
         
+        // Set touchSection based on scroll.
         if (touchSection == .none) {
             touchSection = getNormalStateLane(compressionDirection: compressionDirection)
         } else if (leftLaneBounds[.lower]! <= touchX && touchX < leftLaneBounds[.upper]!) {
@@ -116,6 +124,7 @@ public class LanedScrollerDelegate: NSObject, UITableViewDelegate {
             touchSection = .right
         }
         
+        // Reset cell state if auto reset is turned on.
         if autoResetCellState {
             if touchSection != getNormalStateLane(compressionDirection: compressionDirection) {
                 resetTimer = Timer.scheduledTimer(withTimeInterval: 2, repeats: false, block: { (timer) in
@@ -124,6 +133,7 @@ public class LanedScrollerDelegate: NSObject, UITableViewDelegate {
             }
         }
         
+        // Executes when the scroll lane changes. Animation and haptic feedback are activated.
         if scrollLaneChanged {
             hapticfeedback.impactOccurred()
             sendScrollStateNotification(for: lanedScrollerId, touchSection: touchSection)
@@ -193,9 +203,11 @@ public class LanedScrollerDelegate: NSObject, UITableViewDelegate {
         resettingLanedScroller = false
     }
     
+    // Detects a touch on a cell.
     public func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
         
+        // Handle cell expansion and regular cell selection.
         if tapToExpandCell {
             if getCellState(compressionDirection: compressionDirection, touchSection: touchSection) == .normal {
                 if let didSelectCallback = didSelectCallback {

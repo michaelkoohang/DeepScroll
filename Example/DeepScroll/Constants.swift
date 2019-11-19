@@ -8,6 +8,7 @@
 
 import Foundation
 
+// Struct used to store data for posts in Facebook feed UI.
 struct Post: Decodable {
     let id: Int
     let name: String
@@ -17,6 +18,7 @@ struct Post: Decodable {
     let comments: Int
 }
 
+// Struct used to store posts for feed in Facebook feed UI.
 struct Feed: Decodable {
     let posts: [Post]
 }

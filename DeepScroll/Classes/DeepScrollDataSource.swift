@@ -52,17 +52,24 @@ public class LanedScrollerDataSource: NSObject, UITableViewDataSource {
         
     }
     
+    // Sets the number of sections in the tableView.
     public func numberOfSections(in tableView: UITableView) -> Int {
         return tableViewData.count
     }
     
+    // Sets the number of rows in the tableView.
     public func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return 1
     }
     
+    // Configures the cell at each row in the tableView.
     public func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if var cell = tableView.dequeueReusableCell(withIdentifier: "deepscrollcell", for: indexPath) as? DeepScrollCell {
+            
+            // Create new cell.
             cell = cellMaker(cell, tableViewData[indexPath.section])
+            
+            // Hide or show views based on current cell state.
             if let sv = cell.contentView.subviews[0].subviews[0] as? UIStackView {
                 let cellState = getCellState(compressionDirection: compressionDirection, touchSection: touchSection)
                 switch cellState {

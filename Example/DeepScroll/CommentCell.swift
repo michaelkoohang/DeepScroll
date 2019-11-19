@@ -19,6 +19,7 @@ class CommentCell: UITableViewCell {
         super.init(coder: coder)
     }
     
+    // Function that adds the UI components to the cell and sets their constraints.
     func setup() {
         self.addSubview(avatar)
         self.addSubview(postTime)
@@ -59,12 +60,13 @@ class CommentCell: UITableViewCell {
         ])
     }
     
+    // Function that sets the data for the cell.
     func configureCell(post: Post) {
         self.name.text = post.name
         self.postLabel.text = post.data
     }
     
-    // UI Components
+    // UI components for the cell.
     
     let avatar: UIImageView = {
         let iv = UIImageView()

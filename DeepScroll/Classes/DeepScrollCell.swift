@@ -18,6 +18,7 @@ open class DeepScrollCell: UITableViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
+    // Adds stackview to cell and sets constraints.
     func setup() {
         self.cellView.addSubview(stackview)
         self.contentView.addSubview(cellView)
@@ -30,6 +31,8 @@ open class DeepScrollCell: UITableViewCell {
             
         ])
     }
+    
+    // UI components for cell.
     
     var cellView: UIView = {
         let v = UIView()
@@ -45,20 +48,24 @@ open class DeepScrollCell: UITableViewCell {
         return v
     }()
     
+    // Adds array of views to stackview.
     public func addViews(views: [UIView]) {
         for view in views {
             stackview.addArrangedSubview(view)
         }
     }
     
+    // Returns number of views inside of the cell.
     public func getViewsCount() -> Int {
         return stackview.arrangedSubviews.count
     }
     
+    // Returns the views inside of the cell.
     public func getViews() -> [UIView] {
         return stackview.arrangedSubviews
     }
     
+    // Sets padding on cell.
     public func setPadding(top: CGFloat, right: CGFloat, bottom: CGFloat, left: CGFloat) {
         print("\(top) + \(right) + \(bottom) + \(left)")
         NSLayoutConstraint.activate([
@@ -69,6 +76,7 @@ open class DeepScrollCell: UITableViewCell {
         ])
     }
     
+    // Adds spacing after specificed view in the cell.
     public func addSpaceAfter(view: UIView, value: CGFloat) {
         stackview.setCustomSpacing(value, after: view)
     }

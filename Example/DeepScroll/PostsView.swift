@@ -12,9 +12,11 @@ import DeepScroll
 
 func setPostCellContent(cell: DeepScrollCell, post: Post, avatarSetter: @escaping (String, UIImageView)->())  {
     
-    // If the cell doesn't have any views inside of its stack view, create a new one
+    // Set padding and selection style for the cell.
     cell.setPadding(top: 16, right: 16, bottom: 16, left: 16)
-    cell.selectionStyle = .blue
+    cell.selectionStyle = .none
+    
+    // UI components for the cell.
     
     let avatar: UIImageView = {
         let iv = UIImageView()
@@ -24,6 +26,7 @@ func setPostCellContent(cell: DeepScrollCell, post: Post, avatarSetter: @escapin
         iv.translatesAutoresizingMaskIntoConstraints = false
         return iv
     }()
+    
     avatarSetter(post.profileUrl, avatar)
     
     let name: UILabel = {
@@ -162,6 +165,8 @@ func setPostCellContent(cell: DeepScrollCell, post: Post, avatarSetter: @escapin
         return v
     }()
     
+    // Add the UI components to the cell
+    
     view1.addSubview(avatar)
     view1.addSubview(name)
     view1.addSubview(postTime)
@@ -178,10 +183,13 @@ func setPostCellContent(cell: DeepScrollCell, post: Post, avatarSetter: @escapin
     view3.addSubview(share)
     
     cell.addViews(views:[view1, postLabel, view2, view3])
+    
+    // Configure spacing for the cell.
     cell.addSpaceAfter(view: view1, value: 10)
     cell.addSpaceAfter(view: postLabel, value: 10)
     cell.addSpaceAfter(view: view2, value: 10)
     
+    // Set constraints for all the views within the cell.
     NSLayoutConstraint.activate([
         view1.heightAnchor.constraint(equalToConstant: 40),
         view2.heightAnchor.constraint(equalToConstant: 20),

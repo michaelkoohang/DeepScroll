@@ -1,5 +1,5 @@
 //
-//  ViewController.swift
+//  FeedVC.swift
 //  DeepScroll
 //
 //  Created by parthv21 on 10/11/2019.
@@ -9,14 +9,14 @@
 import UIKit
 import DeepScroll
 
-class ViewController: UIViewController {
+class FeedVC: UIViewController {
     
     private var lanedScroller: LanedScroller!
     private var tableView: UITableView!
     private var menuView: UITableView!
     private var menuOpen = false
     private let settingsCellId = "ExampleAppSettingsCellId"
-    private var menuViewContiner: UIView!
+    private var menuViewContainer: UIView!
     private var downloadedImages: [String: UIImage] = [:]
     
     private let whiteShade = UIColor(red:0.96, green:0.96, blue:0.96, alpha:1.0)
@@ -27,6 +27,7 @@ class ViewController: UIViewController {
         view.backgroundColor = .white
         navigationController?.navigationBar.prefersLargeTitles = true
         
+        // Configures navigation bar appearance if iOS 13 is available.
         if #available(iOS 13.0, *) {
             let navBarAppearance = UINavigationBarAppearance()
             navBarAppearance.configureWithOpaqueBackground()
@@ -62,8 +63,10 @@ class ViewController: UIViewController {
             
             if let post = post as? Post {
                 
+                // If the cell has views inside of it.
                 if (cell.getViewsCount() > 0) {
-                    
+            
+                    // Set the content of all the views inside of the cells that exist.
                     if let sv = cell.contentView.subviews[0].subviews[0] as? UIStackView {
                         if (sv.isKind(of: UIStackView.self)) {
                             self.setAvatar(profileUrl: post.profileUrl, avatar: (sv.subviews[0].subviews[0] as! UIImageView))
@@ -75,8 +78,9 @@ class ViewController: UIViewController {
                         }
                     }
                     return cell
-                }
-                else {
+                } else {
+                    
+                    // Create a cell with new views inside of it.
                     setPostCellContent(cell: cell, post: post) { (profileUrl, avatarIv) in
                         self.setAvatar(profileUrl: profileUrl, avatar: avatarIv)
                     }
@@ -85,16 +89,18 @@ class ViewController: UIViewController {
             }
             return DeepScrollCell()
         })
+        
+        // Callback for when user taps on cell. Presents new view controller of comments.
         lanedScroller.setDidSelectCallback(didSelectCallback: { (post) in
             self.navigationController?.pushViewController(CommentsVC(posts: Array(unwrappedFeed.posts[0...20])), animated: true)
         })
         
-        //STEP 4: Get the instance of Table View Created by Laned Scroller
+        //STEP 4: Get the instance of Table View Created by Laned Scroller and configure.
         tableView = lanedScroller.getTableView()
         tableView.separatorStyle = .none
         view.addSubview(tableView)
         
-        //STEP 5: Add the Table View to view
+        //STEP 5: Add the Table View to view and set constraints.
         tableView.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
             tableView.topAnchor.constraint(equalTo: view.topAnchor, constant: 0),
@@ -105,6 +111,7 @@ class ViewController: UIViewController {
         
     }
     
+    // Function for setting image of avatar.
     func setAvatar(profileUrl: String, avatar: UIImageView) {
         if downloadedImages[profileUrl] != nil {
             avatar.image = self.downloadedImages[profileUrl]
@@ -119,6 +126,7 @@ class ViewController: UIViewController {
         }
     }
     
+    // Function for retrieving image data from URL.
     func fetchProfileImage(from profileLink: String, completion: @escaping (UIImage?)->()) {
         guard let url =  URL(string: profileLink) else {
             completion(nil)
@@ -134,81 +142,98 @@ class ViewController: UIViewController {
 
 // MARK: Extension to make settings menu
 
-extension ViewController {
+extension FeedVC {
     
+    // Function for creating settings menu.
     func addMenuTableView() {
-        menuViewContiner = UIView(frame: CGRect(x: 0, y: view.bounds.height - 50, width: view.bounds.width, height: 2/3 * view.bounds.height))
+        
+        // Setup menu view container.
+        menuViewContainer = UIView(frame: CGRect(x: 0, y: view.bounds.height - 50, width: view.bounds.width, height: 2/3 * view.bounds.height))
         let tap = UITapGestureRecognizer(target: self, action: #selector(self.toggleSettingsPane(_:)))
-        menuViewContiner.addGestureRecognizer(tap)
-        view.addSubview(menuViewContiner)
-        menuViewContiner.translatesAutoresizingMaskIntoConstraints = false
+        menuViewContainer.addGestureRecognizer(tap)
+        view.addSubview(menuViewContainer)
+        menuViewContainer.translatesAutoresizingMaskIntoConstraints = false
+        
+        // If iOS 13 is available, handle dark and light mode colors.
         if #available(iOS 13.0, *) {
-            menuViewContiner.backgroundColor = UITraitCollection.current.userInterfaceStyle == .dark ? blackShade : whiteShade
+            menuViewContainer.backgroundColor = UITraitCollection.current.userInterfaceStyle == .dark ? blackShade : whiteShade
         } else {
-            // Fallback on earlier versions
-            menuViewContiner.backgroundColor = whiteShade
+            // Leave color white if dark mode not available.
+            menuViewContainer.backgroundColor = whiteShade
         }
+        
+        // Setup constraints for menu view container.
         NSLayoutConstraint.activate([
-            menuViewContiner.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            menuViewContiner.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            menuViewContiner.heightAnchor.constraint(equalToConstant: 2/3 * view.bounds.height),
+            menuViewContainer.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            menuViewContainer.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            menuViewContainer.heightAnchor.constraint(equalToConstant: 2/3 * view.bounds.height),
         ])
+        
+        // Adjust constraints if the menu is open or closed.
         if !menuOpen {
             NSLayoutConstraint.activate([
-                menuViewContiner.topAnchor.constraint(equalTo: view.topAnchor, constant: view.bounds.height - 50),
+                menuViewContainer.topAnchor.constraint(equalTo: view.topAnchor, constant: view.bounds.height - 50),
             ])
         } else {
             NSLayoutConstraint.activate([
-                menuViewContiner.topAnchor.constraint(equalTo: view.topAnchor, constant: view.bounds.height - view.bounds.height/3 - 20)
+                menuViewContainer.topAnchor.constraint(equalTo: view.topAnchor, constant: view.bounds.height - view.bounds.height/3 - 20)
             ])
         }
         
-        
+        // Setup settings title text.
         let settingsText = UILabel()
         settingsText.text = "Settings"
         settingsText.font = UIFont(name: "HelveticaNeue-Bold", size: 25.0)
         settingsText.textAlignment = .center
         settingsText.baselineAdjustment = .alignCenters
-        menuViewContiner.addSubview(settingsText)
+        menuViewContainer.addSubview(settingsText)
         settingsText.translatesAutoresizingMaskIntoConstraints = false
+        
+        // Set constraints for settings title text.
         NSLayoutConstraint.activate([
-            settingsText.leadingAnchor.constraint(equalTo: menuViewContiner.leadingAnchor, constant: 5),
-            settingsText.topAnchor.constraint(equalTo: menuViewContiner.topAnchor, constant: -10),
+            settingsText.leadingAnchor.constraint(equalTo: menuViewContainer.leadingAnchor, constant: 5),
+            settingsText.topAnchor.constraint(equalTo: menuViewContainer.topAnchor, constant: -10),
             settingsText.heightAnchor.constraint(equalToConstant: 60),
             settingsText.widthAnchor.constraint(equalToConstant: 100)
         ])
         
         menuView = UITableView()
+        
+        // If iOS 13 is available, handle dark and light mode colors.
         if #available(iOS 13.0, *) {
             menuView.backgroundColor = UITraitCollection.current.userInterfaceStyle == .dark ? blackShade : whiteShade
         } else {
-            // Fallback on earlier versions
+            // Leave color white if dark mode not available.
             menuView.backgroundColor = whiteShade
         }
+        
+        // Configure menu view.
         menuView.delegate = self
         menuView.dataSource = self
         menuView.register(UITableViewCell.self, forCellReuseIdentifier: settingsCellId)
-        
-        menuViewContiner.addSubview(menuView)
+        menuViewContainer.addSubview(menuView)
         menuView.translatesAutoresizingMaskIntoConstraints = false
         
+        // Setup contraints for menu view.
         NSLayoutConstraint.activate([
-            menuView.leadingAnchor.constraint(equalTo: menuViewContiner.leadingAnchor),
-            menuView.topAnchor.constraint(equalTo: menuViewContiner.topAnchor, constant: 40),
-            menuView.bottomAnchor.constraint(equalTo: menuViewContiner.bottomAnchor),
-            menuView.trailingAnchor.constraint(equalTo: menuViewContiner.trailingAnchor)
+            menuView.leadingAnchor.constraint(equalTo: menuViewContainer.leadingAnchor),
+            menuView.topAnchor.constraint(equalTo: menuViewContainer.topAnchor, constant: 40),
+            menuView.bottomAnchor.constraint(equalTo: menuViewContainer.bottomAnchor),
+            menuView.trailingAnchor.constraint(equalTo: menuViewContainer.trailingAnchor)
         ])
         
     }
     
+    // Toggles slide up and slide down of settings menu view.
     @objc func toggleSettingsPane(_ sender: UITapGestureRecognizer? = nil) {
-        menuOpen = self.menuViewContiner.frame.origin.y == view.bounds.height - 50
+        menuOpen = self.menuViewContainer.frame.origin.y == view.bounds.height - 50
         let origin: CGFloat = menuOpen ?  view.bounds.height - view.bounds.height/3 - 20 : view.bounds.height - 50
         UIView.animate(withDuration: 0.25) {
-            self.menuViewContiner.frame.origin.y = origin
+            self.menuViewContainer.frame.origin.y = origin
         }
     }
     
+    // Functions for setting configuration options in the settings menu.
     @objc func toggleCompressionMode(s: UISwitch) {
         lanedScroller.toggleCompressionDirection()
     }
@@ -226,13 +251,16 @@ extension ViewController {
     }
 }
 
-//MARK: Extension to handle settings menu table view methods
+//MARK: Extension to handle settings menu.
 
-extension ViewController: UITableViewDelegate, UITableViewDataSource {
+extension FeedVC: UITableViewDelegate, UITableViewDataSource {
+    
+    // Sets the number of rows inside of the UITableView.
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return 4
     }
     
+    // Configures cell at each row in the UITableView.
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if indexPath.row == 0 {
             if let cell = tableView.dequeueReusableCell(withIdentifier: settingsCellId) {
@@ -266,6 +294,7 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
         return UITableViewCell()
     }
     
+    // Sets height for rows inside of UITableView.
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 50
     }
@@ -281,41 +310,54 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
      */
     
     func menuTableCellMaker(cell: UITableViewCell, title: String, leftTitle: String, rightTitle: String, switchState: Bool, action: Selector) {
+        
+        // Settings description label setup.
         let settingDescLbl = UILabel()
         settingDescLbl.translatesAutoresizingMaskIntoConstraints = false
         settingDescLbl.text = title
         settingDescLbl.font = UIFont(name: "HelveticaNeue-Bold", size: 15.0)
+        
+        // Right label setup.
         let rightLbl = UILabel()
         rightLbl.translatesAutoresizingMaskIntoConstraints = false
         rightLbl.text = rightTitle
         rightLbl.font = UIFont(name: "HelveticaNeue", size: 13.0)
+        
+        // Left label setup.
         let leftLbl = UILabel()
         leftLbl.translatesAutoresizingMaskIntoConstraints = false
         leftLbl.text = leftTitle
         leftLbl.font = UIFont(name: "HelveticaNeue", size: 13.0)
+        
+        // Settings switch setup.
         let settingSwitch = UISwitch()
         settingSwitch.translatesAutoresizingMaskIntoConstraints = false
         settingSwitch.addTarget(self, action: action, for: .valueChanged)
         settingSwitch.setOn(switchState, animated: false)
+        
+        // Stackview setup.
         let containerSv = UIStackView(arrangedSubviews: [settingDescLbl, leftLbl, settingSwitch, rightLbl])
-        NSLayoutConstraint.activate([
-            settingSwitch.topAnchor.constraint(equalTo: containerSv.topAnchor, constant: 10)
-        ])
         containerSv.translatesAutoresizingMaskIntoConstraints = false
         containerSv.axis = .horizontal
         containerSv.distribution = .fill
         containerSv.spacing = 5
         cell.contentView.addSubview(containerSv)
+        
+        // Set up constraints for menu.
         NSLayoutConstraint.activate([
+            settingSwitch.topAnchor.constraint(equalTo: containerSv.topAnchor, constant: 10),
+            
             containerSv.leadingAnchor.constraint(equalTo: cell.contentView.leadingAnchor, constant: 10),
             containerSv.trailingAnchor.constraint(equalTo: cell.contentView.trailingAnchor, constant:  -10),
             containerSv.topAnchor.constraint(equalTo: cell.contentView.topAnchor),
             containerSv.bottomAnchor.constraint(equalTo: cell.contentView.bottomAnchor)
         ])
+        
+        // If iOS 13 is available, handle dark and light mode colors.
         if #available(iOS 13.0, *) {
             cell.backgroundColor = UITraitCollection.current.userInterfaceStyle == .dark ? blackShade : whiteShade
         } else {
-            // Fallback on earlier versions
+            // Leave color white if dark mode not available.
             cell.backgroundColor = whiteShade
         }
     }
