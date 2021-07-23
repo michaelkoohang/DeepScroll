@@ -2,7 +2,7 @@
 
 ## About
 
-DeepScroll is an iOS toolkit that allows developers to create UITableViews that resize their cells based on where users scroll on the screen. The makers of DeepScroll developed the toolkit to help combat infinite scroll, a phenomenon commonly found in social media apps where feeds seem to never end. We also thought this was a useful way to interact with content to reduce cognitive load and parse through information more efficiently. The toolkit was developed for our final project in CS 6456 - Principles of UI Software at Georgia Tech.
+DeepScroll is an iOS toolkit that allows developers to create UITableViews that resize their cells based on where users scroll on the screen. The makers of DeepScroll developed the toolkit to help combat infinite scroll, a phenomenon commonly found in social media apps where feeds seem to never end. We also thought this was a useful way to interact with content to reduce cognitive load and parse through information more efficiently. The toolkit was developed for our final project in *CS 6456 - Principles of UI Software* at Georgia Tech.
 
 ## How it works
 
